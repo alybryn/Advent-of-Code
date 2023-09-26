@@ -3,7 +3,7 @@ import sys
 
 ADVENT_OF_CODE_DIR = pathlib.Path.home().joinpath("Documents", "Advent of Code")
 TEMPLATE_FILE = ADVENT_OF_CODE_DIR.joinpath("aoc_template.py")
-TEST_TEMPLATE_FILE = ADVENT_OF_CODE_DIR.joinpath("test_aoc_template.py") 
+#TEST_TEMPLATE_FILE = ADVENT_OF_CODE_DIR.joinpath("test_aoc_template.py") 
 
 if __name__ == "__main__":
     for year in sys.argv[1:]:
@@ -24,7 +24,9 @@ if __name__ == "__main__":
             day_dir.joinpath("sample.txt").touch()
             day_dir.joinpath("input.txt").touch()
             day_str = f"aoc_{year}_{day}"
+            # add code file
             code_file = day_dir.joinpath(f"{day_str}.py")
             code_file.write_bytes(TEMPLATE_FILE.read_bytes())
-            test_file = day_dir.joinpath(f"test_{day_str}.py")
-            test_file.write_bytes(TEST_TEMPLATE_FILE.read_bytes())
+            # add test file
+            # test_file = day_dir.joinpath(f"test_{day_str}.py")
+            # test_file.write_bytes(TEST_TEMPLATE_FILE.read_bytes())
