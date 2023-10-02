@@ -52,20 +52,32 @@ def part1(parsed):
     return nice_words
 
 def is_nice_2(word):
+    #print(f"{word}:")
     if len(word) < 4:
+        #print(f"{word} is too short")
         return False
     condition1 = False
     condition2 = False
-    #contains a pair of any 2 letters that appear at least twice without overlapping
-    letter1 = word[0]
-    letter2 = word[1]
-    # TODO: ANOTHER FOR LOOP, JEEVES!
-    for i in range(2, len(word)):
-        if word[i] == letter1 and word[i+1] == letter2:
-            condition1 = True
+    # contains a pair of any 2 letters that appear at least twice without overlapping
+    for i in range(0, len(word) - 3):
+        for j in range(i + 2, len(word) - 1):
+            #print(f"checking {word[i]} is {word[j]} and {word[i + 1]} is {word[j + 1]}")
+            if word[i] == word[j] and word[i + 1] == word[j + 1]:
+                condition1 = True
+                break
+        if condition1:
             break
-    #contains at least 1 letter which repeats with exactly 1 letter between them
-    return condition1 and condition2
+    # contains at least 1 letter which repeats with exactly 1 letter between them
+    if not condition1:
+        #denegrate(word)
+        return False
+    for i in range(0, len(word)-2):
+        # comp to letter 2 later
+        if word[i] == word[i+2]:
+            #praise(word)
+            return True
+    #denegrate(word)
+    return False
 
 def part2(parsed):
     nice_words = 0
