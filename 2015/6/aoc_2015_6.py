@@ -52,19 +52,20 @@ def parse(puzzle_input):
 def off(x, y, part2):
     if part2:
         # turn down by 1
-        ...
+        if LIGHTS[(x, y)]:
+            LIGHTS[(x, y)] = LIGHTS[(x,y)] - 1
     else:
         LIGHTS[(x, y)] = False
     
 def on(x, y, part2):
     if part2:
-        ...
+        LIGHTS[(x, y)] = LIGHTS[(x,y)] + 1
     else:
         LIGHTS[(x, y)] = True
 
 def toggle(x, y, part2):
     if part2:
-        ...
+        LIGHTS[(x, y)] = LIGHTS[(x,y)] + 2
     else:
         LIGHTS[(x, y)] = not LIGHTS[(x, y)]
 
@@ -82,10 +83,10 @@ def part1(parsed):
     return get_lit()
 
 def part2(parsed):
-    # set_lights()
-    # loop2(parsed)
-    # return get_lit()
-    return 0
+    set_lights(0)
+    for input in parsed:
+        loop(input[0], input[1], input[2], True)
+    return get_lit()
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
