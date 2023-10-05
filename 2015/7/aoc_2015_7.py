@@ -14,12 +14,18 @@ PRE_COMPUTES = {}
 
 # one or two operands(string or value), an operation or None.
 class Signal():
-    def __init__(self, op1, op2, operation):
+    def __init__(self, op1, op2, operation, name):
         self.op1 = op1
         self.op2 = op2
         self.operation = operation
+        self.name = name
 
-    def eval(self, name):
+    def eval(self):
+        ans = self.__eval()
+        PRE_COMPUTES.update({self.name: ans})
+        return ans
+
+    def __eval(self):
         # print(f"Evaluating: {self.op1} {self.operation} {self.op2}")
         value1 = None
         try:
@@ -39,24 +45,21 @@ class Signal():
                 else:
                     value2 = Signal.eval(WIRE_DIAGRAM[self.op2])
             if self.operation == "AND":
-                ans = value1 & value2
-                PRE_COMPUTES.update({name: ans})
-                return ans
+                return value1 & value2
+                
             if self.operation == "OR":
-                ans = value1 | value2
-                PRE_COMPUTES.update({name: ans})
-                return ans
+                return value1 | value2
+            
             if self.operation == "LSHIFT":
-                ans = value1 << value2
-                PRE_COMPUTES.update({name: ans})
-                return ans
+                return value1 << value2
+                
             if self.operation == "RSHIFT":
-                ans = value1 >> value2
-                PRE_COMPUTES.update({name: ans})
-                return ans
-            #return self.operation(value1, value2)
+                return value1 >> value2
+                
+        #return self.operation(value1, value2)
         if self.operation:
             return ~ value1
+
         return value1
 
 def parse(puzzle_input):
@@ -85,19 +88,21 @@ def parse(puzzle_input):
             op1 = ops[0]
 
         # get destination, insert into WIRE_DIAGRAM
-        WIRE_DIAGRAM.update({y:Signal(op1, op2, operation)})
+        WIRE_DIAGRAM.update({y:Signal(op1, op2, operation, y)})
     return 0
 
 def part1(parsed):
-    # ret = {}
-    # seeking = ['d', 'e', 'f', 'g', 'h', 'i', 'x', 'y']
-    # for x in seeking:
-    #     ret.update({x: Signal.eval(WIRE_DIAGRAM[x])})
-    # return ret
     return Signal.eval(WIRE_DIAGRAM['a'])
 
 def part2(parsed):
-    return 0
+    if 'a' in PRE_COMPUTES.keys():
+        print("it\'s there")
+    else:
+        print("absent")
+    a = Signal.eval(WIRE_DIAGRAM['a'])
+    PRE_COMPUTES.clear()
+    PRE_COMPUTES.update({'b':a})
+    return Signal.eval(WIRE_DIAGRAM['a'])
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
