@@ -19,6 +19,26 @@ if __name__ == "__main__":
             exit()
 
         year_dir.mkdir()
+        # populate with samples, data, solvers
+        samples_dir = year_dir.joinpath("samples")
+        samples_dir.mkdir()
+        data_dir = year_dir.joinpath("data")
+        data_dir.mkdir()
+        solvers_dir = year_dir.joinpath("solvers")
+        solvers_dir.mkdir()
+
+        # for each day, create a file in each dir
+        for day in range(1, 26):
+            #[].map(.joinpath(f"{day}.txt").touch())
+            samples_dir.joinpath(f"{day}.txt").touch()
+            
+            data_dir.joinpath(f"{day}.txt").touch()
+            
+            #solvers_dir.joinpath(f"{day}.txt").touch()
+            # add code file
+            solve_file = solvers_dir.joinpath(f"{day}.py")
+            solve_file.write_bytes(TEMPLATE_FILE.read_bytes())
+        """
         # populate year dir with day dirs
         # each contains day.py sample.txt input.txt
         for day in range(1, 26):
@@ -33,3 +53,4 @@ if __name__ == "__main__":
             # add test file
             # test_file = day_dir.joinpath(f"test_{day_str}.py")
             # test_file.write_bytes(TEST_TEMPLATE_FILE.read_bytes())
+        """
