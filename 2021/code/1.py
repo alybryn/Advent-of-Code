@@ -1,18 +1,35 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+# ADVENT_OF_CODE_YEAR_DIR = pathlib.Path.home().joinpath("Documents", "programming", "Advent of Code", "2021")
+# DATA_FILE = ADVENT_OF_CODE_YEAR_DIR.joinpath("data", "1.txt")
+
+
+SAMPLE_ANSWER_1 = 7
+SAMPLE_ANSWER_2 = 5
 
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
 
 def part1(parsed):
-    return 0
+    ret = 0
+    comps = 0
+    l = len(parsed)
+    for i in range(1, l):
+        #print(f"comparing {parsed[i-1]} and {parsed[i]}")
+        comps += 1
+        if parsed[i - 1] < parsed[i]:
+            #print(f"{parsed[i-1]} < {parsed[i]}")
+            ret += 1
+        #else:
+            #print(f"{parsed[i-1]} > {parsed[i]}")
+
+    print(f"comps: {comps}, l: {l}")
+    return ret
 
 def part2(parsed):
-    return 0
+    return 31
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
