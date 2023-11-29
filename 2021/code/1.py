@@ -12,24 +12,33 @@ def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
 
+def simpleIncrease(depths):
+    ret = 0
+    for i in range(1, len(depths)):
+        if depths[i-1] < depths[i]:
+            ret += 1
+    return ret
+
+def threeSlideIncrease(depths):
+    sums = []
+    for i in range(2, len(depths)):
+        sums.append(sum([depths[i-2], depths[i-1], depths[i]]))
+    print(sums)
+    return simpleIncrease(sums)
+
 def part1(parsed):
     ret = 0
-    comps = 0
-    l = len(parsed)
-    for i in range(1, l):
-        #print(f"comparing {parsed[i-1]} and {parsed[i]}")
-        comps += 1
-        if parsed[i - 1] < parsed[i]:
-            #print(f"{parsed[i-1]} < {parsed[i]}")
+    for i in range(0, len(parsed) - 1):
+        # if i < 2 or len(parsed) - i < 4:
+        #     print(f"Comparing {parsed[i]} with {parsed[i + 1]}")
+        if parsed[i] == parsed[i + 1]:
+            print("something here?")
+        if parsed[i] < parsed[i + 1]:
             ret += 1
-        #else:
-            #print(f"{parsed[i-1]} > {parsed[i]}")
-
-    print(f"comps: {comps}, l: {l}")
     return ret
 
 def part2(parsed):
-    return 31
+    return threeSlideIncrease(parsed)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
