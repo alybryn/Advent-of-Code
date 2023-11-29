@@ -20,23 +20,23 @@ if __name__ == "__main__":
 
         year_dir.mkdir()
         # populate with samples, data, solvers
-        samples_dir = year_dir.joinpath("samples")
-        samples_dir.mkdir()
+        sample_dir = year_dir.joinpath("sample")
+        sample_dir.mkdir()
         data_dir = year_dir.joinpath("data")
         data_dir.mkdir()
-        solvers_dir = year_dir.joinpath("solvers")
-        solvers_dir.mkdir()
+        code_dir = year_dir.joinpath("code")
+        code_dir.mkdir()
 
         # for each day, create a file in each dir
         for day in range(1, 26):
             #[].map(.joinpath(f"{day}.txt").touch())
-            samples_dir.joinpath(f"{day}.txt").touch()
+            sample_dir.joinpath(f"{day}.txt").touch()
             
             data_dir.joinpath(f"{day}.txt").touch()
             
             #solvers_dir.joinpath(f"{day}.txt").touch()
             # add code file
-            solve_file = solvers_dir.joinpath(f"{day}.py")
+            solve_file = code_dir.joinpath(f"{day}.py")
             solve_file.write_bytes(TEMPLATE_FILE.read_bytes())
         """
         # populate year dir with day dirs
