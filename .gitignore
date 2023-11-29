@@ -1,0 +1,5 @@
+.*-venv/
+.aoc-venv
+
+output/
+*.log
