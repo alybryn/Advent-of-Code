@@ -42,9 +42,11 @@ class Instruction:
         return self._val
 
 class Submarine():
-    def __init__(self) -> None:
+    def __init__(self, version = 1) -> None:
+        self._version = version
         self._horizontal_position = 0
         self._depth = 0
+        self._aim = 0
     
     @property
     def pos(self):
@@ -52,11 +54,20 @@ class Submarine():
 
     def obey(self, instruction: Instruction):
         if instruction.dir == Direction.UP:
-            self._depth -= instruction.val
+            if self._version = 1:
+                self._depth -= instruction.val
+            else:
+
         elif instruction.dir == Direction.DOWN:
-            self._depth += instruction.val
+            if self._version = 1:
+                self._depth += instruction.val
+            else:
+                
         else: # instruction.dir == Direction.FORWARD
-            self._horizontal_position += instruction.val
+            if self._version = 1:
+                self._horizontal_position += instruction.val
+            else:
+
 
 def part1(parsed):
     my_sub = Submarine()
@@ -65,6 +76,7 @@ def part1(parsed):
     return my_sub.pos
 
 def part2(parsed):
+    my_sub = Submarine(version: 2)
     return 0
 
 def solve(puzzle_input):
