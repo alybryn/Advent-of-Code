@@ -12,14 +12,14 @@ def parse(puzzle_input):
     
     #matcher = re.compile(r"((up)|(down)|(forward)) [0-9]")
     udf_matcher = re.compile(r"(up)|(down)|(forward)")
-    num_matcher = re.compile(r"[a-z]* [0-9]")
+    num_matcher = re.compile(r"[0-9]")
     up_matcher = re.compile(r"up")
     down_matcher = re.compile(r"down")
     forward_matcher = re.compile(r"forward")
     
     for line in lines:
         print(udf_matcher.match(line))
-        print(num_matcher.match(line))
+        print(num_matcher.
 
 
 class Instruction:
