@@ -54,30 +54,32 @@ class Submarine():
 
     def obey(self, instruction: Instruction):
         if instruction.dir == Direction.UP:
-            if self._version = 1:
+            if self._version == 1:
                 self._depth -= instruction.val
             else:
-
+                self._aim -= instruction.val
         elif instruction.dir == Direction.DOWN:
-            if self._version = 1:
+            if self._version == 1:
                 self._depth += instruction.val
             else:
-                
+                self._aim += instruction.val
         else: # instruction.dir == Direction.FORWARD
-            if self._version = 1:
-                self._horizontal_position += instruction.val
-            else:
+            self._horizontal_position += instruction.val
+            if self._version == 2:
+                self._depth += instruction.val * self._aim
 
+def loop(sub, parsed):
+    for i in parsed:
+        sub.obey(i)
+    return sub.pos
 
 def part1(parsed):
     my_sub = Submarine()
-    for i in parsed:
-        my_sub.obey(i)
-    return my_sub.pos
+    return loop(my_sub, parsed)
 
 def part2(parsed):
-    my_sub = Submarine(version: 2)
-    return 0
+    my_sub = Submarine(2)
+    return loop(my_sub, parsed)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
