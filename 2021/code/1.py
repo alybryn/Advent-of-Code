@@ -10,7 +10,7 @@ SAMPLE_ANSWER_2 = 5
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [int(line) for line in puzzle_input.split()]
 
 def simpleIncrease(depths):
     ret = 0
@@ -23,19 +23,11 @@ def threeSlideIncrease(depths):
     sums = []
     for i in range(2, len(depths)):
         sums.append(sum([depths[i-2], depths[i-1], depths[i]]))
-    print(sums)
+    #print(sums)
     return simpleIncrease(sums)
 
 def part1(parsed):
-    ret = 0
-    for i in range(0, len(parsed) - 1):
-        # if i < 2 or len(parsed) - i < 4:
-        #     print(f"Comparing {parsed[i]} with {parsed[i + 1]}")
-        if parsed[i] == parsed[i + 1]:
-            print("something here?")
-        if parsed[i] < parsed[i + 1]:
-            ret += 1
-    return ret
+    return simpleIncrease(parsed)
 
 def part2(parsed):
     return threeSlideIncrease(parsed)
