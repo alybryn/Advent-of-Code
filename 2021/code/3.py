@@ -10,7 +10,7 @@ def parse(puzzle_input):
 
 class Diagnostic():
     def __init__(self, output: [str]):
-        #self._output = output
+        self._output = output
         self._count = len(output)
         self._width = len(output[0])
         self._ones_count = [0] * self._width
@@ -43,27 +43,60 @@ class Diagnostic():
         return int(s, 2)
 
     @property
-    def powerRate(self):
+    def power_rate(self):
         return self.gammaRate * self.epsilonRate
 
     @property
-    def o2Rate(self):
-        return 0
+    def o2_rating(self):
         remainingCodes = self._output
         index = 0
         while len(remainingCodes) > 1:
             zeros = []
             ones = []
             for l in remainingCodes:
-                if list(l)[index] == "1":
-                    ones.append(1)
+                if l[index] == "1":
+                    ones.append(l)
+                else:
+                    zeros.append(l)
+            # most common or 1
+            if len(zeros) > len(ones):
+                remainingCodes = zeros
+            else:
+                remainingCodes = ones
+            index += 1
 
+        return int(remainingCodes[0], 2)
+    
+    @property
+    def co2_rating(self):
+        remainingCodes = self._output
+        index = 0
+        while len(remainingCodes) > 1:
+            zeros = []
+            ones = []
+            for l in remainingCodes:
+                if l[index] == '1':
+                    ones.append(l)
+                else:
+                    zeros.append(l)
+            # least common or 0
+            if len(ones) < len(zeros):
+                remainingCodes = ones
+            else:
+                remainingCodes = zeros
+            index += 1
+
+        return int(remainingCodes[0], 2)
+
+    @property
+    def life_support_rating(self):
+        return self.o2_rating * self.co2_rating
 
 def part1(d):
-    return d.powerRate 
+    return d.power_rate 
 
 def part2(d):
-    return 0
+    return d.life_support_rating
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
