@@ -23,15 +23,14 @@ def parse(puzzle_input):
     
     return ret
 
+class Direction(Enum):
+    UP = 0
+    DOWN = 1
+    FORWARD = 2
 
 class Instruction:
-    class Direction(Enum):
-        UP = 0
-        DOWN = 1
-        FORWARD = 2
-
     def __init__(self, dir: str, val: int) -> None:
-        self._dir = self.Direction[dir.upper()]
+        self._dir = Direction[dir.upper()]
         self._val = val
     
     @property
@@ -42,10 +41,28 @@ class Instruction:
     def val(self):
         return self._val
 
+class Submarine():
+    def __init__(self) -> None:
+        self._horizontal_position = 0
+        self._depth = 0
+    
+    @property
+    def pos(self):
+        return self._horizontal_position * self._depth
+
+    def obey(self, instruction: Instruction):
+        if instruction.dir == Direction.UP:
+            self._depth -= instruction.val
+        elif instruction.dir == Direction.DOWN:
+            self._depth += instruction.val
+        else: # instruction.dir == Direction.FORWARD
+            self._horizontal_position += instruction.val
+
 def part1(parsed):
-    for p in parsed:
-        print(f"Instruction: {p.dir} {p.val}")
-    return 0
+    my_sub = Submarine()
+    for i in parsed:
+        my_sub.obey(i)
+    return my_sub.pos
 
 def part2(parsed):
     return 0
