@@ -47,11 +47,11 @@ class Line():
         if dir == diagonal:
             # pos or neg slope
             if y1 < y2: # pos
-                for i in range(x2 - x1):
-                    self._points.add((x1 + i), (y1 + i))
+                for i in range(x2 - x1 + 1):
+                    self._points.add((x1 + i, y1 + i))
             else: # neg
-                for i in range(x2 - x1):
-                    self._points.add((x1 + i), (y1 - i))
+                for i in range(x2 - x1 + 1):
+                    self._points.add((x1 + i, y1 - i))
         elif dir == vertical:
             y = y1
             for x in range(x1, x2 + 1):
@@ -102,7 +102,11 @@ def part1(parsed):
     return my_map.count_danger_points()
 
 def part2(parsed):
-    return 0
+    my_map = VentMap()
+    for line in parsed:
+        my_map.add_line(Line(line))
+    my_map.draw()
+    return my_map.count_danger_points()
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
