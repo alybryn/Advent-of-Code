@@ -16,24 +16,34 @@ def parse(puzzle_input):
 
 class BingoBoard():
     def __init__(self, input):
-        # {(r, c): (n, marked)}
+        # {(r, c): n}
         self._spaces = {}
+        self._called = []
         rows = [[s for s in re.findall(r'([0-9]+)[ ]?', r)] for r in input.split('\n')]
         #rows = [r for r in input.split('\n')]
         #print(rows)
         for r in range(5):
             for c in range(5):
-                self._spaces[(r, c)] = (rows[r][c], False)
-                #self._spaces.update({(r, c): (rows[r][c], False)})
-
+                self._spaces[(r, c)] = rows[r][c]
+                
     def print(self):
         pr = ''
         for r in range(5):
             for c in range(5):
-                pr += self._spaces.get((r, c))[0]
+                pr += self._spaces.get((r, c))
                 pr += ' '
             pr += '\n'
         print(pr)
+
+    def mark(self, called):
+        self._called.append(called)
+    
+    def is_winning(self):
+        #check rows
+        for r in range(5):
+            for c in range(5):
+        #check columns
+
         
 class BingoCompetition():
     def __init__(self, calls, boards):
