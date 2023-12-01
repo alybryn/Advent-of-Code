@@ -1,4 +1,5 @@
 import pathlib
+import re
 import sys
 
 SAMPLE_ANSWER_1 = 4512
@@ -17,16 +18,22 @@ class BingoBoard():
     def __init__(self, input):
         # {(r, c): (n, marked)}
         self._spaces = {}
-        rows = [[s for s in r.split] for r in input]
+        rows = [[s for s in re.findall(r'([0-9]+)[ ]?', r)] for r in input.split('\n')]
+        #rows = [r for r in input.split('\n')]
+        #print(rows)
         for r in range(5):
             for c in range(5):
-                self._spaces.update{(r, c): (rows[r][c], False)}
+                self._spaces[(r, c)] = (rows[r][c], False)
+                #self._spaces.update({(r, c): (rows[r][c], False)})
 
     def print(self):
         pr = ''
         for r in range(5):
             for c in range(5):
                 pr += self._spaces.get((r, c))[0]
+                pr += ' '
+            pr += '\n'
+        print(pr)
         
 class BingoCompetition():
     def __init__(self, calls, boards):
@@ -35,7 +42,7 @@ class BingoCompetition():
 
 def part1(calls_and_boards):
     calls, boards = calls_and_boards
-    print(calls)
+    boards[0].print()
     return 0
 
 def part2(calls_and_boards):
