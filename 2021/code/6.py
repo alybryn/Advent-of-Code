@@ -4,9 +4,19 @@ import sys
 SAMPLE_ANSWER_1 = 5934
 SAMPLE_ANSWER_2 = 26984457539
 
+
 def parse(puzzle_input):
     # parse the input
-    return [int(line) for line in puzzle_input.split(',')]
+    return [int(line) for line in puzzle_input.split(",")]
+
+
+class School:
+    def __init__(self, lanternfish) -> None:
+        # 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0
+        self._lanternfish = {}
+        counts = {}
+        for i in range(9):
+            self._lanternfish.update({i:sum([1 for l in lanternfish if l = i])})
 
 def time_passes(initial):
     ret = []
@@ -19,16 +29,20 @@ def time_passes(initial):
             ret.append(lanternfish - 1)
     return ret + app
 
+
 def time_passes_loop(time, lanternfish):
     for i in range(time):
         lanternfish = time_passes(lanternfish)
     return len(lanternfish)
 
+
 def part1(lanternfish):
     return time_passes_loop(80, lanternfish)
 
+
 def part2(lanternfish):
     return time_passes_loop(256, lanternfish)
+
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
@@ -36,6 +50,7 @@ def solve(puzzle_input):
     solution2 = part2(data)
 
     return solution1, solution2
+
 
 if __name__ == "__main__":
     for path in sys.argv[1:]:
