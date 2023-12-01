@@ -19,9 +19,9 @@ class BingoBoard():
         # {(r, c): n}
         self._spaces = {}
         self._called = []
+        self._round = 0
         rows = [[s for s in re.findall(r'([0-9]+)[ ]?', r)] for r in input.split('\n')]
-        #rows = [r for r in input.split('\n')]
-        #print(rows)
+        
         for r in range(5):
             for c in range(5):
                 self._spaces[(r, c)] = rows[r][c]
@@ -37,12 +37,22 @@ class BingoBoard():
 
     def mark(self, called):
         self._called.append(called)
+        self._round += 1
     
     def is_winning(self):
         #check rows
         for r in range(5):
             for c in range(5):
         #check columns
+
+    def score(self):
+        unmarked = 0
+        for r in range(5):
+            for c in range(5):
+                val = self._spaces.get((r, c))
+                if val not in self._called:
+                    unmarked += val
+        return unmarked * self._round
 
         
 class BingoCompetition():
