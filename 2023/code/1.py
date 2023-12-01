@@ -15,6 +15,9 @@ def get_digits(r, s):
     return re.findall(r, s)
     # return [d for d in s if d in DIGIT_STRINGS]
 
+def get_digits2(r, s):
+    return re.match(r, s).groupdict()
+
 # def findall_digits(s):
 #     return re.findall(r'\d|one|two|three|four|five|six|seven|eight|nine', s)
 
@@ -37,6 +40,7 @@ def s_to_n(s):
 def part1(parsed):
     ret = 0
     for line in parsed:
+        # should still use findall?
         digits = get_digits(r'\d', line)
         ret += int(digits[0] + digits[-1])
     return ret
@@ -47,6 +51,12 @@ def part2(parsed):
     for line in parsed:
         digits = get_digits(r'\d|one|two|three|four|five|six|seven|eight|nine', line)
         back_digits = get_digits(r'\d|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin', line[::-1])
+        digit1 = get_digits2(r'^(.*?)(one|two|three|four|five|six|seven|eight|nine|\d)', line)
+        if digit1 != digits[0]:
+            print(f"1: {digit1} != {digits[0]}")
+        digit2 = get_digits2(r'(.*)(?P<d>one|two|three|four|five|six|seven|eight|nine|\d)(.*?$)', line)
+        if digit2 != back_digits[0][::-1]:
+            print(f"2: {digit2} != {back_digits[0][::-1]}")
         # if (digits[-1] != back_digits[0][::-1]):
         #     print('________')
         #     print(line)
