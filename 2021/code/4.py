@@ -12,12 +12,6 @@ def parse(puzzle_input):
     for section in rem:
         boards.append(BingoBoard(section))
     return (calls, boards)
-
-class BingoSpace():
-    def __init__(self, row, col):
-        self._row = row
-        self._col = col
-        self._marked = False
     
     @property
     def row(self):
@@ -36,17 +30,18 @@ class BingoSpace():
 
 class BingoBoard():
     def __init__(self, input):
+        # {(r, c): (n, marked)}
         self._spaces = {}
         rows = [[s for s in r.split] for r in input]
         for r in range(5):
             for c in range(5):
-                self._spaces.add(BingoSpace(r, c, rows[r][c]))
+                self._spaces.update{(r, c): (rows[r][c], False)}
 
     def print(self):
         pr = ''
         for r in range(5):
             for c in range(5):
-                pr += self._spaces.
+                pr += self._spaces.get((r, c))[0]
         
 class BingoCompetition():
     def __init__(self, calls, boards):
