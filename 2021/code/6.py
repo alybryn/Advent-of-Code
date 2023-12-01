@@ -17,22 +17,33 @@ class School:
         counts = {}
         for i in range(9):
             self._lanternfish.update({i:sum([1 for l in lanternfish if l = i])})
+    
+    def time_passes(self):
+        temp = self._lanternfish.get(0)
+        for i in range(6):
+            if i == 6:
+                self._lanternfish.update({i: self._lanternfish.get(i + 1) + temp})
+            elif i == 8:
+                self._lanternfish.update({i: temp})
+            else:
+                self._lanternfish.update({i: self._lanternfish.get(i + 1)})
 
-def time_passes(initial):
-    ret = []
-    app = []
-    for lanternfish in initial:
-        if lanternfish == 0:
-            ret.append(6)
-            app.append(8)
-        else:
-            ret.append(lanternfish - 1)
-    return ret + app
+# def time_passes(initial):
+#     ret = []
+#     app = []
+#     for lanternfish in initial:
+#         if lanternfish == 0:
+#             ret.append(6)
+#             app.append(8)
+#         else:
+#             ret.append(lanternfish - 1)
+#     return ret + app
 
 
 def time_passes_loop(time, lanternfish):
+    my_fish = School(lanternfish)
     for i in range(time):
-        lanternfish = time_passes(lanternfish)
+        my_fish.time_passes()
     return len(lanternfish)
 
 
