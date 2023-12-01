@@ -47,12 +47,12 @@ def part2(parsed):
     for line in parsed:
         digits = get_digits(r'\d|one|two|three|four|five|six|seven|eight|nine', line)
         back_digits = get_digits(r'\d|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin', line[::-1])
-        if (digits[-1] != back_digits[0][::-1]):
-            print('________')
-            print(line)
-            print(digits)
-            print([s[::-1] for s in back_digits])
-            print('________')
+        # if (digits[-1] != back_digits[0][::-1]):
+        #     print('________')
+        #     print(line)
+        #     print(digits)
+        #     print([s[::-1] for s in back_digits])
+        #     print('________')
         # if line == 'sgeightwo3':
         #     print(digits)
         #     print(back_digits[1][::-1])
