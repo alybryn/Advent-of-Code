@@ -19,16 +19,30 @@ class School:
             self._lanternfish.update({i:sum([1 for l in lanternfish if l == i])})
     
     def time_passes(self):
+        # print("___________________________")
+        # self.print()
         temp = self._lanternfish.get(0)
-        for i in range(6):
+        for i in range(9):
             if i == 6:
                 self._lanternfish.update({i: self._lanternfish.get(i + 1) + temp})
+                # self.print()
             elif i == 8:
                 self._lanternfish.update({i: temp})
+                # self.print()
             else:
                 self._lanternfish.update({i: self._lanternfish.get(i + 1)})
+                # self.print()
 
+    @property
+    def school_size(self):
+        ret = 0
+        for i in range(9):
+            ret += self._lanternfish.get(i)
+        return ret
     
+    def print(self):
+        for i in range(9):
+            print(f'{self._lanternfish.get(i)} fish of size {i}')
 
 # def time_passes(initial):
 #     ret = []
@@ -44,15 +58,16 @@ class School:
 
 def time_passes_loop(time, lanternfish):
     my_fish = School(lanternfish)
+    # my_fish.print()
     for i in range(time):
         my_fish.time_passes()
-    return len(lanternfish)
+    return my_fish.school_size
 
-
+# 80 days
 def part1(lanternfish):
     return time_passes_loop(80, lanternfish)
 
-
+# 256 days
 def part2(lanternfish):
     return time_passes_loop(256, lanternfish)
 
