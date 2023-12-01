@@ -12,7 +12,7 @@ def parse(puzzle_input):
     boards = []
     for section in rem:
         boards.append(BingoBoard(section))
-    return (calls, boards)
+    return BingoCompetition(calls, boards)
 
 class BingoBoard():
     def __init__(self, input):
@@ -24,6 +24,10 @@ class BingoBoard():
         for r in range(5):
             for c in range(5):
                 self._spaces[(r, c)] = int(rows[r][c])
+
+    def reset(self):
+        self._called = set()
+        self._last_called = 0
                 
     def print(self):
         pr = ''
@@ -69,6 +73,10 @@ class BingoCompetition():
         self._calls = calls
         self._boards = boards
     
+    def reset(self):
+        for board in self._boards:
+            board.reset()
+
     # try to win
     def strat1(self):
         bingo = False
@@ -83,20 +91,29 @@ class BingoCompetition():
     
     # last board standing
     def strat2(self):
+        l = len(self._boards)
+        indexes = [False] * l
         bingo = False
         index = 0
-        while not bingo:
-            for board in self._boards:
-                
+        while sum([1 for f in indexes if f is False]) > 1:
+            for i in range(l):
+                if not indexes[i]:
+                    board = self._boards[i]
+                    board.call(self._calls[index])
+                    if board.is_winning():
+                        indexes[i] = True
+        for i in range(l):
+            if not indexes[i]:
+                return self.boards[i].score()
 
 
-def part1(calls_and_boards):
-    calls, boards = calls_and_boards
-    our_competition = BingoCompetition(calls, boards)
-    return our_competition.strat1()
 
-def part2(calls_and_boards):
-    return 0
+def part1(comp):
+    return comp.strat1()
+
+def part2(comp):
+    comp.reset()
+    return comp.strat2()
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
