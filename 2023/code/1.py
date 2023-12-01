@@ -1,17 +1,35 @@
 import pathlib
+import re
 import sys
 
 SAMPLE_ANSWER_1 = None
 SAMPLE_ANSWER_2 = None
 
+DIGIT_STRINGS = ['0','1','2','3','4','5','6','7','8','9']
+
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
 
+def get_digits(s):
+    return [d for d in s if d in DIGIT_STRINGS]
+
+def findall_digits(s):
+    return re.findall(r'\d|one|two|three|four|five|six|seven|eight|nine', s)
+
 def part1(parsed):
-    return 0
+    ret = 0
+    for line in parsed:
+        digits = get_digits(line)
+        ret += int(digits[0] + digits[-1])
+    return ret
 
 def part2(parsed):
+    print('part 2')
+    ret = 0
+    for line in parsed:
+        digits = findall_digits(line)
+        print(digits)#[0] + digits[-1])
     return 0
 
 def solve(puzzle_input):
