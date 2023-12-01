@@ -11,26 +11,54 @@ def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
 
-def get_digits(s):
-    return [d for d in s if d in DIGIT_STRINGS]
+def get_digits(r, s):
+    return re.findall(r, s)
+    # return [d for d in s if d in DIGIT_STRINGS]
 
-def findall_digits(s):
-    return re.findall(r'\d|one|two|three|four|five|six|seven|eight|nine', s)
+# def findall_digits(s):
+#     return re.findall(r'\d|one|two|three|four|five|six|seven|eight|nine', s)
+
+def s_to_n(s):
+    switch={
+        'one': '1',
+        'two': '2',
+        'three': '3',
+        'four': '4',
+        'five': '5',
+        'six': '6',
+        'seven': '7',
+        'eight': '8',
+        'nine': '9'
+    }
+    if s in DIGIT_STRINGS:
+        return s
+    return switch.get(s)
 
 def part1(parsed):
     ret = 0
     for line in parsed:
-        digits = get_digits(line)
+        digits = get_digits(r'\d', line)
         ret += int(digits[0] + digits[-1])
     return ret
 
 def part2(parsed):
-    print('part 2')
     ret = 0
+    i = 0
     for line in parsed:
-        digits = findall_digits(line)
-        print(digits)#[0] + digits[-1])
-    return 0
+        digits = get_digits(r'\d|one|two|three|four|five|six|seven|eight|nine', line)
+        back_digits = get_digits(r'\d|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin', line[::-1])
+        if (digits[-1] != back_digits[0][::-1]):
+            print('________')
+            print(line)
+            print(digits)
+            print([s[::-1] for s in back_digits])
+            print('________')
+        # if line == 'sgeightwo3':
+        #     print(digits)
+        #     print(back_digits[1][::-1])
+        #print("-----" + line + " " + s_to_n(digits[0]) + s_to_n(back_digits[0][::-1]))
+        ret += int(s_to_n(digits[0]) + s_to_n(back_digits[0][::-1]))
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
