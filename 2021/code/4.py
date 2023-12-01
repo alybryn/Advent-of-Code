@@ -19,7 +19,7 @@ class BingoBoard():
         # {(r, c): n}
         self._spaces = {}
         self._called = set()
-        self._round = 0
+        self._last_called = 0
         rows = [[s for s in re.findall(r'([0-9]+)[ ]?', r)] for r in input.split('\n')]
         for r in range(5):
             for c in range(5):
@@ -33,7 +33,6 @@ class BingoBoard():
                 if p in self._called:
                     pr += f'!{p}!'
                 else:
-                    print(f'{[p]} is not in {self._called}')
                     pr += str(p)
                 pr += ' '
             pr += '\n'
@@ -41,8 +40,7 @@ class BingoBoard():
 
     def call(self, called):
         self._called.add(called)
-        self._round += 1
-        return (self._round, self._called)
+        self._last_called = called
     
     def is_winning(self):
         #check rows
@@ -62,7 +60,8 @@ class BingoBoard():
                 val = self._spaces.get((r, c))
                 if val not in self._called:
                     unmarked += val
-        return unmarked * self._round
+                    # print(f'{val}, {unmarked}')
+        return unmarked * self._last_called
 
         
 class BingoCompetition():
@@ -70,20 +69,31 @@ class BingoCompetition():
         self._calls = calls
         self._boards = boards
     
-    def run(self):
+    # try to win
+    def strat1(self):
         bingo = False
         index = 0
         while not bingo:
             for board in self._boards:
                 board.call(self._calls[index])
                 if board.is_winning():
+                    #board.print()
                     return board.score()
             index += 1
+    
+    # last board standing
+    def strat2(self):
+        bingo = False
+        index = 0
+        while not bingo:
+            for board in self._boards:
+                
+
 
 def part1(calls_and_boards):
     calls, boards = calls_and_boards
     our_competition = BingoCompetition(calls, boards)
-    return our_competition.run()
+    return our_competition.strat1()
 
 def part2(calls_and_boards):
     return 0
