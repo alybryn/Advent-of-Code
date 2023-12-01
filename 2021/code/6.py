@@ -1,12 +1,12 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 5934
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [int(line) for line in puzzle_input.split(',')]
 
 def part1(parsed):
     return 0
