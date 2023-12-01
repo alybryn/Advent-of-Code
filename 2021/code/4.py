@@ -12,21 +12,6 @@ def parse(puzzle_input):
     for section in rem:
         boards.append(BingoBoard(section))
     return (calls, boards)
-    
-    @property
-    def row(self):
-        return self._row
-
-    @property
-    def col(self):
-        return self._col
-
-    @property
-    def marked(self):
-        return self._marked
-
-    def mark(self):
-        self.marked = True
 
 class BingoBoard():
     def __init__(self, input):
