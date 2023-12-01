@@ -2,17 +2,33 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 5934
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 26984457539
 
 def parse(puzzle_input):
     # parse the input
     return [int(line) for line in puzzle_input.split(',')]
 
-def part1(parsed):
-    return 0
+def time_passes(initial):
+    ret = []
+    app = []
+    for lanternfish in initial:
+        if lanternfish == 0:
+            ret.append(6)
+            app.append(8)
+        else:
+            ret.append(lanternfish - 1)
+    return ret + app
 
-def part2(parsed):
-    return 0
+def time_passes_loop(time, lanternfish):
+    for i in range(time):
+        lanternfish = time_passes(lanternfish)
+    return len(lanternfish)
+
+def part1(lanternfish):
+    return time_passes_loop(80, lanternfish)
+
+def part2(lanternfish):
+    return time_passes_loop(256, lanternfish)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
