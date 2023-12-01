@@ -16,7 +16,7 @@ class School:
         self._lanternfish = {}
         counts = {}
         for i in range(9):
-            self._lanternfish.update({i:sum([1 for l in lanternfish if l = i])})
+            self._lanternfish.update({i:sum([1 for l in lanternfish if l == i])})
     
     def time_passes(self):
         temp = self._lanternfish.get(0)
@@ -27,6 +27,8 @@ class School:
                 self._lanternfish.update({i: temp})
             else:
                 self._lanternfish.update({i: self._lanternfish.get(i + 1)})
+
+    
 
 # def time_passes(initial):
 #     ret = []
