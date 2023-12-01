@@ -30,7 +30,7 @@ class BingoBoard():
         self._last_called = 0
                 
     def print(self):
-        pr = ''
+        pr = str(self._called) + '\n'
         for r in range(5):
             for c in range(5):
                 p = self._spaces.get((r, c))
@@ -42,10 +42,21 @@ class BingoBoard():
             pr += '\n'
         print(pr)
 
+    def play_self(self, calls):
+        i = 0
+        while not self.is_winning():
+            self.call(calls[i])
+            i += 1
+        return (i, self.score)
+
     def call(self, called):
         self._called.add(called)
         self._last_called = called
     
+    @property
+    def rounds(self):
+        return len(self._called)
+
     def is_winning(self):
         #check rows
         for r in range(5):
@@ -91,21 +102,25 @@ class BingoCompetition():
     
     # last board standing
     def strat2(self):
-        l = len(self._boards)
-        indexes = [False] * l
-        bingo = False
-        index = 0
-        while sum([1 for f in indexes if f is False]) > 1:
-            for i in range(l):
-                if not indexes[i]:
-                    board = self._boards[i]
-                    board.call(self._calls[index])
-                    if board.is_winning():
-                        indexes[i] = True
-        for i in range(l):
-            if not indexes[i]:
-                return self.boards[i].score()
+        #play every game to the end
+        for board in self._boards:
+            board.play_self(self._calls)
+        
+        # find the longest game
+        # len(board._called)
+        most = 0
+        most_board = None
+        for board in self._boards:
+            if board.rounds > most:
+                most = board.rounds
+                most_board = board
+        
+        # score that board
+        return most_board.score()
 
+    def print(self):
+        for board in self._boards:
+            board.print()
 
 
 def part1(comp):
@@ -113,6 +128,7 @@ def part1(comp):
 
 def part2(comp):
     comp.reset()
+    # comp.print()
     return comp.strat2()
 
 def solve(puzzle_input):
