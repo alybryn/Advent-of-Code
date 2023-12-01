@@ -2,8 +2,8 @@ import pathlib
 import re
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 5
+SAMPLE_ANSWER_2 = 12
 
 def parse(puzzle_input):
     # parse the input
@@ -97,7 +97,7 @@ def part1(parsed):
     for line in h_and_v:
         #print(line)
         my_map.add_line(Line(line))
-    my_map.draw()
+    # my_map.draw()
     # print(Line({'x1': '3', 'y1': '4', 'x2': '1', 'y2': '4'}).get_points)
     return my_map.count_danger_points()
 
@@ -105,7 +105,7 @@ def part2(parsed):
     my_map = VentMap()
     for line in parsed:
         my_map.add_line(Line(line))
-    my_map.draw()
+    # my_map.draw()
     return my_map.count_danger_points()
 
 def solve(puzzle_input):
