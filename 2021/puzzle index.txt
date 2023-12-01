@@ -3,7 +3,7 @@ Dive!
 Binary Diagonstic
 Giant Squid
 Hydrothermal Venture
-Lanternfish
+Lanternfish                 exponential growth
 Treachery of Whales
 Seven Segment Search
 Smoke Basin
