@@ -16,7 +16,8 @@ def part1(parsed):
     for i in range(lowest, highest + 1):
         fuel = 0
 
-        
+        for crab in parsed:
+            fuel += (abs(i - crab))
 
         if fuel_economy is None:
             fuel_economy = fuel
