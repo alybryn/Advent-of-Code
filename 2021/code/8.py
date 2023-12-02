@@ -1,15 +1,26 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 26
+SAMPLE_ANSWER_2 = 61229
+
+SEGMENTS_PER_DIGIT = {0: 6, 1: 2, 2: 5, 3: 5, 4: 4, 5: 5, 6: 6, 7: 3, 8: 7, 9: 6}
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [line.split(' | ') for line in puzzle_input.split('\n')]
+
+# unique digits are 1, 4, 7, 8
+# # using segments len 2, 4, 3, 7
+def unique_identifier(s):
+    switch = {2:1, 4:4, 3:7, 7:8}
+    return switch.get(len(s), False)
 
 def part1(parsed):
-    return 0
+    ret = 0
+    for p in parsed:        
+        ret += len([display for display in p[1].split(' ') if unique_identifier(display)])
+    return ret
 
 def part2(parsed):
     return 0
