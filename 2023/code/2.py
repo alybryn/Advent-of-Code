@@ -11,22 +11,47 @@ def parse(puzzle_input):
 
     # return a dict in form: 
     # {<game #> : [{Color.RED: #, Color.BLUE: #, Color.GREEN: #}
-    for line in puzzle_input.split():
-        pattern = r''
-# (?::|; )(((\d blue|\d green|\d red),? )+)
-# ^Game (\d+): ((\d+ (red|blue|green),? )+)
-# ^Game (\d+)
-# (?::|;)(?<blah>( \d+ red,?| \d+ blue,?| \d+ green,?){1,3})(?=;?)
+    ret = {}
+    for line in puzzle_input.split('\n'):
+        game_number_part, rounds_part = line.split(': ')
+        game_number = int(re.match(r'^Game (?P<number>\d+)', game_number_part).groupdict().get('number'))
+        # print(f'number: {game_number}')
+        
+        rounds_part_list = rounds_part.split('; ')
+        rounds_list = []
+        for i in range(len(rounds_part_list)):
+            # round #i
+            round_dict = {}
+            for pick in (re.findall(r'(\d+) (red|green|blue)', rounds_part_list[i])):
+                round_dict.update({pick[1]: int(pick[0])})
+            rounds_list.append(round_dict)
+        ret.update({game_number: rounds_list})
 
+    return ret
 
-class Color(Enum):
+class Color(str, Enum):
     RED = 'red'
     GREEN = 'green'
     BLUE = 'blue'
 
-
 def part1(parsed):
-    return 0
+    cubes = {Color.RED: 12, Color.GREEN: 13, Color.BLUE: 14}
+    # print(parsed)
+    # sum possible game ids
+    ret = 0
+    possible = True
+    # iterate on game keys
+    for k in parsed.keys():
+        game = parsed.get(k)
+        for round in game:
+            for color in Color:
+                if round.get(color, 0) > cubes.get(color):
+                    possible = False
+        if possible:
+            ret += k
+        possible = True
+
+    return ret
 
 def part2(parsed):
     return 0
