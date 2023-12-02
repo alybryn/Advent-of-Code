@@ -6,10 +6,24 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [int(line) for line in puzzle_input.split(',')]
 
 def part1(parsed):
-    return 0
+    lowest = min(parsed)
+    highest = max(parsed)
+    fuel_economy = None
+    # for every position inclusive between crabs, move every crab to that position
+    for i in range(lowest, highest + 1):
+        fuel = 0
+
+        
+
+        if fuel_economy is None:
+            fuel_economy = fuel
+        
+        if fuel < fuel_economy:
+            fuel_economy = fuel
+    return fuel_economy
 
 def part2(parsed):
     return 0
