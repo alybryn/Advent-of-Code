@@ -1,4 +1,6 @@
+from enum import Enum
 import pathlib
+import re
 import sys
 
 SAMPLE_ANSWER_1 = None
@@ -6,7 +8,22 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+
+    # return a dict in form: 
+    # {<game #> : [{Color.RED: #, Color.BLUE: #, Color.GREEN: #}
+    for line in puzzle_input.split():
+        pattern = r''
+# (?::|; )(((\d blue|\d green|\d red),? )+)
+# ^Game (\d+): ((\d+ (red|blue|green),? )+)
+# ^Game (\d+)
+# (?::|;)(?<blah>( \d+ red,?| \d+ blue,?| \d+ green,?){1,3})(?=;?)
+
+
+class Color(Enum):
+    RED = 'red'
+    GREEN = 'green'
+    BLUE = 'blue'
+
 
 def part1(parsed):
     return 0
