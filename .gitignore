@@ -3,4 +3,4 @@
 
 output/
 *.log
-*.txt
+**/data
