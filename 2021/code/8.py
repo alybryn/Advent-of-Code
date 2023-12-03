@@ -16,6 +16,52 @@ def unique_identifier(s):
     switch = {2:1, 4:4, 3:7, 7:8}
     return switch.get(len(s), False)
 
+def minus(big, small):
+    ret = ""
+    for l in big:
+        if not l in small:
+            ret += l
+    return ret
+
+def plus(first, second):
+    return first + second
+
+def same(first, second):
+    return sorted(first) == sorted(second)
+
+def inside(big, small):
+    for l in small:
+        if l not in big:
+            return False
+    return True
+
+def assign(scramble):
+    # sorted(words, key=len)
+    known = {}
+    # 1, 7, 4, (235), (069), 8
+    sorted_segments = sorted(scramble.split(), key=len)
+    # !!! flip these !!! and make the numbers strings!
+    known.update({1: sorted_segments[0]})
+    known.update({7: sorted_segments[1]})
+    known.update({4: sorted_segments[2]})
+    known.update({8: sorted_segments[9]})
+    two_three_five = [sorted_segments[3], sorted_segments[4], sorted_segments[5]]
+    zero_six_nine = [sorted_segments[6], sorted_segments[7], sorted_segments[8]]
+    # 9 contains 4 and 7
+    # 0 contains 1
+    # 6 remains
+    # 3 contains 1
+    # 5 contains (4 - 1)? OR 9 does not contain 2/ 6 does not contain 5
+    # 2 OR 5 remains
+
+    return known
+
+def make_number(display):
+    n = ""
+    for s in display.split(" "):
+        n += known.get(s)
+    return int(n)
+
 def part1(parsed):
     ret = 0
     for p in parsed:        
@@ -23,6 +69,7 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
+    # each line of parsed is [str, str]
     return 0
 
 def solve(puzzle_input):
