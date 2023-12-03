@@ -2,9 +2,9 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 4361
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 467835
 
-def parse(puzzle_input):
+def parse(puzzle_input) -> (dict, list, list):
     # parse the input
     lines = puzzle_input.split()
     # print(lines)
@@ -40,8 +40,9 @@ def parse(puzzle_input):
         if points.get(k) == "*":
             # check neighbors against nums
             number_neighbors = []
+            k_neighbors = xy_neighbors(k)
             for num in nums:
-                if num.contains_list(xy_neighbors(k)):
+                if num.contains_list(k_neighbors):
                     number_neighbors.append(num)
             if len(number_neighbors) == 2:
                 gears.append(Gear(number_neighbors))
@@ -49,14 +50,14 @@ def parse(puzzle_input):
     return (points, nums, gears)
 
 
-def xy_neighbors(pair):
+def xy_neighbors(pair) -> list:
     # diagonals too
     matrix = [(-1,0), (1,0), (0,-1), (0,1), (-1,-1), (1,1), (-1,1), (1,-1)]
     return [(pair[0] + m[0], pair[1] + m[1]) for m in matrix]
 
 class Num():
     # val: int, points: [(x,y),...]
-    def __init__(self, value, points):
+    def __init__(self, value: int, points: list):
         self._value = value
         self._points = points
     
@@ -73,26 +74,26 @@ class Num():
         return ret
     
     @property
-    def value(self):
+    def value(self) -> int:
         return self._value
     
-    @property
-    def contains(self, point):
-        return point in self._points
+    # @property
+    # def contains(self, point):
+    #     return point in self._points
     
     @property
-    def contains_list(self, l):
+    def contains_list(self, l) -> bool:
         for point in l:
             if point in self._points:
                 return True
         return False
 
 class Gear():
-    def __init__(self, neighbor_numbers):
+    def __init__(self, neighbor_numbers: list):
         self._gear_ratio = neighbor_numbers[0].value * neighbor_numbers[1].value
 
     @property
-    def gear_ratio(self):
+    def gear_ratio(self) -> int:
         return self.gear_ratio
 
 def part1(parsed):
