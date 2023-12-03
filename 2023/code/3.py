@@ -12,6 +12,7 @@ def parse(puzzle_input):
     width = len(lines[0])
     points = {}
     nums = []
+    
     for i in range(len(lines)):
         j = 0
         while j < width:
@@ -22,6 +23,7 @@ def parse(puzzle_input):
                 while lines[i][j].isdigit():
                     n += lines[i][j]
                     p.append((i, j))
+                    
                     # overwriting numbers for now
                     points.update({(i, j): '.'})
                     j += 1
@@ -32,13 +34,25 @@ def parse(puzzle_input):
             else:
                 points.update({(i, j): lines[i][j]})
                 j += 1
-    return (points, nums)
+    # once quick through the dict:
+    gears = []
+    for k in points:
+        if points.get(k) == "*":
+            # check neighbors against nums
+            number_neighbors = []
+            for num in nums:
+                if num.contains_list(xy_neighbors(k)):
+                    number_neighbors.append(num)
+            if len(number_neighbors) == 2:
+                gears.append(Gear(number_neighbors))
+
+    return (points, nums, gears)
 
 
-# def xy_neighbors(pair):
-#     # diagonals too
-#     matrix = [(-1,0), (1,0), (0,-1), (0,1), (-1,-1), (1,1), (-1,1), (1,-1)]
-#     return [(pair[0] + m[0], pair[1] + m[1]) for m in matrix]
+def xy_neighbors(pair):
+    # diagonals too
+    matrix = [(-1,0), (1,0), (0,-1), (0,1), (-1,-1), (1,1), (-1,1), (1,-1)]
+    return [(pair[0] + m[0], pair[1] + m[1]) for m in matrix]
 
 class Num():
     # val: int, points: [(x,y),...]
@@ -49,21 +63,37 @@ class Num():
     @property
     def neighbors(self):
         ret = set()
-        # diagonals too
-        matrix = [(-1,0), (1,0), (0,-1), (0,1), (-1,-1), (1,1), (-1,1), (1,-1)]
 
         # add neighbors for each point
         for p in self._points:
-            for m in matrix:
-                a = (p[0] + m[0], p[1] + m[1])
+            for n in xy_neighbors(p):
                 # prevention is the best cure:
-                if a not in self._points:
-                    ret.add(a)
+                if n not in self._points:
+                    ret.add(n)
         return ret
     
     @property
     def value(self):
         return self._value
+    
+    @property
+    def contains(self, point):
+        return point in self._points
+    
+    @property
+    def contains_list(self, l):
+        for point in l:
+            if point in self._points:
+                return True
+        return False
+
+class Gear():
+    def __init__(self, neighbor_numbers):
+        self._gear_ratio = neighbor_numbers[0].value * neighbor_numbers[1].value
+
+    @property
+    def gear_ratio(self):
+        return self.gear_ratio
 
 def part1(parsed):
     # add part numbers
@@ -79,7 +109,10 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    return 0
+    ret = 0
+    for gear in parsed[2]:
+        ret += gear.gear_ratio
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
