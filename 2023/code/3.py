@@ -92,7 +92,7 @@ class Gear():
 
     @property
     def gear_ratio(self) -> int:
-        return self.gear_ratio
+        return self._gear_ratio
 
 def part1(parsed):
     # add part numbers
