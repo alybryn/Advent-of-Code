@@ -22,10 +22,10 @@ def parse(puzzle_input):
                     n += lines[i][j]
                     p.append((i, j))
                     # overwriting numbers for now
-                    points.update({(i, j), '.'})
+                    points.update({(i, j): '.'})
                     j += 1
             else:
-                points.update({(i, j), lines[i][j]})
+                points.update({(i, j): lines[i][j]})
                 j += 1
         p +='\n'
     return (points, nums)
