@@ -77,11 +77,9 @@ class Num():
     def value(self) -> int:
         return self._value
     
-    # @property
     # def contains(self, point):
     #     return point in self._points
-    
-    @property
+
     def contains_list(self, l) -> bool:
         for point in l:
             if point in self._points:
