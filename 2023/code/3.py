@@ -27,6 +27,10 @@ class Num():
         for p in self._points:
             ret.add([(p[0] + m[0], p[1] + m[1]) for m in matrix])
         return ret
+    
+    @property
+    def value(self):
+        return self._value
 
 def part1(parsed):
     return 0
