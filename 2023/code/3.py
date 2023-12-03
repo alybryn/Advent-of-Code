@@ -1,7 +1,7 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 4361
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
@@ -25,8 +25,10 @@ def parse(puzzle_input):
                     # overwriting numbers for now
                     points.update({(i, j): '.'})
                     j += 1
+                    if j == width:
+                        break
                 # acutally create and save Nums
-                nums.append(Num(n,p))
+                nums.append(Num(int(n),p))
             else:
                 points.update({(i, j): lines[i][j]})
                 j += 1
@@ -66,10 +68,15 @@ class Num():
 def part1(parsed):
     # add part numbers
     ret = 0
-    for n in parsed[1]:
+    mapping = parsed[0]
+    numbers = parsed[1]
+    for n in numbers:
         # part numbers are adjacent to non '.' chars
-        print(len(n.neighbors))
-    return 0
+        for p in n.neighbors:
+            if mapping.get(p, '.') != '.':
+                ret += n.value
+                break
+    return ret
 
 def part2(parsed):
     return 0
