@@ -56,7 +56,8 @@ def assign(scramble):
 
     return known
 
-def make_number(display):
+# pass display and dictionary
+def make_number(display, known):
     n = ""
     for s in display.split(" "):
         n += known.get(s)
