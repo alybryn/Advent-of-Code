@@ -6,7 +6,30 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    lines = puzzle_input.split()
+    # length = len(lines)
+    width = len(lines[0])
+    points = {}
+    nums = []
+    for i in range(len(lines)):
+        j = 0
+        while j < width:
+            if lines[i][j].isdigit():
+                # start getting number
+                n = ''
+                p = []
+                while lines[i][j].isdigit():
+                    n += lines[i][j]
+                    p.append((i, j))
+                    # overwriting numbers for now
+                    points.update({(i, j), '.'})
+                    j += 1
+            else:
+                points.update({(i, j), lines[i][j]})
+                j += 1
+        p +='\n'
+    return (points, nums)
+
 
 # def xy_neighbors(pair):
 #     # diagonals too
@@ -33,6 +56,7 @@ class Num():
         return self._value
 
 def part1(parsed):
+    print(parsed)
     return 0
 
 def part2(parsed):
