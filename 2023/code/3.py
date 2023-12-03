@@ -42,7 +42,6 @@ class Num():
     # val: int, points: [(x,y),...]
     def __init__(self, value, points):
         self._value = value
-        print(points)
         self._points = points
     
     @property
@@ -51,17 +50,13 @@ class Num():
         # diagonals too
         matrix = [(-1,0), (1,0), (0,-1), (0,1), (-1,-1), (1,1), (-1,1), (1,-1)]
 
+        # add neighbors for each point
         for p in self._points:
             for m in matrix:
-                ret.add((p[0] + m[0], p[1] + m[1]))
-        
-        remove_self = lambda p: ret.remove(p)
-        map(remove_self, self._points)
-        #map(lambda p: map(lambda m: ret.add((p[0] + m[0], p[1], m[1])), matrix), self._points)
-        # for p in self._points:
-        #     ret.add((p[0] + m[0], p[1] + m[1]) for m in matrix)
-        #map(lambda p: ret.remove(p), self._points)
-        #ret.remove(self._points)
+                a = (p[0] + m[0], p[1] + m[1])
+                # prevention is the best cure:
+                if a not in self._points:
+                    ret.add(a)
         return ret
     
     @property
@@ -73,7 +68,7 @@ def part1(parsed):
     ret = 0
     for n in parsed[1]:
         # part numbers are adjacent to non '.' chars
-        print('hi')#n.neighbors)
+        print(len(n.neighbors))
     return 0
 
 def part2(parsed):
