@@ -4,7 +4,11 @@ import sys
 SAMPLE_ANSWER_1 = None
 SAMPLE_ANSWER_2 = None
 
-char_scores = {')':3, ']':57, '}':1197, '>': 25137}
+illegal_char_scores = {')':3, ']':57, '}':1197, '>': 25137}
+autocomplete_char_scores = {')':1, ']':2, '}':3, '>': 4}
+
+part1_ans = []
+part2_ans = []
 
 def parse(puzzle_input):
     # parse the input
@@ -27,27 +31,37 @@ def scan_line(line):
         if line[i] in ['(', '[', '{', '<']:
             # creates an expection
             expectations.append(pairs.get(line[i]))
+            # print(expectations)
         # think about checking empty expections here #
         elif line[i] == expectations[-1]:
             expectations.pop()
         # case line[i] is not expected, return char
         else:
-            return line[i]
+            part1_ans.append(line[i])
+            return
     # case unfulfilled expections remain
     if len(expectations) != 0:
-        return str(expectations)
-    
+        part2_ans.append(expectations[::-1])
+        return
+
+def loop(parsed):
+    for line in parsed:
+        scan_line(line)
+
 def part1(parsed):
     score = 0
-    for line in parsed:
-        score += char_scores.get(scan_line(line), 0)
+    for ans in part1_ans:
+        score += illegal_char_scores.get(ans, 0)
     return score
 
 def part2(parsed):
+    for ans in part2_ans:
+        print(ans)
     return 0
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
+    loop(data)
     solution1 = part1(data)
     solution2 = part2(data)
 
