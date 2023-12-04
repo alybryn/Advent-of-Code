@@ -4,6 +4,8 @@ import sys
 SAMPLE_ANSWER_1 = None
 SAMPLE_ANSWER_2 = None
 
+char_scores = {')':3, ']':57, '}':1197, '>': 25137}
+
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
