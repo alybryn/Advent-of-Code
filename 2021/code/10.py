@@ -1,8 +1,8 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 26397
+SAMPLE_ANSWER_2 = 288957
 
 illegal_char_scores = {')':3, ']':57, '}':1197, '>': 25137}
 autocomplete_char_scores = {')':1, ']':2, '}':3, '>': 4}
@@ -55,9 +55,15 @@ def part1(parsed):
     return score
 
 def part2(parsed):
+    scores = []
     for ans in part2_ans:
-        print(ans)
-    return 0
+        this_score = 0
+        for char in ans:
+            this_score = this_score * 5
+            this_score = this_score + autocomplete_char_scores.get(char)
+        scores.append(this_score)
+    i = len(scores) // 2
+    return sorted(scores)[i]
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
