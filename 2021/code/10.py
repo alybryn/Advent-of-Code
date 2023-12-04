@@ -39,19 +39,30 @@ def scan_line(line):
             expectations.pop()
         # case line[i] is not expected, return char
         else:
+            return line[i]
             part1_ans.append(line[i])
             return
     # case unfulfilled expections remain
     if len(expectations) != 0:
+        return expectations[::-1]
         part2_ans.append(expectations[::-1])
         return
 
 def loop(parsed):
+    i = 0
     for line in parsed:
-        scan_line(line)
+        ans = scan_line(line)
+        if ans in [')', ']', '}', '>']:
+            part1_ans.append(ans)
+            i += 1
+        else:
+            print(len(part2_ans))
+            part2_ans.append(ans)
+            i += 1
     print(len(part1_ans))
     print(len(part2_ans))
     print(len(parsed))
+    print(i)
     a = len(part1_ans) + len(part2_ans)
     b = len(parsed)
     print(a)
@@ -86,6 +97,9 @@ def solve(puzzle_input):
 
 if __name__ == "__main__":
     for path in sys.argv[1:]:
+        part1_ans = []
+        part2_ans = []
+
         print(f"{path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
 
