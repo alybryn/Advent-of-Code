@@ -10,12 +10,27 @@ def parse(puzzle_input):
     lines = puzzle_input.split()
     for i in range(len(lines)):
         for j in range(len(lines[0])):
-            ret.update({(i, j): lines[i][j]})
+            ret.update({(i, j): int(lines[i][j])})
     return ret
 
+def adjacent(x, y):
+    matrix = [(0,1), (0,-1), (1,0), (-1,0)]
+    return [(x + m[0], y + m[1]) for m in matrix]
+
 def part1(parsed):
-    print(parsed)
-    return 0
+    # find low points
+    low_points = []
+    for k in parsed.keys():
+        height = parsed.get(k)
+        lowest = True
+        for xy in adjacent(k[0], k[1]):
+            if parsed.get(xy, 10) < height:
+                lowest = False
+        if lowest:
+            low_points.append(k)
+    low_points_values = [parsed.get(l) for l in low_points]
+    # sum low points + len(lowpoints)
+    return sum(low_points_values) + len(low_points)
 
 def part2(parsed):
     return 0
