@@ -37,19 +37,44 @@ def inside(big, small):
 
 def assign(scramble):
     # sorted(words, key=len)
+    # keyed by 1, 2, 3, etc
     known = {}
+    # keyed by abc, dc, etc
+    known_rev = {}
     # 1, 7, 4, (235), (069), 8
     sorted_segments = sorted(scramble.split(), key=len)
     # !!! flip these !!! and make the numbers strings!
     known.update({1: sorted_segments[0]})
+    known_rev.update({sorted_segments[0]: '1'})
     known.update({7: sorted_segments[1]})
+    known_rev.update({sorted_segments[1]: '7'})
     known.update({4: sorted_segments[2]})
+    known_rev.update({sorted_segments[2]: '4'})
     known.update({8: sorted_segments[9]})
+    known_rev.update({sorted_segments[9]: '8'})
     two_three_five = [sorted_segments[3], sorted_segments[4], sorted_segments[5]]
     zero_six_nine = [sorted_segments[6], sorted_segments[7], sorted_segments[8]]
     # 9 contains 4 and 7
+    four_plus_seven = plus(known.get(4), known.get(7))
+    for n in zero_six_nine:
+        if inside(n, four_plus_seven):
+            known.update({9: n})
+            known_rev.update({n: '9'})
+            break
+    
+    zero_six_nine.remove(known.get(9))
+
+    print(f"just checking: {zero_six_nine}")
+    
     # 0 contains 1
+    for z in zero_six_nine:
+        if inside(z, known.get(1)):
+            known.update({0: z})
+            known_rev.update({z: 0})
+            break
+    zero_six_nine.remove(known.get(0))
     # 6 remains
+    known.update({6: zero_six_nine[0]})
     # 3 contains 1
     # 5 contains (4 - 1)? OR 9 does not contain 2/ 6 does not contain 5
     # 2 OR 5 remains
