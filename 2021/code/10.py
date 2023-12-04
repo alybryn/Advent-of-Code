@@ -39,12 +39,10 @@ def scan_line(line):
             expectations.pop()
         # case line[i] is not expected, return char
         else:
-            return line[i]
             part1_ans.append(line[i])
             return
     # case unfulfilled expections remain
     if len(expectations) != 0:
-        return expectations[::-1]
         part2_ans.append(expectations[::-1])
         return
 
@@ -53,22 +51,7 @@ def loop(parsed):
     part2_ans.clear()
     i = 0
     for line in parsed:
-        ans = scan_line(line)
-        if ans in [')', ']', '}', '>']:
-            part1_ans.append(ans)
-            i += 1
-        else:
-            print(len(part2_ans))
-            part2_ans.append(ans)
-            i += 1
-    print(len(part1_ans))
-    print(len(part2_ans))
-    print(len(parsed))
-    print(i)
-    a = len(part1_ans) + len(part2_ans)
-    b = len(parsed)
-    print(a)
-    assert(a == b)
+        scan_line(line)
 
 def part1(parsed):
     score = 0
@@ -85,7 +68,6 @@ def part2(parsed):
             this_score = this_score + autocomplete_char_scores.get(char)
         scores.append(this_score)
     i = len(scores) // 2
-    print(f'half of {len(scores)} is {i}')
     # print(sorted(scores))
     return sorted(scores)[i]
 
