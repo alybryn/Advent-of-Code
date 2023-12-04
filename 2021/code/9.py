@@ -6,9 +6,15 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    ret = {}
+    lines = puzzle_input.split()
+    for i in range(len(lines)):
+        for j in range(len(lines[0])):
+            ret.update({(i, j): lines[i][j]})
+    return ret
 
 def part1(parsed):
+    print(parsed)
     return 0
 
 def part2(parsed):
