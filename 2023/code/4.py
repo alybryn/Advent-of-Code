@@ -1,4 +1,5 @@
 import pathlib
+import re
 import sys
 
 SAMPLE_ANSWER_1 = None
@@ -6,10 +7,35 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    wins = {}
+    haves = {}
+    for line in puzzle_input.split('\n'):
+        card_number, winning_and_having = re.split(r':\s+', line)
+        card_number = int(re.split(r'\s+', card_number)[1])
+        # card_number = int(card_number.split(' ')[1])
+        # print(card_number)
+        winning, having = re.split(r'\s+\|\s+', winning_and_having)
+        wins.update({card_number: [int(w) for w in re.split(r'\s+', winning)]})
+        haves.update({card_number: [int(h) for h in re.split(r'\s+', having)]})
+    return wins, haves
+
+def score_1(win, have):
+    score = 0
+    for w in win:
+        if w in have:
+            if score == 0:
+                score = 1
+            else:
+                score = score * 2
+    # print(score)
+    return score
 
 def part1(parsed):
-    return 0
+    winning, having = parsed[0], parsed[1]
+    score = 0
+    for k in winning.keys():
+        score += score_1(winning.get(k), having.get(k))
+    return score
 
 def part2(parsed):
     return 0
