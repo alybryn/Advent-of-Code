@@ -49,6 +49,8 @@ def scan_line(line):
         return
 
 def loop(parsed):
+    part1_ans.clear()
+    part2_ans.clear()
     i = 0
     for line in parsed:
         ans = scan_line(line)
@@ -97,9 +99,6 @@ def solve(puzzle_input):
 
 if __name__ == "__main__":
     for path in sys.argv[1:]:
-        part1_ans = []
-        part2_ans = []
-
         print(f"{path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
 
