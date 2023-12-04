@@ -4,6 +4,8 @@ import sys
 SAMPLE_ANSWER_1 = 26397
 SAMPLE_ANSWER_2 = 288957
 
+# 1946613456 is too low, I have an even number of scores
+
 illegal_char_scores = {')':3, ']':57, '}':1197, '>': 25137}
 autocomplete_char_scores = {')':1, ']':2, '}':3, '>': 4}
 
@@ -47,6 +49,13 @@ def scan_line(line):
 def loop(parsed):
     for line in parsed:
         scan_line(line)
+    print(len(part1_ans))
+    print(len(part2_ans))
+    print(len(parsed))
+    a = len(part1_ans) + len(part2_ans)
+    b = len(parsed)
+    print(a)
+    assert(a == b)
 
 def part1(parsed):
     score = 0
@@ -63,6 +72,8 @@ def part2(parsed):
             this_score = this_score + autocomplete_char_scores.get(char)
         scores.append(this_score)
     i = len(scores) // 2
+    print(f'half of {len(scores)} is {i}')
+    # print(sorted(scores))
     return sorted(scores)[i]
 
 def solve(puzzle_input):
