@@ -1,8 +1,8 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 15
+SAMPLE_ANSWER_2 = 1134
 
 def parse(puzzle_input):
     # parse the input
@@ -17,23 +17,6 @@ def adjacent(x, y):
     matrix = [(0,1), (0,-1), (1,0), (-1,0)]
     return [(x + m[0], y + m[1]) for m in matrix]
 
-def define_basin(low_point, floor_map):
-    checked = set()
-    ret_update, checked_update = basin_neighbors(low_point, floor_map, checked)
-    return ret_update
-
-def basin_neighbors(point, floor_map, checked):
-    ret = set()
-    for n in adjacent(point):
-        if n not in checked:
-            checked.add(n)
-            ret_update, checked_update = basin_neighbors(n, floor_map, checked)
-            ret.update(ret_update)
-            checked.update(checked_update)
-            if floor_map.get(n, 9) != 9:
-                ret.add(n)
-    return (ret, checked)
-
 def find_low_points(floor_map):
     low_points = []
     for k in floor_map.keys():
@@ -45,21 +28,46 @@ def find_low_points(floor_map):
                 lowest = False
         if lowest:
             low_points.append(k)
-    for low in low_points:
-        print(f"{floor_map.get(low)} at {low}")
-    low_points_values = [floor_map.get(l) for l in low_points]
+    return low_points
 
 def risk_level(n):
     return n + 1
 
+def define_basin(low_point, floor_map):
+    checked = set()
+    ret_update, checked_update = basin_neighbors(low_point, floor_map, checked)
+    return ret_update
+
+def basin_neighbors(point, floor_map, checked):
+    ret = set()
+    for n in adjacent(point[0], point[1]):
+        # print(f'{n} is not in {checked}? {n not in checked}')
+        # ONLY CHECK n in keys...
+        if n not in checked and n in floor_map.keys():
+            checked.add(n)
+            # very important: only check neighbors when n not 9
+            if floor_map.get(n, 9) != 9:
+                ret.add(n)
+                ret_update, checked_update = basin_neighbors(n, floor_map, checked)
+                ret.update(ret_update)
+                checked.update(checked_update)
+            # print(checked)
+    return (ret, checked)
+
 def part1(parsed):
     # find low points
     low_points = find_low_points(parsed)
+    low_points_values = [parsed.get(l) for l in low_points]
     # sum low points + len(lowpoints)
     return sum([risk_level(l) for l in low_points_values])
 
 def part2(parsed):
-    return 0
+    low_points = find_low_points(parsed)
+    basins = []
+    for l in low_points:
+        basins.append(len(define_basin(l, parsed)))
+    basins = sorted(basins)
+    return basins[-3] * basins[-1] * basins[-2]
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
