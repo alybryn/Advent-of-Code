@@ -34,12 +34,12 @@ class AlmanacMap():
             return self._drs + diff
         # print(f'\t{input} not in {self._srs} - {self._srs + self._rl - 1}')
 
-    # returns [UNCHANGED RANGES], mapped?
+    # returns unchanged: [NumberRange], mapped: NumberRange?
     def map_range(self, range):
         self_last = self._srs + self._rl - 1
         # case no overlap
         if range.start > self_last or range.last < self._srs:
-            return None
+            return [range], None
         # case range extends past map
         if range.start > self._srs and range.last > self_last:
             diff = range.start - self._srs
