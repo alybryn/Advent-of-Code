@@ -128,20 +128,24 @@ def map_a_seed(input, mapses):
 
 # ONE LEVEL OF MAPS AT A TIME
 def map_a_range(ranges, maps):
-    ret = []
-    for range in ranges:
-        checking = range
-        becomes = None
-        for map in maps:
-            becomes = map.map_range(checking)
-            diff = NumberRange.diff(checking, becomes)
-            if diff:
-                # more to check
-                ret.append(becomes)
-                checking = diff
+    to_map = ranges
+    mapped = []
+    for map in maps:
+        keep_mapping = []
+        for range in to_map:
+            # returns None or mappable range only
+            becomes = map.map_range(range)
+            if becomes:
+                mapped.append(becomes)
+                # list of any unchanged ranges
+                result = NumberRange.diff(range, becomes)
+                keep_mapping.extend(result)
             else:
-                ret.append(becomes)
-                break
+                keep_mapping.append(range)
+        to_map = keep_mapping
+    # also returned unchanged ranges
+    mapped.extend(to_map)
+
 
 def part1(parsed):
     seeds = parsed[0]
