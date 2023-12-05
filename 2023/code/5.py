@@ -6,8 +6,15 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
-
+    lines = puzzle_input.split('\n\n')
+    seeds = [int(l) for l in lines[0].split(' ')[1:]]
+    # seed -> fertilizer
+    # fertilizer -> water
+    # water -> light
+    # light -> temperature
+    # temperature -> humidity
+    # humidity -> location
+    return seeds
 
 class AlmanacMap():
     def __init__(self, destination_range_start, source_range_start, range_length) -> None:
@@ -38,6 +45,7 @@ def something(source, maps):
             return 3
 
 def part1(parsed):
+    print(parsed)
     return 0
 
 def part2(parsed):
