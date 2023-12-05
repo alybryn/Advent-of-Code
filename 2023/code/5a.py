@@ -39,6 +39,8 @@ class AlmanacMap():
         self_last = self._srs + self._rl - 1
         # case no overlap
         if range.start > self_last or range.last < self._srs:
+            # this will be thrown out but there's
+            # an assert expecting it anyway
             return [range], None
         # case range extends past map
         if range.start > self._srs and range.last > self_last:
