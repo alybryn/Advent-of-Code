@@ -135,17 +135,30 @@ def map_a_seed(input, mapses):
     # print(f'Mapped seed {input} to loc {num}')
     return num
 
-# def map_a_loc(output, mapses):
-#     num = output
-#     for maps in mapses[::-1]:
-#         becomes = None
-#         for map in maps:
-#             becomes = map.un_map(num)
-#             if becomes:
-#                 break
-#         if becomes:
-#             num = becomes
-#     return num
+# ONE LEVEL OF MAPS AT A TIME
+def map_a_range(ranges, maps):
+    to_map = ranges
+    mapped = []
+    for map in maps:
+        keep_mapping = []
+        for range in to_map:
+            # returns unchanged: [NumberRange] mapped: NumberRange?
+            # print(f'range: {range}')
+            becomes = map.map_range(range)
+            print(f'becomes: {becomes}')
+            # check for result
+            if becomes[1]:
+                mapped.append(becomes[1])
+                # list of any unchanged ranges
+                keep_mapping.extend(becomes[0])
+            else:
+                # for fun
+                assert(becomes[0][0] == range)
+                keep_mapping.append(range)
+        to_map = keep_mapping
+    # also returned unchanged ranges
+    mapped.extend(to_map)
+    return mapped
 
 def part1(parsed):
     seeds = parsed[0]
