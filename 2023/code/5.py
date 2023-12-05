@@ -69,20 +69,56 @@ class NumberRange():
     def __init__(self, start, range_length) -> None:
         self._start = start
         self._range_length = range_length
+        self._last = start + range_length - 1
 
-    # def contains(self, seed):
-    #     return seed in range(self._start, self._start+self._range_length)
+    @classmethod
+    def recombine(cls, range_1, range_2):
+        if range_1.start == range_2.end + 1:
+            return NumberRange(range_2.start, range_1.length + range_2.length)
+        elif range_2.start == range_1.end + 1:
+            return NumberRange(range_1.start, range_1.length + range_2.length)     
+   
+    #usage: AlmanacMap returns a new range
+    # arg1: old range ;args: new range
+    # returns any range in old not in new
+    # new is entirely within old
+    # can return 2 NumberRange objects
+    # return type list, can be empty
+    @classmethod
+    def diff(cls, old_range, new_range):
+        # same new range can't have any spans not within old
+        if old_range.length == new_range.length:
+            return []
+        # simple, share start
+        elif old_range.start == new_range.start:
+            return [NumberRange(new_range.last+1, old_range.last-new_range.last)]
+        # simple, share end
+        elif old_range.last == new_range.last:
+            return [NumberRange(old_range.start, new_range.start-old_range.start)]
+        # complicated, two returns, just same as above
+        else:
+            return [NumberRange(new_range.last+1, old_range.last-new_range.last),
+                    NumberRange(old_range.start, new_range.start-old_range.start)]
+
+    # >
+    @classmethod
+    def __gt__(cls, lh, rh):
+        return lh.start > rh.start
+
+    @property
+    def start(self):
+        return self._start
     
-    def map_all(self, mapses):
-        ret = map_a_seed(self._start, mapses)
-        for seed in range(self._start+1, self._start+self._range_length):
-            result = map_a_seed(seed, mapses)
-            if result < ret:
-                ret = result
-        return ret
+    @property
+    def last(self):
+        return self._last
     
-    def apply_map(self, map):
-        
+    @property
+    def length(self):
+        return self._range_length
+    
+    def __repr__(self) -> str:
+        return f'NumberRange: {self._start}, {self._range_length}, {self._last}'
 
 def map_a_seed(input, mapses):
     num = input
