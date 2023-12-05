@@ -34,18 +34,6 @@ class AlmanacMap():
             return self._drs + diff
         # print(f'\t{input} not in {self._srs} - {self._srs + self._rl - 1}')
 
-    # def map_range(self, srs, rl):
-    #     if srs in range(self._srs, self._srs+self._rl) and srs+rl-1 in range(self._srs, self._srs+self.rl):
-    #         diff = srs-self._srs
-    #         if rl <= self._rl:
-    #             # return one NumRange, shifted to drs + diff
-    #             return NumberRange(self._drs+diff, rl)
-    #         else:
-    #             # return two slices
-    #             return NumberRange(self._drs+diff, self._rl), NumberRange(self._srs+self._rl, rl-self._rl)
-    #     else:
-    #         return NumberRange(srs, rl)
-        
     def map_range(self, range):
         if range.start in range(self._srs, self._srs+self._rl) and range.last in range(self._srs, self._srs+self.rl):
             diff = range.start-self._srs
