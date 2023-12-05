@@ -43,10 +43,10 @@ class AlmanacMap():
     
     def map(self, input):
         if input in range(self._srs, self._srs + self._rl):
-            print(f'\t{input} is in {self._srs} - {self._srs + self._rl - 1}')
+            # print(f'\t{input} is in {self._srs} - {self._srs + self._rl - 1}')
             diff = input - self._srs
             return self._drs + diff
-        print(f'\t{input} not in {self._srs} - {self._srs + self._rl - 1}')
+        # print(f'\t{input} not in {self._srs} - {self._srs + self._rl - 1}')
 
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
@@ -64,16 +64,16 @@ class AlmanacMap():
 def map_a_seed(input, mapses):
     num = input
     for maps in mapses:
-        print(num)
+        # print(num)
         becomes = None
         for map in maps:
-            print(f'\t{map}')
+            # print(f'\t{map}')
             becomes = map.map(num)
             if becomes:
                 break
         if becomes:
             num = becomes
-    print(f'Mapped seed {input} to loc {num}')
+    # print(f'Mapped seed {input} to loc {num}')
     return num
 
 def part1(parsed):
