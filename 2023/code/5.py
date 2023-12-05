@@ -172,25 +172,21 @@ def part2(parsed):
     # reimagine seeds as ranges
     seeds = parsed[0]
     seed_ranges = []
-    # seeds_to_map = set()
     i = 0
     while i < len(seeds):
         seed_ranges.append(NumberRange(seeds[i], seeds[i+1]))
-    #     for seed in range(seeds[i], seeds[i] + seeds[i+1]):
-    #         seeds_to_map.add(seed)
-    #         # print(f'adding seed {seed}')
         i += 2
     mapses = parsed[1]
-    # ret = map_a_seed(seeds[0], mapses)
-    # for seed in seeds_to_map:
-    #     result = map_a_seed(seed, mapses)
-    #     if result < ret:
-    #         ret = result
-    # rets = []
-    # ret, loc = map_a_loc(0, mapses), 0
-    # for i in range(1, 90):
-    #     rets.append((map_a_loc(i, mapses), i))
-    return seed_ranges
+    phases = ['soil', 'fert', 'water', 'light', 'temperature','humidity','location']
+    i = 0
+    ranges = seed_ranges
+    for maps in mapses:
+        print(f'mapping {phases[i]}')
+        i += 1
+        ranges = map_a_range(ranges, maps)
+        print(ranges)
+    return ranges
+    
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
