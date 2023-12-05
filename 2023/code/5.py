@@ -10,8 +10,17 @@ def parse(puzzle_input):
 
 
 class AlmanacMap():
-    def __init__(self) -> None:
-        pass
+    def __init__(self, destination_range_start, source_range_start, range_length) -> None:
+        self._drs = destination_range_start
+        self._srs = source_range_start
+        self._sr_end = source_range_start + range_length - 1
+        self._rl = range_length
+    
+    def map(self, input):
+        if input in range(self._srs, self._sr_end):
+            diff = input - self._srs
+            return self._drs + diff
+
 
 class Almanac():
     def __init__(self, seeds, maps) -> None:
