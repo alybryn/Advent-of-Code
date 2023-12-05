@@ -58,9 +58,9 @@ class NumberRange():
 
     @classmethod
     def recombine(cls, range_1, range_2):
-        if range_1.start == range_2.end:
+        if range_1.start == range_2.end + 1:
             return NumberRange(range_2.start, range_1.length + range_2.length)
-        elif range_2.start == range_1.end:
+        elif range_2.start == range_1.end + 1:
             return NumberRange(range_1.start, range_1.length + range_2.length)     
    
     #usage: AlmanacMap returns a new range
