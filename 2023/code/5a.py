@@ -35,17 +35,23 @@ class AlmanacMap():
         # print(f'\t{input} not in {self._srs} - {self._srs + self._rl - 1}')
 
     def map_range(self, range):
-        if range.start in range(self._srs, self._srs+self._rl) and range.last in range(self._srs, self._srs+self.rl):
-            diff = range.start-self._srs
-            return NumberRange(self._drs+diff, min(range.length, self._rl))
-            # if range.length <= self._rl:
-            #     # return one NumRange, shifted to drs + diff
-            #     return NumberRange(self._drs+diff, range.length)
-            # else:
-            #     # return two slices
-            #     return NumberRange(self._drs+diff, self._rl), NumberRange(self._srs+self._rl, range.length-self._rl)
-        else:
-            return range
+        self_last = self._srs + self.rl - 1
+        # case no overlap
+        if range.start > self_last or range.last < self._srs:
+            return None
+        # case range extends past map
+        if range.start > self._srs and range.last > self_last:
+            diff = range.start - self._srs
+            return NumberRange(self._drs+diff, self._rl-diff)
+        # case map extends past range
+        if range.start < self._srs and range.last < self_last:
+            diff = self._srs - range.start
+            return NumberRange(self._drs, range.length-diff)
+        # case range within map
+        if range.start > self._srs and range.last < self_last:
+            diff = range.start - self._srs
+            return NumberRange(self._drs + diff, range.length)
+        print("should be unreachable, (AlmanacMap.map_range())")
 
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
