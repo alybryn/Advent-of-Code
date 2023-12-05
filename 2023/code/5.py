@@ -8,6 +8,11 @@ def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
 
+
+class AlmanacMap():
+    def __init__(self) -> None:
+        pass
+
 class Almanac():
     def __init__(self, seeds, maps) -> None:
         self._seeds = seeds
@@ -17,6 +22,11 @@ class Almanac():
         self._light_to_temperature = maps[3]
         self._temperature_to_humidity = maps[4]
         self._humidity_to_location = maps[5]
+
+def something(source, maps):
+    for map in maps:
+        if source in range(map[1], map[1] + map[2]):
+            return 3
 
 def part1(parsed):
     return 0
