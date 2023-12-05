@@ -66,13 +66,15 @@ def part2(parsed):
     seeds_to_map = []
     i = 0
     while i < len(seeds):
-        print(i)
         for seed in range(seeds[i], seeds[i] + seeds[i+1]):
             seeds_to_map.append(seed)
-            print(f'adding seed {seed}')
+            # print(f'adding seed {seed}')
         i += 2
     mapses = parsed[1]
-    return 0
+    ret = []
+    for seed in seeds_to_map:
+        ret.append(map_a_seed(seed, mapses))
+    return min(ret)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
