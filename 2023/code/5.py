@@ -2,8 +2,8 @@ import pathlib
 import re
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 35
+SAMPLE_ANSWER_2 = 46
 
 def parse(puzzle_input):
     # parse the input
@@ -43,9 +43,10 @@ class AlmanacMap():
     
     def map(self, input):
         if input in range(self._srs, self._srs + self._rl):
+            print(f'\t{input} is in {self._srs} - {self._srs + self._rl - 1}')
             diff = input - self._srs
             return self._drs + diff
-        print(f'{input} not in {self._srs} - {self._srs + self._rl - 1}')
+        print(f'\t{input} not in {self._srs} - {self._srs + self._rl - 1}')
 
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
@@ -66,8 +67,8 @@ def map_a_seed(input, mapses):
         print(num)
         becomes = None
         for map in maps:
-            print(map)
-            becomes = map.map(input)
+            print(f'\t{map}')
+            becomes = map.map(num)
             if becomes:
                 break
         if becomes:
