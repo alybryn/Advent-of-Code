@@ -43,15 +43,19 @@ class AlmanacMap():
         # case range extends past map
         if range.start > self._srs and range.last > self_last:
             diff = range.start - self._srs
-            return NumberRange(self._drs+diff, self._rl-diff)
+            return NumberRange.diff(range, NumberRange(range.start, self._rl - diff)), NumberRange(self._drs+diff, self._rl-diff)
         # case map extends past range
         if range.start < self._srs and range.last < self_last:
             diff = self._srs - range.start
-            return NumberRange(self._drs, range.length-diff)
+            return NumberRange.diff(range, NumberRange(range.start+diff, range.length-diff)), NumberRange(self._drs, range.length-diff)
         # case range within map
         if self._srs <= range.start and range.last <= self_last:
             diff = range.start - self._srs
-            return NumberRange(self._drs + diff, range.length)
+            return [], NumberRange(self._drs + diff, range.length)
+        # case map within range
+        if range.start <= self._srs and self_last <= range.last:
+            diff = self._srs - range.start
+            return NumberRange.diff(range, NumberRange(range.start+diff, self._rl)), NumberRange(self._drs, self._rl)
         print("should be unreachable, (AlmanacMap.map_range())")
         print(self)
         print(range)
