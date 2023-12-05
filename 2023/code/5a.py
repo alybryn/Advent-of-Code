@@ -84,7 +84,6 @@ class NumberRange():
         else:
             return [NumberRange(new_range.last+1, old_range.last-new_range.last),
                     NumberRange(old_range.start, new_range.start-old_range.start)]
-    
 
     # >
     @classmethod
