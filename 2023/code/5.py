@@ -58,13 +58,13 @@ class Almanac():
         self._temperature_to_humidity = maps[4]
         self._humidity_to_location = maps[5]
 
-def something(source, maps):
-    for map in maps:
-        if source in range(map[1], map[1] + map[2]):
-            return 3
 
 def part1(parsed):
-    print(parsed)
+    seeds = parsed[0]
+    mapses = parsed[1]
+    seeds_become = seeds
+    for maps in mapses:
+
     return 0
 
 def part2(parsed):
