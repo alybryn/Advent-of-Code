@@ -73,20 +73,31 @@ class NumberRange():
         if range_1.start == range_2.end:
             return NumberRange(range_2.start, range_1.length + range_2.length)
         elif range_2.start == range_1.end:
-            return NumberRange(range_1.start, range_1.length + range_2.length)
-        
+            return NumberRange(range_1.start, range_1.length + range_2.length)     
+   
     #usage: AlmanacMap returns a new range
     # arg1: old range ;args: new range
     # returns any range in old not in new
-    # givens: old.start = new.start
+    # new is entirely within old
+    # can return 2 NumberRange objects
+    # return type list, can be empty
     @classmethod
-    def diff(cls, old_range, new_range_1):
-        assert(old_range.start == new_range_1.start)
-        if old_range.last == new_range_1.last:
-            return None
+    def diff(cls, old_range, new_range):
+        # same new range can't have any spans not within old
+        if old_range.length == new_range.length:
+            return []
+        # simple, share start
+        elif old_range.start == new_range.start:
+            return [NumberRange(new_range.last+1, old_range.last-new_range.last)]
+        # simple, share end
+        elif old_range.last == new_range.last:
+            return [NumberRange(old_range.start, new_range.start-old_range.start)]
+        # complicated, two returns, just same as above
         else:
-            return NumberRange(new_range_1.last+1, old_range.length-new_range_1.length)
+            return [NumberRange(new_range.last+1, old_range.last-new_range.last),
+                    NumberRange(old_range.start, new_range.start-old_range.start)]
     
+
     # >
     @classmethod
     def __gt__(cls, lh, rh):
