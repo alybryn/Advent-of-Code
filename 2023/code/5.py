@@ -45,7 +45,7 @@ class AlmanacMap():
         if input in range(self._srs, self._srs + self._rl):
             diff = input - self._srs
             return self._drs + diff
-        #print(f'{input} not in {self._srs} - {self._srs + self._rl - 1}')
+        print(f'{input} not in {self._srs} - {self._srs + self._rl - 1}')
 
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
@@ -60,29 +60,51 @@ class AlmanacMap():
 #         self._temperature_to_humidity = maps[4]
 #         self._humidity_to_location = maps[5]
 
+def map_a_seed(input, mapses):
+    num = input
+    for maps in mapses:
+        print(num)
+        becomes = None
+        for map in maps:
+            print(map)
+            becomes = map.map(input)
+            if becomes:
+                break
+        if becomes:
+            num = becomes
+    print(f'Mapped seed {input} to loc {num}')
+    return num
 
 def part1(parsed):
-    ret = parsed[0]
-    l = len(ret)
+    # ret = parsed[0]
+    # l = len(ret)
+    # mapses = parsed[1]
+    # for maps in mapses:
+    #     #print(ret)
+    #     rets_become = []
+    #     for num in ret:
+    #         mapped = False
+    #         for map in maps:
+    #             becomes = map.map(num)
+    #             if becomes:
+    #                 mapped = True
+    #                 rets_become.append(becomes)
+    #                 break
+    #         if not mapped:
+    #             rets_become.append(num)
+    #     ret = rets_become
+
+    seeds = parsed[0]
     mapses = parsed[1]
-    for maps in mapses:
-        #print(ret)
-        rets_become = []
-        for num in ret:
-            mapped = False
-            for map in maps:
-                becomes = map.map(num)
-                if becomes:
-                    mapped = True
-                    rets_become.append(becomes)
-                    break
-            if not mapped:
-                rets_become.append(num)
-        ret = rets_become
-        
+    ret = []
+    for seed in seeds:
+        ret.append(map_a_seed(seed, mapses))
     return min(ret)
 
 def part2(parsed):
+    # reimagine seeds as ranges
+    seeds = parsed[0]
+    mapses = parsed[1]
     return 0
 
 def solve(puzzle_input):
