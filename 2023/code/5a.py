@@ -134,7 +134,9 @@ def map_a_range(ranges, maps):
         keep_mapping = []
         for range in to_map:
             # returns None or mappable range only
+            # print(f'range: {range}')
             becomes = map.map_range(range)
+            # print(f'becomes: {becomes}')
             if becomes:
                 mapped.append(becomes)
                 # list of any unchanged ranges
@@ -145,7 +147,7 @@ def map_a_range(ranges, maps):
         to_map = keep_mapping
     # also returned unchanged ranges
     mapped.extend(to_map)
-
+    return mapped
 
 def part1(parsed):
     seeds = parsed[0]
@@ -159,7 +161,6 @@ def part2(parsed):
     # reimagine seeds as ranges
     seeds = parsed[0]
     seed_ranges = []
-    # seeds_to_map = set()
     i = 0
     while i < len(seeds):
         seed_ranges.append(NumberRange(seeds[i], seeds[i+1]))
