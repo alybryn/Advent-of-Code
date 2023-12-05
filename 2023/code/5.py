@@ -37,16 +37,18 @@ class AlmanacMap():
     def __init__(self, destination_range_start, source_range_start, range_length) -> None:
         self._drs = destination_range_start
         self._srs = source_range_start
-        self._sr_end = source_range_start + range_length - 1
+        # range does this for me
+        # self._sr_end = source_range_start + range_length - 1
         self._rl = range_length
     
     def map(self, input):
-        if input in range(self._srs, self._sr_end):
+        if input in range(self._srs, self._srs + self._rl):
             diff = input - self._srs
             return self._drs + diff
+        #print(f'{input} not in {self._srs} - {self._srs + self._rl - 1}')
 
     def __repr__(self) -> str:
-        return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, (optionally) {self._sr_end}'
+        return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
 
 # class Almanac():
 #     def __init__(self, seeds, maps) -> None:
@@ -64,6 +66,7 @@ def part1(parsed):
     l = len(ret)
     mapses = parsed[1]
     for maps in mapses:
+        #print(ret)
         rets_become = []
         for num in ret:
             mapped = False
@@ -75,6 +78,7 @@ def part1(parsed):
                     break
             if not mapped:
                 rets_become.append(num)
+        ret = rets_become
         
     return min(ret)
 
