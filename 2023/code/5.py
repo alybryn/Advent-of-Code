@@ -159,6 +159,9 @@ def map_a_range(ranges, maps):
     mapped.extend(to_map)
     return mapped
 
+def find_least(ranges):
+    return min(ranges)
+
 def part1(parsed):
     seeds = parsed[0]
     mapses = parsed[1]
