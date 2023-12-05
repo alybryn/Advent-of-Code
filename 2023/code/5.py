@@ -8,20 +8,6 @@ SAMPLE_ANSWER_2 = 46
 def parse(puzzle_input):
     # parse the input
     lines = puzzle_input.split('\n\n')
-    # seeds = [int(l) for l in lines[0].split(' ')[1:]]
-    # # seed -> fertilizer
-    # fertilizer_ints = [[int(i) for i in l.split(' ')] for l in lines[1].split('\n')[1:]]
-    # fertilizer = [AlmanacMap(i[0], i[1], i[2]) for i in [f for f in fertilizer_ints]]
-    # # fertilizer -> water
-    # lines[2]
-    # # water -> light
-    # lines[3]
-    # # light -> temperature
-    # lines[4]
-    # # temperature -> humidity
-    # lines[5]
-    # # humidity -> location
-    # lines[6]
     seeds = []
     maps = []
     for line in lines:
@@ -51,16 +37,6 @@ class AlmanacMap():
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
 
-# class Almanac():
-#     def __init__(self, seeds, maps) -> None:
-#         self._seeds = seeds
-#         self._seed_to_fertilizer = maps[0]
-#         self._fertilizer_to_water = maps[1]
-#         self._water_to_light = maps[2]
-#         self._light_to_temperature = maps[3]
-#         self._temperature_to_humidity = maps[4]
-#         self._humidity_to_location = maps[5]
-
 def map_a_seed(input, mapses):
     num = input
     for maps in mapses:
@@ -77,24 +53,6 @@ def map_a_seed(input, mapses):
     return num
 
 def part1(parsed):
-    # ret = parsed[0]
-    # l = len(ret)
-    # mapses = parsed[1]
-    # for maps in mapses:
-    #     #print(ret)
-    #     rets_become = []
-    #     for num in ret:
-    #         mapped = False
-    #         for map in maps:
-    #             becomes = map.map(num)
-    #             if becomes:
-    #                 mapped = True
-    #                 rets_become.append(becomes)
-    #                 break
-    #         if not mapped:
-    #             rets_become.append(num)
-    #     ret = rets_become
-
     seeds = parsed[0]
     mapses = parsed[1]
     ret = []
