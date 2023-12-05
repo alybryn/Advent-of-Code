@@ -48,24 +48,35 @@ class AlmanacMap():
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, (optionally) {self._sr_end}'
 
-class Almanac():
-    def __init__(self, seeds, maps) -> None:
-        self._seeds = seeds
-        self._seed_to_fertilizer = maps[0]
-        self._fertilizer_to_water = maps[1]
-        self._water_to_light = maps[2]
-        self._light_to_temperature = maps[3]
-        self._temperature_to_humidity = maps[4]
-        self._humidity_to_location = maps[5]
+# class Almanac():
+#     def __init__(self, seeds, maps) -> None:
+#         self._seeds = seeds
+#         self._seed_to_fertilizer = maps[0]
+#         self._fertilizer_to_water = maps[1]
+#         self._water_to_light = maps[2]
+#         self._light_to_temperature = maps[3]
+#         self._temperature_to_humidity = maps[4]
+#         self._humidity_to_location = maps[5]
 
 
 def part1(parsed):
-    seeds = parsed[0]
+    ret = parsed[0]
+    l = len(ret)
     mapses = parsed[1]
-    seeds_become = seeds
     for maps in mapses:
-
-    return 0
+        rets_become = []
+        for num in ret:
+            mapped = False
+            for map in maps:
+                becomes = map.map(num)
+                if becomes:
+                    mapped = True
+                    rets_become.append(becomes)
+                    break
+            if not mapped:
+                rets_become.append(num)
+        
+    return min(ret)
 
 def part2(parsed):
     return 0
