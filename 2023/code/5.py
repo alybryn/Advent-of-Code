@@ -101,9 +101,8 @@ class NumberRange():
                     NumberRange(old_range.start, new_range.start-old_range.start)]
 
     # >
-    @classmethod
-    def __gt__(cls, lh, rh):
-        return lh.start > rh.start
+    def __gt__(self, other):
+        return self._start > other.start
 
     @property
     def start(self):
