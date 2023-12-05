@@ -42,13 +42,21 @@ class AlmanacMap():
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
 
-# class SeedRange():
-#     def __init__(self, start, range_length) -> None:
-#         self._start = start
-#         self._range_length = range_length
+class SeedRange():
+    def __init__(self, start, range_length) -> None:
+        self._start = start
+        self._range_length = range_length
 
-#     def contains(self, seed):
-#         return seed in range(self._start, self._start+self._range_length)
+    def contains(self, seed):
+        return seed in range(self._start, self._start+self._range_length)
+    
+    def map_all(self, mapses):
+        ret = map_a_seed(self._start, mapses)
+        for seed in range(self._start+1, self._start+self._range_length):
+            result = map_a_seed(seed, mapses)
+            if result < ret:
+                ret = result
+        return ret
 
 def map_a_seed(input, mapses):
     num = input
@@ -103,11 +111,11 @@ def part2(parsed):
     #     result = map_a_seed(seed, mapses)
     #     if result < ret:
     #         ret = result
-    rets = []
-    ret, loc = map_a_loc(0, mapses), 0
-    for i in range(1, 90):
-        rets.append((map_a_loc(i, mapses), i))
-    return rets
+    # rets = []
+    # ret, loc = map_a_loc(0, mapses), 0
+    # for i in range(1, 90):
+    #     rets.append((map_a_loc(i, mapses), i))
+    return seed_ranges
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
