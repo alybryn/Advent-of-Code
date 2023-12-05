@@ -144,7 +144,7 @@ def map_a_range(ranges, maps):
             # returns unchanged: [NumberRange] mapped: NumberRange?
             # print(f'range: {range}')
             becomes = map.map_range(range)
-            print(f'becomes: {becomes}')
+            # print(f'becomes: {becomes}')
             # check for result
             if becomes[1]:
                 mapped.append(becomes[1])
@@ -180,11 +180,11 @@ def part2(parsed):
     i = 0
     ranges = seed_ranges
     for maps in mapses:
-        print(f'mapping {phases[i]}')
+        # print(f'mapping {phases[i]}')
         i += 1
         ranges = map_a_range(ranges, maps)
-        print(ranges)
-    return ranges
+        # print(ranges)
+    return find_least(ranges).start
     
 
 def solve(puzzle_input):
