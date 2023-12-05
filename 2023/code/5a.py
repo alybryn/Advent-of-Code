@@ -34,10 +34,30 @@ class AlmanacMap():
             return self._drs + diff
         # print(f'\t{input} not in {self._srs} - {self._srs + self._rl - 1}')
 
-    # def un_map(self, output):
-    #     if output in range(self._drs, self._drs + self._rl):
-    #         diff = output - self._drs
-    #         return self._srs + diff
+    # def map_range(self, srs, rl):
+    #     if srs in range(self._srs, self._srs+self._rl) and srs+rl-1 in range(self._srs, self._srs+self.rl):
+    #         diff = srs-self._srs
+    #         if rl <= self._rl:
+    #             # return one NumRange, shifted to drs + diff
+    #             return NumberRange(self._drs+diff, rl)
+    #         else:
+    #             # return two slices
+    #             return NumberRange(self._drs+diff, self._rl), NumberRange(self._srs+self._rl, rl-self._rl)
+    #     else:
+    #         return NumberRange(srs, rl)
+        
+    def map_range(self, range):
+        if range.start in range(self._srs, self._srs+self._rl) and range.last in range(self._srs, self._srs+self.rl):
+            diff = range.start-self._srs
+            return NumberRange(self._drs+diff, min(range.length, self._rl))
+            # if range.length <= self._rl:
+            #     # return one NumRange, shifted to drs + diff
+            #     return NumberRange(self._drs+diff, range.length)
+            # else:
+            #     # return two slices
+            #     return NumberRange(self._drs+diff, self._rl), NumberRange(self._srs+self._rl, range.length-self._rl)
+        else:
+            return range
 
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
@@ -46,20 +66,43 @@ class NumberRange():
     def __init__(self, start, range_length) -> None:
         self._start = start
         self._range_length = range_length
+        self._last = start + range_length - 1
 
-    # def contains(self, seed):
-    #     return seed in range(self._start, self._start+self._range_length)
-    
-    def map_all(self, mapses):
-        ret = map_a_seed(self._start, mapses)
-        for seed in range(self._start+1, self._start+self._range_length):
-            result = map_a_seed(seed, mapses)
-            if result < ret:
-                ret = result
-        return ret
-    
-    def apply_map(self, map):
+    @classmethod
+    def recombine(cls, range_1, range_2):
+        if range_1.start == range_2.end:
+            return NumberRange(range_2.start, range_1.length + range_2.length)
+        elif range_2.start == range_1.end:
+            return NumberRange(range_1.start, range_1.length + range_2.length)
         
+    #usage: AlmanacMap returns a new range
+    # arg1: old range ;args: new range
+    # returns any range in old not in new
+    # givens: old.start = new.start
+    @classmethod
+    def diff(cls, old_range, new_range_1):
+        assert(old_range.start == new_range_1.start)
+        if old_range.last == new_range_1.last:
+            return None
+        else:
+            return NumberRange(new_range_1.last+1, old_range.length-new_range_1.length)
+    
+    # >
+    @classmethod
+    def __gt__(cls, lh, rh):
+        return lh.start > rh.start
+
+    @property
+    def start(self):
+        return self._start
+    
+    @property
+    def last(self):
+        return self._last
+    
+    @property
+    def length(self):
+        return self._range_length
 
 def map_a_seed(input, mapses):
     num = input
@@ -76,17 +119,22 @@ def map_a_seed(input, mapses):
     # print(f'Mapped seed {input} to loc {num}')
     return num
 
-# def map_a_loc(output, mapses):
-#     num = output
-#     for maps in mapses[::-1]:
-#         becomes = None
-#         for map in maps:
-#             becomes = map.un_map(num)
-#             if becomes:
-#                 break
-#         if becomes:
-#             num = becomes
-#     return num
+# ONE LEVEL OF MAPS AT A TIME
+def map_a_range(ranges, maps):
+    ret = []
+    for range in ranges:
+        checking = range
+        becomes = None
+        for map in maps:
+            becomes = map.map_range(checking)
+            diff = NumberRange.diff(checking, becomes)
+            if diff:
+                # more to check
+                ret.append(becomes)
+                checking = diff
+            else:
+                ret.append(becomes)
+                break
 
 def part1(parsed):
     seeds = parsed[0]
@@ -104,20 +152,8 @@ def part2(parsed):
     i = 0
     while i < len(seeds):
         seed_ranges.append(NumberRange(seeds[i], seeds[i+1]))
-    #     for seed in range(seeds[i], seeds[i] + seeds[i+1]):
-    #         seeds_to_map.add(seed)
-    #         # print(f'adding seed {seed}')
         i += 2
     mapses = parsed[1]
-    # ret = map_a_seed(seeds[0], mapses)
-    # for seed in seeds_to_map:
-    #     result = map_a_seed(seed, mapses)
-    #     if result < ret:
-    #         ret = result
-    # rets = []
-    # ret, loc = map_a_loc(0, mapses), 0
-    # for i in range(1, 90):
-    #     rets.append((map_a_loc(i, mapses), i))
     return seed_ranges
 
 def solve(puzzle_input):
