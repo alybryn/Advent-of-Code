@@ -140,16 +140,18 @@ def map_a_range(ranges, maps):
     for map in maps:
         keep_mapping = []
         for range in to_map:
-            # returns None or mappable range only
+            # returns unchanged: [NumberRange] mapped: NumberRange?
             # print(f'range: {range}')
             becomes = map.map_range(range)
-            # print(f'becomes: {becomes}')
-            if becomes:
-                mapped.append(becomes)
+            print(f'becomes: {becomes}')
+            # check for result
+            if becomes[1]:
+                mapped.append(becomes[1])
                 # list of any unchanged ranges
-                result = NumberRange.diff(range, becomes)
-                keep_mapping.extend(result)
+                keep_mapping.extend(becomes[0])
             else:
+                # for fun
+                assert(becomes[0][0] == range)
                 keep_mapping.append(range)
         to_map = keep_mapping
     # also returned unchanged ranges
