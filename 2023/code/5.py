@@ -8,6 +8,16 @@ def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
 
+class Almanac():
+    def __init__(self, seeds, maps) -> None:
+        self._seeds = seeds
+        self._seed_to_fertilizer = maps[0]
+        self._fertilizer_to_water = maps[1]
+        self._water_to_light = maps[2]
+        self._light_to_temperature = maps[3]
+        self._temperature_to_humidity = maps[4]
+        self._humidity_to_location = maps[5]
+
 def part1(parsed):
     return 0
 
