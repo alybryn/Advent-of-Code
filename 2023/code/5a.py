@@ -48,10 +48,12 @@ class AlmanacMap():
             diff = self._srs - range.start
             return NumberRange(self._drs, range.length-diff)
         # case range within map
-        if range.start > self._srs and range.last < self_last:
+        if self._srs <= range.start and range.last <= self_last:
             diff = range.start - self._srs
             return NumberRange(self._drs + diff, range.length)
         print("should be unreachable, (AlmanacMap.map_range())")
+        print(self)
+        print(range)
 
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
