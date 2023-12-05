@@ -2,8 +2,8 @@ import pathlib
 import re
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 13
+SAMPLE_ANSWER_2 = 30
 
 wins_per_card = {}
 number_of_cards = {}

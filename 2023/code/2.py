@@ -3,8 +3,8 @@ import pathlib
 import re
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 8
+SAMPLE_ANSWER_2 = 2286
 
 def parse(puzzle_input):
     # parse the input
