@@ -34,10 +34,33 @@ class AlmanacMap():
             return self._drs + diff
         # print(f'\t{input} not in {self._srs} - {self._srs + self._rl - 1}')
 
-    # def un_map(self, output):
-    #     if output in range(self._drs, self._drs + self._rl):
-    #         diff = output - self._drs
-    #         return self._srs + diff
+    # returns unchanged: [NumberRange], mapped: NumberRange?
+    def map_range(self, range):
+        self_last = self._srs + self._rl - 1
+        # case no overlap
+        if range.start > self_last or range.last < self._srs:
+            # this will be thrown out but there's
+            # an assert expecting it anyway
+            return [range], None
+        # case range extends past map
+        if range.start > self._srs and range.last > self_last:
+            diff = range.start - self._srs
+            return NumberRange.diff(range, NumberRange(range.start, self._rl - diff)), NumberRange(self._drs+diff, self._rl-diff)
+        # case map extends past range
+        if range.start < self._srs and range.last < self_last:
+            diff = self._srs - range.start
+            return NumberRange.diff(range, NumberRange(range.start+diff, range.length-diff)), NumberRange(self._drs, range.length-diff)
+        # case range within map
+        if self._srs <= range.start and range.last <= self_last:
+            diff = range.start - self._srs
+            return [], NumberRange(self._drs + diff, range.length)
+        # case map within range
+        if range.start <= self._srs and self_last <= range.last:
+            diff = self._srs - range.start
+            return NumberRange.diff(range, NumberRange(range.start+diff, self._rl)), NumberRange(self._drs, self._rl)
+        print("should be unreachable, (AlmanacMap.map_range())")
+        print(self)
+        print(range)
 
     def __repr__(self) -> str:
         return f'AlmanacMap: {self._drs}, {self._srs}, {self._rl}, {self._srs + self._rl - 1}'
