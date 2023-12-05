@@ -102,6 +102,9 @@ class NumberRange():
     @property
     def length(self):
         return self._range_length
+    
+    def __repr__(self) -> str:
+        return f'NumberRange: {self._start}, {self._range_length}, {self._last}'
 
 def map_a_seed(input, mapses):
     num = input
