@@ -13,11 +13,16 @@ def better_times(boat_race):
     ret = 0
     race = boat_race[0]
     record = boat_race[1]
-    for hold in range(race):
+    for hold in range((race // 2) + 1):
         speed = hold
-        travel_time = race - hold
-        if record < speed * travel_time:
+        travel_time = race - speed
+        my_time = speed * travel_time
+        if record < my_time:
             ret += 1
+    if race%2 == 0:
+        ret = ret * 2 - 1
+    else:
+        ret = ret * 2
     return ret
 
 def part1(parsed):
@@ -29,10 +34,9 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    time = [r for r in re.findall(r'\d+', parsed[0])]
-    record = [r for r in re.findall(r'\d+', parsed[1])]
-    print([int(''.join(time)), int(''.join(record))])
-    return better_times((int(''.join(time)), int(''.join(record))))
+    time = int(''.join([r for r in re.findall(r'\d+', parsed[0])]))
+    record = int(''.join([r for r in re.findall(r'\d+', parsed[1])]))
+    return better_times((time, record))
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
