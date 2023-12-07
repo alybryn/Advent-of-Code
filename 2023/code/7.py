@@ -22,7 +22,23 @@ class HandType(int, Enum):
     ONE = 1
     HIGH = 0
 
-class Hand():
+card_values = {
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "T": 10,
+    "J": 11,
+    "Q": 12,
+    "K": 13,
+    "A": 14
+}
+
+class Hand:
     def __init__(self, cards, bet) -> None:
         self._cards = cards
         self._type = HandType.FIVE
