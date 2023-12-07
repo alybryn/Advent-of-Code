@@ -77,12 +77,14 @@ class Hand:
     def __str__(self) -> str:
         return f"Hand with:\n\tCards: {self._cards}\n\tType: {self._type}\n\tBet: {self._bet}"
 
-
-
-
-
 def part1(parsed):
-    return parsed
+    
+    rank = 1
+    table = 0
+    for hand in sorted(parsed):
+        table += (hand.winnings(rank))
+        rank += 1
+    return(table)
 
 def part2(parsed):
     return 0
