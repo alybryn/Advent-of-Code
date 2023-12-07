@@ -87,22 +87,57 @@ class Hand2:
         input = hand.input
         self._cards = input.get('cards')
         counts = []
+        jokers = self._cards.count('J')
         for k in card_list:
-            counts.append(self._cards.count(k))
+            if k != 'J':
+                counts.append(self._cards.count(k))
+        temp_type = None
         if 5 in counts:
-            self._type = HandType.FIVE
+            temp_type = HandType.FIVE
         elif 4 in counts:
-            self._type = HandType.FOUR
+            temp_type = HandType.FOUR
         elif 3 in counts and 2 in counts:
-            self._type = HandType.FULL
+            temp_type = HandType.FULL
         elif 3 in counts:
-            self._type = HandType.THREE
+            temp_type = HandType.THREE
         elif counts.count(2) == 2:
-            self._type = HandType.TWO
+            temp_type = HandType.TWO
         elif 2 in counts:
-            self._type = HandType.ONE
+            temp_type = HandType.ONE
         else:
-            self._type = HandType.HIGH
+            temp_type = HandType.HIGH
+        
+        # round 2: (make sure to assign in all cases)
+        if jokers == 0:
+            self._type = temp_type
+        elif jokers == 5:
+            self._type = HandType.FIVE
+        elif temp_type == HandType.FOUR: # jokers = 1
+            self._type = HandType.FIVE
+        elif temp_type == HandType.THREE: # jokers = 1, 2
+            if jokers == 1:
+                self._type = HandType.FOUR
+            else: # jokers == 2
+                self._type = HandType.FIVE
+        elif temp_type == HandType.TWO: # jokers = 1
+            self._type = HandType.THREE
+        elif temp_type == HandType.ONE: # jokers = 1, 2, 3
+            if jokers == 1:
+                self._type = HandType.THREE
+            elif jokers == 2:
+                self._type = HandType.FOUR
+            else: # jokers == 3
+                self._type = HandType.FIVE
+        else: #temp_type == HIGH, jokers = 1, 2, 3, 4
+            if jokers == 1:
+                self._type = HandType.ONE
+            if jokers == 2:
+                self._type = HandType.THREE
+            if jokers == 3:
+                self._type = HandType.FOUR
+            else: # jokers = 4
+                self._type = HandType.FIVE
+
         self._bet = input.get('bet')
 
     def __gt__(self, other):
