@@ -131,9 +131,9 @@ class Hand2:
         else: #temp_type == HIGH, jokers = 1, 2, 3, 4
             if jokers == 1:
                 self._type = HandType.ONE
-            if jokers == 2:
+            elif jokers == 2:
                 self._type = HandType.THREE
-            if jokers == 3:
+            elif jokers == 3:
                 self._type = HandType.FOUR
             else: # jokers = 4
                 self._type = HandType.FIVE
