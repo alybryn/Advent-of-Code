@@ -61,9 +61,16 @@ class Hand:
         self._bet = bet
 
     def __gt__(self, other):
-        # TODO
-        return True
-    
+        if self._type != other._type:
+            return self._type > other._type
+        for i in range(5):
+            s = card_values.get(self._cards[i])
+            o = card_values.get(other._cards[i])
+            if s != o:
+                return s > o
+        print('unreachable line, Hand.__gt__')
+        return None
+
     def winnings(self, rank):
         return self._bet * rank
     
