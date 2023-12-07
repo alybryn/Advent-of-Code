@@ -5,9 +5,13 @@ import sys
 SAMPLE_ANSWER_1 = None
 SAMPLE_ANSWER_2 = None
 
+
 def parse(puzzle_input):
     # parse the input
-    return [[Hand(l[0], int(l[1])) for l in line.split()] for line in puzzle_input.split('\n')]
+    return [
+        Hand(l[0], int(l[1]))
+        for l in [line.split() for line in puzzle_input.split("\n")]
+    ]
 
 class HandType(int, Enum):
     FIVE = 6
