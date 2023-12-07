@@ -76,6 +76,10 @@ class Hand:
 
     def __str__(self) -> str:
         return f"Hand with:\n\tCards: {self._cards}\n\tType: {self._type}\n\tBet: {self._bet}"
+    
+    @property
+    def input(self):
+        return {'cards': self._cards, 'bet': self._bet}
 
 def part1(parsed):
     
