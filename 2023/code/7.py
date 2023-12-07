@@ -87,7 +87,7 @@ class Hand2:
         input = hand.input
         self._cards = input.get('cards')
         counts = []
-        for k in card_list.keys():
+        for k in card_list:
             counts.append(self._cards.count(k))
         if 5 in counts:
             self._type = HandType.FIVE
