@@ -184,9 +184,7 @@ def part1(parsed):
     return get_table_winnings(parsed)
 
 def part2(parsed):
-    for hand in [Hand2(hand) for hand in parsed]:
-        print(hand)
-    return 0
+    return get_table_winnings([Hand2(hand) for hand in parsed])
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
