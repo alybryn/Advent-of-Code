@@ -83,9 +83,10 @@ class Hand:
 
 class Hand2:
     def __init__(self, hand) -> None:
-        self._cards = hand._cards
+        input = hand.input
+        self._cards = input.get('cards')
         counts = []
-        for k in card_values.keys():
+        for k in card_list.keys():
             counts.append(self._cards.count(k))
         if 5 in counts:
             self._type = HandType.FIVE
@@ -101,7 +102,7 @@ class Hand2:
             self._type = HandType.ONE
         else:
             self._type = HandType.HIGH
-        self._bet = bet
+        self._bet = input.get('bet')
 
     def __gt__(self, other):
         if self._type != other._type:
@@ -131,6 +132,8 @@ def part1(parsed):
     return(table)
 
 def part2(parsed):
+    for hand in [Hand2(hand) for hand in parsed]:
+        print(hand)
     return 0
 
 def solve(puzzle_input):
