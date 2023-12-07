@@ -81,6 +81,46 @@ class Hand:
     def input(self):
         return {'cards': self._cards, 'bet': self._bet}
 
+class Hand2:
+    def __init__(self, hand) -> None:
+        self._cards = hand._cards
+        counts = []
+        for k in card_values.keys():
+            counts.append(self._cards.count(k))
+        if 5 in counts:
+            self._type = HandType.FIVE
+        elif 4 in counts:
+            self._type = HandType.FOUR
+        elif 3 in counts and 2 in counts:
+            self._type = HandType.FULL
+        elif 3 in counts:
+            self._type = HandType.THREE
+        elif counts.count(2) == 2:
+            self._type = HandType.TWO
+        elif 2 in counts:
+            self._type = HandType.ONE
+        else:
+            self._type = HandType.HIGH
+        self._bet = bet
+
+    def __gt__(self, other):
+        if self._type != other._type:
+            return self._type > other._type
+        for i in range(5):
+            s = card_values.get(self._cards[i])
+            o = card_values.get(other._cards[i])
+            if s != o:
+                return s > o
+        print('unreachable line, Hand.__gt__')
+        return None
+
+    def winnings(self, rank):
+        return self._bet * rank
+
+    def __str__(self) -> str:
+        return f"Hand with:\n\tCards: {self._cards}\n\tType: {self._type}\n\tBet: {self._bet}"
+
+
 def part1(parsed):
     
     rank = 1
