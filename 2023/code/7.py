@@ -2,8 +2,8 @@ from enum import Enum
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 6440
+SAMPLE_ANSWER_2 = 5905
 
 
 def parse(puzzle_input):
