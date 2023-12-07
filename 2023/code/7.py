@@ -14,13 +14,13 @@ def parse(puzzle_input):
     ]
 
 class HandType(int, Enum):
-    FIVE = 6
-    FOUR = 5
-    FULL = 4
-    THREE = 3
-    TWO = 2
-    ONE = 1
-    HIGH = 0
+    FIVE_KIND = 6
+    FOUR_KIND = 5
+    FULL_HOUSE = 4
+    THREE_KIND = 3
+    TWO_PAIR = 2
+    ONE_PAIR = 1
+    HIGH_CARD = 0
 
 card_list = ["2","3","4","5","6","7","8","9","T","J","Q","K","A"]
 
@@ -31,19 +31,19 @@ class Hand:
         for card in card_list:
             counts.append(self._cards.count(card))
         if 5 in counts:
-            self._type = HandType.FIVE
+            self._type = HandType.FIVE_KIND
         elif 4 in counts:
-            self._type = HandType.FOUR
+            self._type = HandType.FOUR_KIND
         elif 3 in counts and 2 in counts:
-            self._type = HandType.FULL
+            self._type = HandType.FULL_HOUSE
         elif 3 in counts:
-            self._type = HandType.THREE
+            self._type = HandType.THREE_KIND
         elif counts.count(2) == 2:
-            self._type = HandType.TWO
+            self._type = HandType.TWO_PAIR
         elif 2 in counts:
-            self._type = HandType.ONE
+            self._type = HandType.ONE_PAIR
         else:
-            self._type = HandType.HIGH
+            self._type = HandType.HIGH_CARD
         self._bet = bet
 
     def __gt__(self, other):
@@ -93,50 +93,49 @@ class Hand2:
                 counts.append(self._cards.count(k))
         temp_type = None
         if 5 in counts:
-            temp_type = HandType.FIVE
+            temp_type = HandType.FIVE_KIND
         elif 4 in counts:
-            temp_type = HandType.FOUR
+            temp_type = HandType.FOUR_KIND
         elif 3 in counts and 2 in counts:
-            temp_type = HandType.FULL
+            temp_type = HandType.FULL_HOUSE
         elif 3 in counts:
-            temp_type = HandType.THREE
+            temp_type = HandType.THREE_KIND
         elif counts.count(2) == 2:
-            temp_type = HandType.TWO
+            temp_type = HandType.TWO_PAIR
         elif 2 in counts:
-            temp_type = HandType.ONE
+            temp_type = HandType.ONE_PAIR
         else:
-            temp_type = HandType.HIGH
-        
+            temp_type = HandType.HIGH_CARD
         # round 2: (make sure to assign in all cases)
         if jokers == 0:
             self._type = temp_type
         elif jokers == 5:
-            self._type = HandType.FIVE
-        elif temp_type == HandType.FOUR: # jokers = 1
-            self._type = HandType.FIVE
-        elif temp_type == HandType.THREE: # jokers = 1, 2
+            self._type = HandType.FIVE_KIND
+        elif temp_type == HandType.FOUR_KIND: # jokers = 1
+            self._type = HandType.FIVE_KIND
+        elif temp_type == HandType.THREE_KIND: # jokers = 1, 2
             if jokers == 1:
-                self._type = HandType.FOUR
+                self._type = HandType.FOUR_KIND
             else: # jokers == 2
-                self._type = HandType.FIVE
-        elif temp_type == HandType.TWO: # jokers = 1
-            self._type = HandType.THREE
-        elif temp_type == HandType.ONE: # jokers = 1, 2, 3
+                self._type = HandType.FIVE_KIND
+        elif temp_type == HandType.TWO_PAIR: # jokers = 1
+            self._type = HandType.THREE_KIND
+        elif temp_type == HandType.ONE_PAIR: # jokers = 1, 2, 3
             if jokers == 1:
-                self._type = HandType.THREE
+                self._type = HandType.THREE_KIND
             elif jokers == 2:
-                self._type = HandType.FOUR
+                self._type = HandType.FOUR_KIND
             else: # jokers == 3
-                self._type = HandType.FIVE
+                self._type = HandType.FIVE_KIND
         else: #temp_type == HIGH, jokers = 1, 2, 3, 4
             if jokers == 1:
-                self._type = HandType.ONE
+                self._type = HandType.ONE_PAIR
             elif jokers == 2:
-                self._type = HandType.THREE
+                self._type = HandType.THREE_KIND
             elif jokers == 3:
-                self._type = HandType.FOUR
+                self._type = HandType.FOUR_KIND
             else: # jokers = 4
-                self._type = HandType.FIVE
+                self._type = HandType.FIVE_KIND
 
         self._bet = input.get('bet')
 
