@@ -22,28 +22,14 @@ class HandType(int, Enum):
     ONE = 1
     HIGH = 0
 
-card_values = {
-    "2": 2,
-    "3": 3,
-    "4": 4,
-    "5": 5,
-    "6": 6,
-    "7": 7,
-    "8": 8,
-    "9": 9,
-    "T": 10,
-    "J": 11,
-    "Q": 12,
-    "K": 13,
-    "A": 14
-}
+card_list = ["2","3","4","5","6","7","8","9","T","J","Q","K","A"]
 
 class Hand:
     def __init__(self, cards, bet) -> None:
         self._cards = cards
         counts = []
-        for k in card_values.keys():
-            counts.append(self._cards.count(k))
+        for card in card_list:
+            counts.append(self._cards.count(card))
         if 5 in counts:
             self._type = HandType.FIVE
         elif 4 in counts:
@@ -63,6 +49,21 @@ class Hand:
     def __gt__(self, other):
         if self._type != other._type:
             return self._type > other._type
+        card_values = {
+            "2": 2,
+            "3": 3,
+            "4": 4,
+            "5": 5,
+            "6": 6,
+            "7": 7,
+            "8": 8,
+            "9": 9,
+            "T": 10,
+            "J": 11,
+            "Q": 12,
+            "K": 13,
+            "A": 14
+        }
         for i in range(5):
             s = card_values.get(self._cards[i])
             o = card_values.get(other._cards[i])
@@ -107,6 +108,21 @@ class Hand2:
     def __gt__(self, other):
         if self._type != other._type:
             return self._type > other._type
+        card_values = {
+            "2": 2,
+            "3": 3,
+            "4": 4,
+            "5": 5,
+            "6": 6,
+            "7": 7,
+            "8": 8,
+            "9": 9,
+            "T": 10,
+            "J": 11,
+            "Q": 12,
+            "K": 13,
+            "A": 14
+        }
         for i in range(5):
             s = card_values.get(self._cards[i])
             o = card_values.get(other._cards[i])
