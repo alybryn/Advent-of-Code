@@ -106,6 +106,9 @@ class Hand2:
             temp_type = HandType.ONE_PAIR
         else:
             temp_type = HandType.HIGH_CARD
+        # if jokers != 0:
+            # print(f'temp_type: {temp_type.name}, jokers = {jokers}')
+
         # round 2: (make sure to assign in all cases)
         if jokers == 0:
             self._type = temp_type
@@ -137,6 +140,7 @@ class Hand2:
             else: # jokers = 4
                 self._type = HandType.FIVE_KIND
 
+        # print(self._type.name)
         self._bet = input.get('bet')
 
     def __gt__(self, other):
@@ -167,9 +171,13 @@ class Hand2:
 
     def winnings(self, rank):
         return self._bet * rank
+    
+    @property
+    def has_joker(self):
+        return 'J' in self._cards
 
     def __str__(self) -> str:
-        return f"Hand with:\n\tCards: {self._cards}\n\tType: {self._type}\n\tBet: {self._bet}"
+        return f"Hand with:\n\tCards: {self._cards}\n\tType: {self._type.name}\n\tBet: {self._bet}"
 
 def get_table_winnings(hands):
     rank = 1
@@ -183,6 +191,14 @@ def part1(parsed):
     return get_table_winnings(parsed)
 
 def part2(parsed):
+    # hands = []
+    # for hand in parsed:
+    #     new_hand = Hand2(hand)
+    #     #print(new_hand)
+    #     hands.append(new_hand)
+    # for hand in sorted(hands):
+        # if hand.has_joker:
+            # print(hand)
     return get_table_winnings([Hand2(hand) for hand in parsed])
 
 def solve(puzzle_input):
