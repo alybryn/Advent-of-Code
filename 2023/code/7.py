@@ -41,7 +41,23 @@ card_values = {
 class Hand:
     def __init__(self, cards, bet) -> None:
         self._cards = cards
-        self._type = HandType.FIVE
+        counts = []
+        for k in card_values.keys():
+            counts.append(self._cards.count(k))
+        if 5 in counts:
+            self._type = HandType.FIVE
+        elif 4 in counts:
+            self._type = HandType.FOUR
+        elif 3 in counts and 2 in counts:
+            self._type = HandType.FULL
+        elif 3 in counts:
+            self._type = HandType.THREE
+        elif counts.count(2) == 2:
+            self._type = HandType.TWO
+        elif 2 in counts:
+            self._type = HandType.ONE
+        else:
+            self._type = HandType.HIGH
         self._bet = bet
 
     def __gt__(self, other):
