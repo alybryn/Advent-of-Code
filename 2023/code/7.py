@@ -145,6 +145,12 @@ class Hand2:
 
     def __gt__(self, other):
         if self._type != other._type:
+        #     if self._type > other._type:
+        #         print(f'{self._type.name} gt {other._type.name}')
+        #         return True
+        #     else:
+        #         print(f'{other._type.name} gt {self._type.name}')
+        #         return False
             return self._type > other._type
         card_values = {
             "2": 2,
@@ -165,11 +171,14 @@ class Hand2:
             s = card_values.get(self._cards[i])
             o = card_values.get(other._cards[i])
             if s != o:
+                if 2 in [s, o]:
+                    print(f'{self._cards[i]} {">" if s>o else "<"} {other._cards[i]}')
                 return s > o
         print('unreachable line, Hand.__gt__')
         return None
 
     def winnings(self, rank):
+        # print(f'multiplying {self._bet} and {rank}')
         return self._bet * rank
     
     @property
@@ -180,11 +189,14 @@ class Hand2:
         return f"Hand2 with:\n\tCards: {self._cards}\n\tType: {self._type.name}\n\tBet: {self._bet}"
 
 def get_table_winnings(hands):
-    rank = 1
+    rank = 0
     table = 0
     for hand in sorted(hands):
-        table += hand.winnings(rank)
         rank += 1
+        # print(hand)
+        table += hand.winnings(rank)
+        # print(f'table becomes {table}')
+    assert(rank == len(hands))
     return table
 
 def part1(parsed):
@@ -194,8 +206,9 @@ def part2(parsed):
     # hands = []
     # for hand in parsed:
     #     new_hand = Hand2(hand)
-    #     #print(new_hand)
-    #     hands.append(new_hand)
+    #     if new_hand.has_joker:
+    #         print(new_hand)
+        # hands.append(new_hand)
     # for hand in sorted(hands):
         # if hand.has_joker:
             # print(hand)
