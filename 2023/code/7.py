@@ -177,7 +177,7 @@ class Hand2:
         return 'J' in self._cards
 
     def __str__(self) -> str:
-        return f"Hand with:\n\tCards: {self._cards}\n\tType: {self._type.name}\n\tBet: {self._bet}"
+        return f"Hand2 with:\n\tCards: {self._cards}\n\tType: {self._type.name}\n\tBet: {self._bet}"
 
 def get_table_winnings(hands):
     rank = 1
