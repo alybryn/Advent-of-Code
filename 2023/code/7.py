@@ -73,10 +73,13 @@ class Hand:
 
     def winnings(self, rank):
         return self._bet * rank
-    
+
     def __str__(self) -> str:
-        return f'Hand with:\n\tCards: {self._cards}\n\tType: {self._type}\n\tBet: {self._bet}'
-        
+        return f"Hand with:\n\tCards: {self._cards}\n\tType: {self._type}\n\tBet: {self._bet}"
+
+
+
+
 
 def part1(parsed):
     return parsed
