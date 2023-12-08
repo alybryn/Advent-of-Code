@@ -122,7 +122,7 @@ class Hand2:
             else: # jokers == 2
                 self._type = HandType.FIVE_KIND
         elif temp_type == HandType.TWO_PAIR: # jokers = 1
-            self._type = HandType.THREE_KIND
+            self._type = HandType.FULL_HOUSE
         elif temp_type == HandType.ONE_PAIR: # jokers = 1, 2, 3
             if jokers == 1:
                 self._type = HandType.THREE_KIND
