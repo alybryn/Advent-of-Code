@@ -171,8 +171,8 @@ class Hand2:
             s = card_values.get(self._cards[i])
             o = card_values.get(other._cards[i])
             if s != o:
-                if 2 in [s, o]:
-                    print(f'{self._cards[i]} {">" if s>o else "<"} {other._cards[i]}')
+                # if 2 in [s, o]:
+                #     print(f'{self._cards[i]} {">" if s>o else "<"} {other._cards[i]}')
                 return s > o
         print('unreachable line, Hand.__gt__')
         return None
