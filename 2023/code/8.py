@@ -64,6 +64,21 @@ class Graph():
             count += 1
         return count
     
+    def ghost_traversal(self):
+        dir_pointer = 0
+        count = 0
+
+        nodes = []
+        for k in self._nodes.keys():
+            if k.endswith('A'):
+                nodes.append(self._nodes.get(k))
+
+        while False in [n.name.endswith('Z') for n in nodes]:
+            next_nodes = []
+            for node in nodes:
+                next_nodes.append(self.get_next_for(node, dir_pointer))
+        for node in nodes:
+            print(node)
 
     def get_next_for(self, node, dir_pointer):
         return self._nodes.get(node.get(self._lr[dir_pointer]))
@@ -79,7 +94,7 @@ def part1(parsed):
     return parsed.traverse('AAA', 'ZZZ')
 
 def part2(parsed):
-    return 0
+    return 0# parsed.ghost_traversal()
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
