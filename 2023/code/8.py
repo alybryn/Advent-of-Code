@@ -74,8 +74,14 @@ class Graph():
                 nodes.append(self._nodes.get(k))
 
         while False in [n.name.endswith('Z') for n in nodes]:
+        # for i in range(10):
+            # print(f'round {i}, moving {self._lr[dir_pointer]}')
             next_nodes = []
+            if count%1000000 == 0:
+                    print(count)
             for node in nodes:
+                if count%1000000 == 0:
+                    print(node)
                 next_nodes.append(self.get_next_for(node, dir_pointer))
             
             nodes = next_nodes
@@ -99,10 +105,10 @@ class Graph():
         return ret
 
 def part1(parsed):
-    return parsed.traverse('AAA', 'ZZZ')
+    return 10 #parsed.traverse('AAA', 'ZZZ')
 
 def part2(parsed):
-    return 0# parsed.ghost_traversal()
+    return parsed.ghost_traversal()
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
