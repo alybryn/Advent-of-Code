@@ -65,6 +65,9 @@ class Graph():
         return count
     
 
+    def get_next_for(self, node, dir_pointer):
+        return self._nodes.get(node.get(self._lr[dir_pointer]))
+
     def __str__(self) -> str:
         ret = f"{''.join(self._lr)}"
         for k in self._nodes.keys():
