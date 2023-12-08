@@ -91,10 +91,10 @@ class Graph():
         return ret
 
 def part1(parsed):
-    return parsed.traverse('AAA', 'ZZZ')
+    return 10 #parsed.traverse('AAA', 'ZZZ')
 
 def part2(parsed):
-    return 0# parsed.ghost_traversal()
+    return parsed.ghost_traversal()
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
