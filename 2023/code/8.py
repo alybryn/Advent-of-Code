@@ -23,6 +23,18 @@ class Node():
     def __str__(self) -> str:
         return f'{self._name} = ({self._left}, {self._right})'
     
+    def get(self, left_or_right):
+        if left_or_right == 'L':
+            return self._left
+        elif left_or_right == 'R':
+            return self._right
+        else:
+            print(f"Unaccessable code accessed. Node.get({left_or_right})")
+    
+    @property
+    def name(self):
+        return self._name
+
     @property
     def left(self):
         return self._left
@@ -38,13 +50,20 @@ class Graph():
         for node in nodes_input:
             self._nodes.update({node[0]: Node(node)})
 
-    # def make_nodes(self, nodes_input):
-    #     for node in nodes_input:
-    #         self._nodes.update({node[0]: Node(node)})
-    #     self._is_noded = True
+    def traverse(self, start, end):
+        dir_pointer = 0
+        count = 0
+        node = self._nodes.get(start)
+        while node.name != end:
+            node = self.get_next_for(node, dir_pointer)
 
-    # def link_nodes(self):
-    #     self._is_linked = True
+            dir_pointer += 1
+            if dir_pointer == len(self._lr):
+                dir_pointer = 0
+            
+            count += 1
+        return count
+    
 
     def __str__(self) -> str:
         ret = f"{''.join(self._lr)}"
@@ -54,7 +73,7 @@ class Graph():
         return ret
 
 def part1(parsed):
-    return parsed
+    return parsed.traverse('AAA', 'ZZZ')
 
 def part2(parsed):
     return 0
