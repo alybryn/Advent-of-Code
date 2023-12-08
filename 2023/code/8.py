@@ -77,6 +77,14 @@ class Graph():
             next_nodes = []
             for node in nodes:
                 next_nodes.append(self.get_next_for(node, dir_pointer))
+            
+            nodes = next_nodes
+            dir_pointer += 1
+            if dir_pointer == len(self._lr):
+                dir_pointer = 0
+            count += 1
+        return count
+        
         for node in nodes:
             print(node)
 
@@ -91,10 +99,10 @@ class Graph():
         return ret
 
 def part1(parsed):
-    return 10 #parsed.traverse('AAA', 'ZZZ')
+    return parsed.traverse('AAA', 'ZZZ')
 
 def part2(parsed):
-    return parsed.ghost_traversal()
+    return 0# parsed.ghost_traversal()
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
