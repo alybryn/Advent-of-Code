@@ -25,8 +25,17 @@ def get_sequences(input):
         result.append(this_result)
     return result
 
+def extrapolate(input):
+    prev = 0
+    for n in input[::-1]:
+        prev = prev + n
+    return prev
+
 def part1(parsed):
-    return get_sequences(parsed)
+    ret = 0
+    for history in get_sequences(parsed):
+        ret += extrapolate(history)
+    return ret
 
 def part2(parsed):
     return 0
