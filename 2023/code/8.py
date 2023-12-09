@@ -50,11 +50,12 @@ class Graph():
         for node in nodes_input:
             self._nodes.update({node[0]: Node(node)})
 
+    # start: str, end: list(str)
     def traverse(self, start, end):
         dir_pointer = 0
         count = 0
         node = self._nodes.get(start)
-        while node.name != end:
+        while node.name not in end:
             node = self.get_next_for(node, dir_pointer)
 
             dir_pointer += 1
@@ -64,13 +65,14 @@ class Graph():
             count += 1
         return count
     
-    def ghost_traversal(self):
-        pass
-    
-    def single_ghost_traversal(self, node):
+    def traverse_twice(self, start, end):
         dir_pointer = 0
         count = 0
-        while not node.name.endswith('Z'):
+        once = False
+        node = self._nodes.get(start)
+        while node.name not in end or not once:
+            if node.name in end:
+                once = True
             node = self.get_next_for(node, dir_pointer)
 
             dir_pointer += 1
@@ -79,6 +81,33 @@ class Graph():
             
             count += 1
         return count
+        
+    def ghost_traversal(self, start, end):
+        start_names = []
+        end_names = []
+        for k in self._nodes.keys():
+            if k.endswith(start):
+                start_names.append(k)
+            elif k.endswith(end):
+                end_names.append(k)
+        
+        counts = []
+        for name in start_names:
+            counts.append(self.traverse_twice(name, end_names) == self.traverse(name, end_names) * 2)
+        return counts
+    
+    # def single_ghost_traversal(self, node):
+    #     dir_pointer = 0
+    #     count = 0
+    #     while not node.name.endswith('Z'):
+    #         node = self.get_next_for(node, dir_pointer)
+
+    #         dir_pointer += 1
+    #         if dir_pointer == len(self._lr):
+    #             dir_pointer = 0
+            
+    #         count += 1
+    #     return count
 
     def get_next_for(self, node, dir_pointer):
         return self._nodes.get(node.get(self._lr[dir_pointer]))
@@ -90,11 +119,14 @@ class Graph():
             ret += self._nodes.get(k).__str__()
         return ret
 
+def lcm(input):
+    pass
+
 def part1(parsed):
-    return parsed.traverse('AAA', ['ZZZ'])
+    return 11 #parsed.traverse('AAA', ['ZZZ'])
 
 def part2(parsed):
-    return parsed.ghost_traversal()
+    return parsed.ghost_traversal('A', 'Z')
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
