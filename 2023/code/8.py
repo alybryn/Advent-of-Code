@@ -65,34 +65,20 @@ class Graph():
         return count
     
     def ghost_traversal(self):
+        pass
+    
+    def single_ghost_traversal(self, node):
         dir_pointer = 0
         count = 0
+        while not node.name.endswith('Z'):
+            node = self.get_next_for(node, dir_pointer)
 
-        nodes = []
-        for k in self._nodes.keys():
-            if k.endswith('A'):
-                nodes.append(self._nodes.get(k))
-
-        while False in [n.name.endswith('Z') for n in nodes]:
-        # for i in range(10):
-            # print(f'round {i}, moving {self._lr[dir_pointer]}')
-            next_nodes = []
-            if count%1000000 == 0:
-                    print(count)
-            for node in nodes:
-                if count%1000000 == 0:
-                    print(node)
-                next_nodes.append(self.get_next_for(node, dir_pointer))
-            
-            nodes = next_nodes
             dir_pointer += 1
             if dir_pointer == len(self._lr):
                 dir_pointer = 0
+            
             count += 1
         return count
-        
-        for node in nodes:
-            print(node)
 
     def get_next_for(self, node, dir_pointer):
         return self._nodes.get(node.get(self._lr[dir_pointer]))
