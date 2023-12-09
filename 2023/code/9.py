@@ -17,11 +17,11 @@ def get_difference(input):
 def get_sequences(input):
     result = []
     for sequence in input:
-        this_result = [sequence[-1]]
+        this_result = []
         # alt: while s.count(0) != len(s):
         while False in [s == 0 for s in sequence]:
-            sequence = get_difference(sequence)
             this_result.append(sequence[-1])
+            sequence = get_difference(sequence)
         result.append(this_result)
     return result
 
