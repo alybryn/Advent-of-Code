@@ -33,15 +33,18 @@ def extrapolate(input):
         prev = (prev[0] + n[0], prev[1] + n[1])
     return prev
 
-def part1(parsed):
+def collate(input, index):
     ret = 0
-    for history in get_history(parsed):
+    for history in input:
         # history is [(first,last), ...]
-        ret += extrapolate(history)[1]
+        ret += extrapolate(history)[index]
     return ret
 
+def part1(parsed):
+    return collate(parsed, 1)
+
 def part2(parsed):
-    return get_history(parsed)
+    return collate(parsed, 0)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
