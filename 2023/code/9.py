@@ -6,7 +6,7 @@ SAMPLE_ANSWER_2 = 2
 
 def parse(puzzle_input):
     # parse the input
-    return [[int(l) for l in line.split(' ')] for line in puzzle_input.split('\n')]
+    return get_history([[int(l) for l in line.split(' ')] for line in puzzle_input.split('\n')])
 
 def get_difference(input):
     ret = []
