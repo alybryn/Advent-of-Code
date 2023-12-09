@@ -12,6 +12,49 @@ def parse(puzzle_input):
     graph = Graph(left_right, nodes)
     return graph
 
+def lcm(numbers):
+    factorizations = []
+    for number in numbers:
+        factorizations.append(factorize(number))
+    ret = {}
+    for factorization in factorizations:
+        for k in factorization.keys():
+            ret.update({k: max(factorization.get(k), ret.get(k, 0))})
+    return ret
+
+def factorize(number):
+    factors = []
+    # print(f'the number is {number} which is prime? {is_prime(number)}\nFirst factor is {first_factor(number)}')
+    while not is_prime(number):
+        # print(number)
+        factor = first_factor(number)
+        factors.append(factor)
+        number = number // factor
+        
+    factors.append(number)
+
+    ret = {}
+    for factor in set(factors):
+        ret.update({factor: factors.count(factor)})
+
+    return ret
+
+def is_prime(number):
+    return first_factor(number) == 1
+
+def first_factor(number):
+    # print(number)
+    for i in range(number//2):
+        if number%(i+1) == 0 and i+1 != 1:
+            return i + 1
+    return 1
+
+# def factor(n):
+#     ret = []
+#     for i in range(n//2):
+#         if n%(i+1) == 0:
+#             ret.append(i+1)
+#     return ret
 
 class Node():
     # strings, not objects
@@ -65,22 +108,23 @@ class Graph():
             count += 1
         return count
     
-    def traverse_twice(self, start, end):
-        dir_pointer = 0
-        count = 0
-        once = False
-        node = self._nodes.get(start)
-        while node.name not in end or not once:
-            if node.name in end:
-                once = True
-            node = self.get_next_for(node, dir_pointer)
+    # dep
+    # def traverse_twice(self, start, end):
+    #     dir_pointer = 0
+    #     count = 0
+    #     once = False
+    #     node = self._nodes.get(start)
+    #     while node.name not in end or not once:
+    #         if node.name in end:
+    #             once = True
+    #         node = self.get_next_for(node, dir_pointer)
 
-            dir_pointer += 1
-            if dir_pointer == len(self._lr):
-                dir_pointer = 0
+    #         dir_pointer += 1
+    #         if dir_pointer == len(self._lr):
+    #             dir_pointer = 0
             
-            count += 1
-        return count
+    #         count += 1
+    #     return count
         
     def ghost_traversal(self, start, end):
         start_names = []
@@ -93,8 +137,10 @@ class Graph():
         
         counts = []
         for name in start_names:
-            counts.append(self.traverse_twice(name, end_names) == self.traverse(name, end_names) * 2)
-        return counts
+            # counts.append(self.traverse_twice(name, end_names) == self.traverse(name, end_names) * 2)
+            counts.append(self.traverse(name, end_names))
+        
+        return lcm(counts)
     
     # def single_ghost_traversal(self, node):
     #     dir_pointer = 0
@@ -119,13 +165,15 @@ class Graph():
             ret += self._nodes.get(k).__str__()
         return ret
 
-def lcm(input):
-    pass
-
 def part1(parsed):
     return 11 #parsed.traverse('AAA', ['ZZZ'])
 
 def part2(parsed):
+    print(factorize(6))
+    print(factorize(12))
+    print(factorize(24))
+    print(factorize(23))
+    print(lcm([6, 12,24, 15]))
     return parsed.ghost_traversal('A', 'Z')
 
 def solve(puzzle_input):
