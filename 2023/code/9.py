@@ -2,7 +2,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 114
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 2
 
 def parse(puzzle_input):
     # parse the input
@@ -14,31 +14,34 @@ def get_difference(input):
         ret.append(input[i+1] - input[i])
     return ret
 
-def get_sequences(input):
-    result = []
+def get_history(input):
+    history = []
     for sequence in input:
         this_result = []
         # alt: while s.count(0) != len(s):
         while False in [s == 0 for s in sequence]:
-            this_result.append(sequence[-1])
+            #first and last difference
+            this_result.append((sequence[0], sequence[-1]))
             sequence = get_difference(sequence)
-        result.append(this_result)
-    return result
+        history.append(this_result)
+    return history
 
+# input is [(first, last), ...]
 def extrapolate(input):
-    prev = 0
+    prev = (0, 0)
     for n in input[::-1]:
-        prev = prev + n
+        prev = (prev[0] + n[0], prev[1] + n[1])
     return prev
 
 def part1(parsed):
     ret = 0
-    for history in get_sequences(parsed):
-        ret += extrapolate(history)
+    for history in get_history(parsed):
+        # history is [(first,last), ...]
+        ret += extrapolate(history)[1]
     return ret
 
 def part2(parsed):
-    return 0
+    return get_history(parsed)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
