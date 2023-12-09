@@ -30,7 +30,7 @@ def get_history(input):
 def extrapolate(input):
     prev = (0, 0)
     for n in input[::-1]:
-        prev = (prev[0] + n[0], prev[1] + n[1])
+        prev = (n[0] - prev[0], prev[1] + n[1])
     return prev
 
 def collate(input, index):
