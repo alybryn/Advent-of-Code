@@ -91,7 +91,7 @@ class Graph():
         return ret
 
 def part1(parsed):
-    return 10 #parsed.traverse('AAA', 'ZZZ')
+    return parsed.traverse('AAA', ['ZZZ'])
 
 def part2(parsed):
     return parsed.ghost_traversal()
