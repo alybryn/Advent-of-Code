@@ -8,6 +8,12 @@ def parse(puzzle_input):
     # parse the input
     return [[int(l) for l in line.split(' ')] for line in puzzle_input.split('\n')]
 
+def get_differenct(input):
+    ret = []
+    for i in range(len(input)-1):
+        ret.append(input[i+1] - input[i])
+    return ret
+
 def part1(parsed):
     return parsed
 
