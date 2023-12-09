@@ -16,10 +16,14 @@ def lcm(numbers):
     factorizations = []
     for number in numbers:
         factorizations.append(factorize(number))
-    ret = {}
+    max_factors = {}
     for factorization in factorizations:
         for k in factorization.keys():
-            ret.update({k: max(factorization.get(k), ret.get(k, 0))})
+            max_factors.update({k: max(factorization.get(k), max_factors.get(k, 0))})
+    ret = 1
+    for k in max_factors.keys():
+        for i in range(max_factors.get(k)):
+            ret = ret * k
     return ret
 
 def factorize(number):
@@ -169,11 +173,6 @@ def part1(parsed):
     return 11 #parsed.traverse('AAA', ['ZZZ'])
 
 def part2(parsed):
-    print(factorize(6))
-    print(factorize(12))
-    print(factorize(24))
-    print(factorize(23))
-    print(lcm([6, 12,24, 15]))
     return parsed.ghost_traversal('A', 'Z')
 
 def solve(puzzle_input):
