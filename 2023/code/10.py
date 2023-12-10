@@ -11,11 +11,9 @@ def parse(puzzle_input):
     for r in range(len(lines)):
         for c in range(len(lines[0])):
             type = lines[r][c]
-            print(type)
-            pipe_map.update({(r, c): Pipe((r, c), type)})
+            pipe_map.update({(c,r): Pipe((c,r), type)})
             if type == 'S':
-                pipe_map.update({'S': (r, c)})
-
+                pipe_map.update({'S': (c,r)})
     return pipe_map
 
 neighbors_matrix = {'F': ([(0,-1),( 1,0)]),
