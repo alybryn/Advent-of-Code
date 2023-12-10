@@ -7,6 +7,13 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
 
+neighbors_matrix = {'F': ([(0,-1),( 1,0)]),
+                    'L': ([(0, 1),( 1,0)]),
+                    'J': ([(0, 1),(-1,0)]), 
+                    '7': ([(0,-1),(-1,0)]),
+                    'S': ([(0,-1),(0, 1),(-1,0),( 1,0)]),
+                    }
+
 class Pipe():
     def __init__(self, loc, type) -> None:
         self._type = type
