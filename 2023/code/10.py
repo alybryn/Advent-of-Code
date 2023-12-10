@@ -66,21 +66,7 @@ class PipeMap():
         return len(self._loop) // 2
 
 def part1(pipe_map):
-    start_index = pipe_map.get('S')
-    s_connects = link_back(start_index, pipe_map)
-    path_taken = set()
-    path_taken.add(start_index)
-    branch_0 = s_connects[0]
-    branch_1 = s_connects[1]
-    # print(f'Setting out from {branch_0} and {branch_1}')
-    count = 1
-    while(branch_0 != branch_1):
-        path_taken.add(branch_0)
-        path_taken.add(branch_1)
-        branch_0 = link_back(branch_0, pipe_map, path_taken)[0]
-        branch_1 = link_back(branch_1, pipe_map, path_taken)[0]
-        count += 1
-    return count
+    return pipe_map.half_loop_len
 
 def part2(parsed):
     return 0
