@@ -26,40 +26,49 @@ neighbors_matrix = {'F': ([(0, 1),( 1,0)]),
                     '.': (),
                     }
 
-class Pipe():
-    def __init__(self, loc, type) -> None:
-        self._type = type
-        self._loc = loc
-        self._neighbors = []
+class PipeMap():
+    # input is [[c,...],[c,...],...]
+    def __init__(self, input) -> None:
+        self._locs = {}
+        self._start = None
+        for r in range(len(input)):
+            for c in range(len(input[0])):
+                type = input[r][c]
+                self._locs.update({(c,r): type})
+                if type == 'S':
+                    self._start = (c,r)
 
-    def potential_neighbors(self):
-        using = neighbors_matrix.get(self._type)
+        self._loop = {self._start}
+
+    def potential_neighbors(self, pipe):
+        type = self._locs.get(pipe)
+        if type == None:
+            return []
+        using = neighbors_matrix.get(type)
         ret = []
         for matrix in using:
-            ret.append((self._loc[0] + matrix[0], self._loc[1] + matrix[1]))
+            ret.append((pipe[0] + matrix[0], pipe[1] + matrix[1]))
         return ret
+    
+    def link_back(self, pipe, prev=[]):
+        for index in self.potential_neighbors(pipe):
+            if index in prev:
+                continue
+            if pipe in self.potential_neighbors(index):
+                return index
 
+    def pipe_loop(self) -> None:
+        # start at start
+        next = self.link_back(self._start, self._loop)
+        # while link back not empty
+        while next:
+            # append and continue
+            self._loop.add(next)
+            next = self.link_back(next, self._loop)
 
-    def set_neighbors(self, new_neighbors):
-        self._neighbors = new_neighbors
-
-    def __str__(self) -> str:
-        return self._type
-
-def link_back(pipe, pipe_map, prev=[]):
-    ret = []
-    # print(f'Finding a link for {pipe_map.get(pipe)}')
-    for index in pipe_map.get(pipe).potential_neighbors():
-        if index in prev:
-            # print(f'already been to {index}')
-            continue
-        indexed = pipe_map.get(index)
-        if indexed:
-            # print(indexed.potential_neighbors())
-            if pipe in indexed.potential_neighbors():
-                ret.append(index)
-    # print(ret)
-    return ret
+    @property
+    def half_loop_len(self):
+        return len(self._loop) // 2
 
 def part1(pipe_map):
     start_index = pipe_map.get('S')
