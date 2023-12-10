@@ -21,6 +21,9 @@ neighbors_matrix = {'F': ([(0, 1),( 1,0)]),
                     '.': (),
                     }
 
+def adding(point, vector):
+    return (point[0] + vector[0], point[1] + vector[1])
+
 class PipeMap():
     # input is [[c,...],[c,...],...]
     def __init__(self, input) -> None:
