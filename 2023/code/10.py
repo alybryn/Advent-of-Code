@@ -45,7 +45,7 @@ class PipeMap():
         using = neighbors_matrix.get(type)
         ret = []
         for matrix in using:
-            ret.append((pipe[0] + matrix[0], pipe[1] + matrix[1]))
+            ret.append(adding(pipe, matrix))
         return ret
     
     def link_back(self, pipe, prev=[]):
