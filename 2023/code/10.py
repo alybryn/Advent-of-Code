@@ -37,7 +37,8 @@ class Pipe():
         ret = []
         for matrix in using:
             ret.append((self._loc[0] + matrix[0], self._loc[1] + matrix[1]))
-        return [(self._loc[0] + using[0][0], self._loc[1] + using[0][1]), (self._loc[0] + using[1][0], self._loc[1] + using[1][1])] 
+        return ret
+
 
     def set_neighbors(self, new_neighbors):
         self._neighbors = new_neighbors
