@@ -6,7 +6,25 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+
+class Pipe():
+    def __init__(self, loc, type) -> None:
+        self._type = type
+        self._loc = loc
+        self._neighbors = []
+
+    def potential_neighbors(self):
+        using = neighbors_matrix.get(self._type)
+        ret = []
+        for matrix in using:
+            ret.append((self._loc[0] + matrix[0], self._loc[1] + matrix[1]))
+        return [(self._loc[0] + using[0][0], self._loc[1] + using[0][1]), (self._loc[0] + using[1][0], self._loc[1] + using[1][1])] 
+
+    def set_neighbors(self, new_neighbors):
+        self._neighbors = new_neighbors
+
+    def __str__(self) -> str:
+        return self._type
 
 def part1(parsed):
     return 0
