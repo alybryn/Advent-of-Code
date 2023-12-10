@@ -6,6 +6,15 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
+    lines = [[c for c in list(lines)] for lines in puzzle_input.split()]
+    pipe_map = {}
+    for r in range(len(lines)):
+        for c in range(len(lines[0])):
+            print(lines[r][c])
+            if lines[r][c] == 'S':
+                pipe_map.update({'S': (r, c)})
+
+    return lines
 
 neighbors_matrix = {'F': ([(0,-1),( 1,0)]),
                     'L': ([(0, 1),( 1,0)]),
@@ -34,7 +43,7 @@ class Pipe():
         return self._type
 
 def part1(parsed):
-    return 0
+    return parsed
 
 def part2(parsed):
     return 0
