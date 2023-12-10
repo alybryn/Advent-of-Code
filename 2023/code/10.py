@@ -46,8 +46,18 @@ class Pipe():
     def __str__(self) -> str:
         return self._type
 
-def part1(parsed):
-    return parsed
+def part1(pipe_map):
+    start_index = pipe_map.get('S')
+    start_pipe = pipe_map.get(start_index)
+    ret = []
+    for index in start_pipe.potential_neighbors():
+        print(f'We trained for this. {index}')
+        indexed = pipe_map.get(index)
+        if indexed != None:
+            if start_index in indexed.potential_neighbors():
+                print(f"Es geht...{index}")
+                ret.append(index)
+    return ret
 
 def part2(parsed):
     return 0
