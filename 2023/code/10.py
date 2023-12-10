@@ -7,13 +7,8 @@ SAMPLE_ANSWER_2 = 10
 def parse(puzzle_input):
     # parse the input
     lines = [[c for c in list(lines)] for lines in puzzle_input.split()]
-    pipe_map = {}
-    for r in range(len(lines)):
-        for c in range(len(lines[0])):
-            type = lines[r][c]
-            pipe_map.update({(c,r): Pipe((c,r), type)})
-            if type == 'S':
-                pipe_map.update({'S': (c,r)})
+    pipe_map = PipeMap(lines)
+    pipe_map.pipe_loop()
     return pipe_map
 
 neighbors_matrix = {'F': ([(0, 1),( 1,0)]),
