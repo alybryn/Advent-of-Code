@@ -63,6 +63,28 @@ class PipeMap():
             self._loop.add(next)
             next = self.link_back(next, self._loop)
 
+    def count_inside(self):
+        c = 0
+        for k in self._locs.keys():
+            if k not in self._loop:
+                if self.count(k):
+                    c += 1
+        return c
+
+    def count(self, loc):
+        y = loc[0]
+        c = 0
+        for x in range(self._width):
+            # if in loop
+            if (x, y) in self._loop:
+                # check type
+                type = self._locs.get((x, y))
+                if type in ['F','L','J','7']:
+                    c += 1
+                elif type in ['|','-']:
+                    c += 2
+        return c%4 == 0
+
     @property
     def half_loop_len(self):
         return len(self._loop) // 2
