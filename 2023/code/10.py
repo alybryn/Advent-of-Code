@@ -10,17 +10,22 @@ def parse(puzzle_input):
     pipe_map = {}
     for r in range(len(lines)):
         for c in range(len(lines[0])):
-            print(lines[r][c])
-            if lines[r][c] == 'S':
+            type = lines[r][c]
+            print(type)
+            pipe_map.update({(r, c): Pipe((r, c), type)})
+            if type == 'S':
                 pipe_map.update({'S': (r, c)})
 
-    return lines
+    return pipe_map
 
 neighbors_matrix = {'F': ([(0,-1),( 1,0)]),
                     'L': ([(0, 1),( 1,0)]),
                     'J': ([(0, 1),(-1,0)]), 
                     '7': ([(0,-1),(-1,0)]),
+                    '|': ([(0,-1),( 0,1)]),
+                    '-': ([(1, 0),(-1,0)]),
                     'S': ([(0,-1),(0, 1),(-1,0),( 1,0)]),
+                    '.': (),
                     }
 
 class Pipe():
