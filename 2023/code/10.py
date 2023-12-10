@@ -93,8 +93,9 @@ class PipeMap():
 def part1(pipe_map):
     return pipe_map.half_loop_len
 
-def part2(parsed):
-    return 0
+def part2(pipe_map):
+    pipe_map.change_start_type
+    return pipe_map.count_inside()
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
