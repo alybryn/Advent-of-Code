@@ -46,18 +46,37 @@ class Pipe():
     def __str__(self) -> str:
         return self._type
 
+def link_back(pipe, pipe_map, prev=[]):
+    ret = []
+    # print(f'Finding a link for {pipe_map.get(pipe)}')
+    for index in pipe_map.get(pipe).potential_neighbors():
+        if index in prev:
+            # print(f'already been to {index}')
+            continue
+        indexed = pipe_map.get(index)
+        if indexed:
+            # print(indexed.potential_neighbors())
+            if pipe in indexed.potential_neighbors():
+                ret.append(index)
+    # print(ret)
+    return ret
+
 def part1(pipe_map):
     start_index = pipe_map.get('S')
-    start_pipe = pipe_map.get(start_index)
-    ret = []
-    for index in start_pipe.potential_neighbors():
-        print(f'We trained for this. {index}')
-        indexed = pipe_map.get(index)
-        if indexed != None:
-            if start_index in indexed.potential_neighbors():
-                print(f"Es geht...{index}")
-                ret.append(index)
-    return ret
+    s_connects = link_back(start_index, pipe_map)
+    path_taken = set()
+    path_taken.add(start_index)
+    branch_0 = s_connects[0]
+    branch_1 = s_connects[1]
+    # print(f'Setting out from {branch_0} and {branch_1}')
+    count = 1
+    while(branch_0 != branch_1):
+        path_taken.add(branch_0)
+        path_taken.add(branch_1)
+        branch_0 = link_back(branch_0, pipe_map, path_taken)[0]
+        branch_1 = link_back(branch_1, pipe_map, path_taken)[0]
+        count += 1
+    return count
 
 def part2(parsed):
     return 0
