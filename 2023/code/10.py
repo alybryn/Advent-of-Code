@@ -26,8 +26,10 @@ class PipeMap():
     def __init__(self, input) -> None:
         self._locs = {}
         self._start = None
-        for r in range(len(input)):
-            for c in range(len(input[0])):
+        self._height = len(input)
+        self._width = len(input[0])
+        for r in range(self._height):
+            for c in range(self._width):
                 type = input[r][c]
                 self._locs.update({(c,r): type})
                 if type == 'S':
