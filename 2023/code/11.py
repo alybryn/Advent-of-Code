@@ -61,6 +61,26 @@ def find_expansions(input):
             vert_expansion.append(i)
     return {'v': vert_expansion, 'h': hori_expansion}
 
+def apply_expansions(input):
+    input_galaxies, wh, expansions = input
+    vertical_expasions = expansions.get('v')
+    horizontal_expasions = expansions.get('h')
+
+    expand_vert_by = 0
+    ret = []
+
+    for r in range(wh):
+        if r in vertical_expasions:
+            expand_vert_by +=1
+        expand_hori_by = 0
+        for c in range(wh):
+            if c in horizontal_expasions:
+                expand_hori_by += 1
+            if (r, c) in input_galaxies:
+                ret.append((r+expand_vert_by, c+expand_hori_by))
+    # might not end square, ret is list, width, height
+    return ret, wh+len(horizontal_expasions), wh+len(vertical_expasions)
+
 
 def manhattan_distance(p1, p2):
     return abs(p1[0] - p2[0]) + abs(p1[1]-p1[1])
