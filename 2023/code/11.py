@@ -20,11 +20,11 @@ def find_galaxies(input):
     ret = {}
     return ret
 
-def part1(parsed):
-    return parsed
-
 def manhattan_distance(p1, p2):
     return abs(p1[0] - p2[0]) + abs(p1[1]-p1[1])
+
+def part1(parsed):
+    return parsed
 
 def part2(parsed):
     return 0
