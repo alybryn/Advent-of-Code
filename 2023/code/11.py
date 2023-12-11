@@ -5,13 +5,17 @@ SAMPLE_ANSWER_1 = 374
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
-    # parse the input
+    # parse the input, only galaxies
     lines = [[c for c in list(line)] for line in puzzle_input.split()]
-    ret = {}
+    ret = []
     wh = len(lines)
+    # for r in range(wh):
+    #     for c in range(wh):
+    #         ret.update({(r, c): lines[r][c]})
     for r in range(wh):
         for c in range(wh):
-            ret.update({(r, c): lines[r][c]})
+            if lines[r][c] == '#':
+                ret.append((r, c))
     return ret, wh
 
 # def expand_vertical(input):
@@ -30,9 +34,15 @@ def parse(puzzle_input):
 #             pass
 #     return ret
 
-def find_galaxies(input):
-    ret = {}
-    return ret
+# def find_galaxies(input):
+#     input_map, input_wh = input
+#     ret = []
+#     for r in range(input_wh):
+#         for c in range(input_wh):
+#             if input_map.get((r, c)) == '#':
+#                 ret.append((r, c))
+#     return ret
+
 
 def manhattan_distance(p1, p2):
     return abs(p1[0] - p2[0]) + abs(p1[1]-p1[1])
@@ -47,9 +57,9 @@ def print_dict(to_print):
     print(p)
 
 def part1(parsed):
-    galaxy_map, wh = parsed
+    galaxies_list, wh = parsed
     # print_dict(galaxy_map)
-    print(find_galaxies(parsed))
+    # print(find_galaxies(parsed))
     return parsed
 
 def part2(parsed):
