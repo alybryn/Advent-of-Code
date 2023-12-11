@@ -55,6 +55,16 @@ def apply_expansions(input_galaxies, wh, expansions, expand_by=1):
                 ret.append((r+expand_vert_by, c+expand_hori_by))
     return ret
 
+def apply_expansions_2(input_galaxies, expansions, expand_by=1):
+    vertical_expansions = expansions.get('v')
+    horizontal_expansions = expansions.get('h')
+    ret = []
+    for galaxy in input_galaxies:
+        expand_vert = sum([1 for e in vertical_expansions if e < galaxy[0]]) * expand_by
+        expand_hori = sum([1 for e in horizontal_expansions if e < galaxy[1]]) * expand_by
+        ret.append((galaxy[0] + expand_vert, galaxy[1] + expand_hori))
+    return ret
+
 def pair_and_measure(galaxies_list):
     ret = 0
     for i in range(len(galaxies_list)):
