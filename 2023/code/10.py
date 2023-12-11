@@ -87,18 +87,22 @@ class PipeMap():
         return c
 
     def count(self, loc):
+        inside = False
+        lookup = {('F','7'):0,('F','J'):1,('L','7'):1,('L','J'):0}
         y = loc[0]
-        c = 0
-        for x in range(self._width):
-            # if in loop
+        mem = None
+        for x in range(0, loc[1]):
             if (x, y) in self._loop:
-                # check type
-                type = self._locs.get((x, y))
-                if type in ['F','L','J','7']:
-                    c += 1
-                elif type in ['|','-']:
-                    c += 2
-        return c%4 == 0
+                type = self._locs.get((x,y))
+                if type in ['F', 'L']:
+                    mem = type
+                elif type in ['7','J']:
+                    if lookup.get((mem, type)):
+                        inside = not inside
+                elif type == '|':
+                    inside = not inside
+        return 1 if inside else 0
+
 
     @property
     def half_loop_len(self):
