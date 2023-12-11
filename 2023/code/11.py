@@ -2,7 +2,8 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 374
-SAMPLE_ANSWER_2 = None
+# for 10, 100
+SAMPLE_ANSWER_2 = 1030, 8410
 
 def parse(puzzle_input):
     # parse the input, only galaxies
