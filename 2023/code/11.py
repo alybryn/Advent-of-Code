@@ -18,31 +18,6 @@ def parse(puzzle_input):
                 ret.append((r, c))
     return ret, wh
 
-# def expand_vertical(input):
-#     input_map, input_width, input_height = input
-#     ret = {}
-#     for c in range(input_width):
-#         for r in range(input_height):
-#             pass
-#     return ret
-
-# def expand_horizontal(input):
-#     input_map, input_width, input_height = input
-#     ret = {}
-#     for r in range(input_height):
-#         for c in range(input_width):
-#             pass
-#     return ret
-
-# def find_galaxies(input):
-#     input_map, input_wh = input
-#     ret = []
-#     for r in range(input_wh):
-#         for c in range(input_wh):
-#             if input_map.get((r, c)) == '#':
-#                 ret.append((r, c))
-#     return ret
-
 def find_expansions(input):
     input_galaxies, wh = input
     vert_expansion = []
@@ -90,15 +65,6 @@ def pair_and_measure(galaxies_list):
 
 def manhattan_distance(p1, p2):
     return abs(p1[0] - p2[0]) + abs(p1[1]-p2[1])
-
-def print_dict(to_print):
-    max_key = max(to_print.keys())
-    p = ''
-    for i in range(max_key[0]):
-        for j in range(max_key[1]):
-            p += to_print.get((i, j))
-        p += '\n'
-    print(p)
 
 def part1(parsed):
     galaxies_list, wh = parsed
