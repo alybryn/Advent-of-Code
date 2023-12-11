@@ -48,6 +48,20 @@ class PipeMap():
             ret.append(adding(pipe, matrix))
         return ret
     
+    def change_start_type(self):
+        potentates = self.potential_neighbors(self._start)
+        correct = []
+        for index in potentates:
+            if self._start in self.potential_neighbors(index):
+                correct.append(index)
+        for k in ['F','L','J','7','|','-']:
+            start_neighbors_check = []
+            for matrix in neighbors_matrix.get(k):
+                start_neighbors_check.append(adding(self._start, matrix))
+            if start_neighbors_check == correct:
+                self._locs.update({self._start: k})
+                return
+
     def link_back(self, pipe, prev=[]):
         for index in self.potential_neighbors(pipe):
             if index in prev:
