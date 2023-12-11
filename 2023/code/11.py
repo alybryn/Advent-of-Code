@@ -89,7 +89,7 @@ def pair_and_measure(galaxies_list):
     return ret
 
 def manhattan_distance(p1, p2):
-    return abs(p1[0] - p2[0]) + abs(p1[1]-p1[1])
+    return abs(p1[0] - p2[0]) + abs(p1[1]-p2[1])
 
 def print_dict(to_print):
     max_key = max(to_print.keys())
