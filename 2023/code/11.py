@@ -37,31 +37,15 @@ def find_expansions(input):
             vert_expansion.append(i)
     return {'v': vert_expansion, 'h': hori_expansion}
 
-def apply_expansions(input_galaxies, wh, expansions, expand_by=1):
-    vertical_expasions = expansions.get('v')
-    horizontal_expasions = expansions.get('h')
-
-    expand_vert_by = 0
-    ret = []
-
-    for r in range(wh):
-        if r in vertical_expasions:
-            expand_vert_by += expand_by
-        expand_hori_by = 0
-        for c in range(wh):
-            if c in horizontal_expasions:
-                expand_hori_by += expand_by
-            if (r, c) in input_galaxies:
-                ret.append((r+expand_vert_by, c+expand_hori_by))
-    return ret
-
-def apply_expansions_2(input_galaxies, expansions, expand_by=1):
+def apply_expansions(input_galaxies, expansions, expand_by=2):
     vertical_expansions = expansions.get('v')
     horizontal_expansions = expansions.get('h')
     ret = []
     for galaxy in input_galaxies:
-        expand_vert = sum([1 for e in vertical_expansions if e < galaxy[0]]) * expand_by
-        expand_hori = sum([1 for e in horizontal_expansions if e < galaxy[1]]) * expand_by
+        # account for already present row, needs replaced, not added to
+        expand_vert = sum([1 for e in vertical_expansions if e < galaxy[0]]) * (expand_by-1)
+        expand_hori = sum([1 for e in horizontal_expansions if e < galaxy[1]]) * (expand_by-1)
+        # (print(expand_vert, expand_hori))
         ret.append((galaxy[0] + expand_vert, galaxy[1] + expand_hori))
     return ret
 
