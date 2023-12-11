@@ -9,7 +9,7 @@ def parse(puzzle_input):
     return [line for line in puzzle_input.split()]
 
 def part1(parsed):
-    return 0
+    return parsed
 
 def part2(parsed):
     return 0
