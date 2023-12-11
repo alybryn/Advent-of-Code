@@ -87,13 +87,15 @@ class PipeMap():
         return c
 
     def count(self, loc):
+        # print(f'checking: {self._locs[loc]}')
         inside = False
         lookup = {('F','7'):0,('F','J'):1,('L','7'):1,('L','J'):0}
-        y = loc[0]
+        y = loc[1]
         mem = None
-        for x in range(0, loc[1]):
+        for x in range(0, loc[0]):
             if (x, y) in self._loop:
                 type = self._locs.get((x,y))
+                # print(type)
                 if type in ['F', 'L']:
                     mem = type
                 elif type in ['7','J']:
@@ -102,7 +104,6 @@ class PipeMap():
                 elif type == '|':
                     inside = not inside
         return 1 if inside else 0
-
 
     @property
     def half_loop_len(self):
@@ -113,6 +114,7 @@ def part1(pipe_map):
 
 def part2(pipe_map):
     pipe_map.change_start_type
+    # print(pipe_map.count((14, 3)))
     return pipe_map.count_inside()
 
 def solve(puzzle_input):
