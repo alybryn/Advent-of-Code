@@ -51,9 +51,9 @@ def find_expansions(input):
         expand_vert = True
         expand_hori = True
         for j in range(wh):
-            if input_galaxies.get((i, j)):
+            if (i, j) in input_galaxies:
                 expand_vert = False
-            if input_galaxies.get((j, i)):
+            if (j, i) in input_galaxies:
                 expand_hori = False
         if expand_hori:
             hori_expansion.append(i)
