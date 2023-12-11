@@ -36,8 +36,7 @@ def find_expansions(input):
             vert_expansion.append(i)
     return {'v': vert_expansion, 'h': hori_expansion}
 
-def apply_expansions(input):
-    input_galaxies, wh, expansions = input
+def apply_expansions(input_galaxies, wh, expansions, expand_by=1):
     vertical_expasions = expansions.get('v')
     horizontal_expasions = expansions.get('h')
 
@@ -46,15 +45,14 @@ def apply_expansions(input):
 
     for r in range(wh):
         if r in vertical_expasions:
-            expand_vert_by +=1
+            expand_vert_by += expand_by
         expand_hori_by = 0
         for c in range(wh):
             if c in horizontal_expasions:
-                expand_hori_by += 1
+                expand_hori_by += expand_by
             if (r, c) in input_galaxies:
                 ret.append((r+expand_vert_by, c+expand_hori_by))
-    # might not end square, ret is list, width, height
-    return ret, wh+len(horizontal_expasions), wh+len(vertical_expasions)
+    return ret
 
 def pair_and_measure(galaxies_list):
     ret = 0
