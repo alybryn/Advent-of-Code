@@ -28,8 +28,18 @@ def find_galaxies(input):
 def manhattan_distance(p1, p2):
     return abs(p1[0] - p2[0]) + abs(p1[1]-p1[1])
 
+def print_dict(to_print):
+    max_key = max(to_print.keys())
+    p = ''
+    for i in range(max_key[0]):
+        for j in range(max_key[1]):
+            p += to_print.get((i, j))
+        p += '\n'
+    print(p)
+
 def part1(parsed):
-    return parsed
+    print_dict(parsed)
+    return 0
 
 def part2(parsed):
     return 0
