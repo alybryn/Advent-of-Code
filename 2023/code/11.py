@@ -8,18 +8,27 @@ def parse(puzzle_input):
     # parse the input
     lines = [[c for c in list(line)] for line in puzzle_input.split()]
     ret = {}
-    for r in range(len(lines)):
-        for c in range(len(lines[0])):
+    wh = len(lines)
+    for r in range(wh):
+        for c in range(wh):
             ret.update({(r, c): lines[r][c]})
-    return ret
+    return ret, wh
 
-def expand_vertical(input):
-    ret = {}
-    return ret
+# def expand_vertical(input):
+#     input_map, input_width, input_height = input
+#     ret = {}
+#     for c in range(input_width):
+#         for r in range(input_height):
+#             pass
+#     return ret
 
-def expand_horizontal(input):
-    ret = {}
-    return ret
+# def expand_horizontal(input):
+#     input_map, input_width, input_height = input
+#     ret = {}
+#     for r in range(input_height):
+#         for c in range(input_width):
+#             pass
+#     return ret
 
 def find_galaxies(input):
     ret = {}
@@ -38,10 +47,13 @@ def print_dict(to_print):
     print(p)
 
 def part1(parsed):
-    print_dict(parsed)
-    return 0
+    galaxy_map, wh = parsed
+    # print_dict(galaxy_map)
+    print(find_galaxies(parsed))
+    return parsed
 
 def part2(parsed):
+    galaxy_map, wh = parsed
     return 0
 
 def solve(puzzle_input):
