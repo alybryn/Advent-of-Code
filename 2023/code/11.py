@@ -43,6 +43,24 @@ def parse(puzzle_input):
 #                 ret.append((r, c))
 #     return ret
 
+def find_expansions(input):
+    input_galaxies, wh = input
+    vert_expansion = []
+    hori_expansion = []
+    for i in range(wh):
+        expand_vert = True
+        expand_hori = True
+        for j in range(wh):
+            if input_galaxies.get((i, j)):
+                expand_vert = False
+            if input_galaxies.get((j, i)):
+                expand_hori = False
+        if expand_hori:
+            hori_expansion.append(i)
+        if expand_vert:
+            vert_expansion.append(i)
+    return {'v': vert_expansion, 'h': hori_expansion}
+
 
 def manhattan_distance(p1, p2):
     return abs(p1[0] - p2[0]) + abs(p1[1]-p1[1])
