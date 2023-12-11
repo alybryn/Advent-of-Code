@@ -104,7 +104,9 @@ def part1(parsed):
     galaxies_list, wh = parsed
     # print_dict(galaxy_map)
     # print(find_galaxies(parsed))
-    return parsed
+    print(galaxies_list)
+    print(manhattan_distance((6, 1),(11, 5)))
+    return pair_and_measure(apply_expansions((galaxies_list, wh, find_expansions(parsed)))[0])
 
 def part2(parsed):
     galaxy_map, wh = parsed
