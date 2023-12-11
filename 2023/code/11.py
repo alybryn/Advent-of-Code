@@ -71,8 +71,10 @@ def part1(parsed):
     return pair_and_measure(expanded)
 
 def part2(parsed):
-    galaxy_map, wh = parsed
-    return 0
+    galaxy_list, wh = parsed
+    expansions = find_expansions(parsed)
+    expanded = apply_expansions(galaxy_list, wh, expansions, 10)
+    return pair_and_measure(expanded)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
