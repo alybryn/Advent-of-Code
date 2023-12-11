@@ -6,7 +6,12 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    lines = [[c for c in list(line)] for line in puzzle_input.split()]
+    ret = {}
+    for r in range(len(lines)):
+        for c in range(len(lines[0])):
+            ret.update({(r, c): lines[r][c]})
+    return ret
 
 def expand_vertical(input):
     ret = {}
