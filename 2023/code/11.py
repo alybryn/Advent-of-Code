@@ -81,6 +81,12 @@ def apply_expansions(input):
     # might not end square, ret is list, width, height
     return ret, wh+len(horizontal_expasions), wh+len(vertical_expasions)
 
+def pair_and_measure(galaxies_list):
+    ret = 0
+    for i in range(len(galaxies_list)):
+        for j in range(i, len(galaxies_list)):
+            ret += manhattan_distance(galaxies_list[i], galaxies_list[j])
+    return ret
 
 def manhattan_distance(p1, p2):
     return abs(p1[0] - p2[0]) + abs(p1[1]-p1[1])
