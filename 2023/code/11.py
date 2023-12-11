@@ -63,13 +63,13 @@ def part1(parsed):
     galaxies_list, wh = parsed
     expansions = find_expansions(parsed)
     # expanded = apply_expansions(galaxies_list, wh, expansions)
-    expanded = apply_expansions_2(galaxies_list, expansions)
+    expanded = apply_expansions(galaxies_list, expansions)
     return pair_and_measure(expanded)
 
 def part2(parsed):
     galaxy_list, wh = parsed
     expansions = find_expansions(parsed)
-    expanded = apply_expansions_2(galaxy_list, expansions, 10)
+    expanded = apply_expansions(galaxy_list, expansions, 1_000_000)
     return pair_and_measure(expanded)
 
 def solve(puzzle_input):
