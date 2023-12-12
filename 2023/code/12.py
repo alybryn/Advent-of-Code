@@ -30,6 +30,16 @@ def unknown_indices(spring):
             ret.append(i)
     return ret
 
+def make_two_strings(string, index):
+    """takes a string, returns 2 altered at index"""
+    return [''.join([string[:index], c, string[index+1:]]) for c in ['.', '#']]
+
+def make_two_for_each(strings, index):
+    """for each provided string, returns 2 altered at index"""
+    ret = []
+    for strings in strings:
+        ret.extend(make_two_for_each(strings, index))
+    return ret
 
 def count_minimum_damaged_comprehensive(spring):
     ret = []
