@@ -10,6 +10,14 @@ def parse(puzzle_input):
     return [[line[0],[int(l) for l in line[1].split(',')]] for line in lines]
 
 
+def unknown_indices(spring):
+    ret = []
+    for i in range(len(spring)):
+        if spring[i] == '?':
+            ret.append(i)
+    return ret
+
+
 def count_minimum_damaged_comprehensive(spring):
     ret = []
     count = 0
