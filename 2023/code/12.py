@@ -41,6 +41,13 @@ def make_two_for_each(strings, index):
         ret.extend(make_two_for_each(strings, index))
     return ret
 
+def all_iterations(spring):
+    """Create all possible spring strings"""
+    springs = [spring]
+    indices = unknown_indices(spring)
+    for i in indices:
+        make_two_for_each(springs, i)
+
 def count_minimum_damaged_comprehensive(spring):
     ret = []
     count = 0
