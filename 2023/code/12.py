@@ -46,30 +46,9 @@ def all_iterations(spring):
     springs = [spring]
     indices = unknown_indices(spring)
     for i in indices:
-        make_two_for_each(springs, i)
+        springs = make_two_for_each(springs, i)
+    return springs
 
-def count_minimum_damaged_comprehensive(spring):
-    ret = []
-    count = 0
-    counting_damaged = False
-    for c in spring:
-        if c in ['?', '.']:
-            if counting_damaged:
-                ret.append(count)
-                count = 0
-                counting_damaged = False
-            count += 1
-        if c == '#':
-            if not counting_damaged:
-                ret.append(0 - count)
-                count = 0
-                counting_damaged = True
-            count +=1
-    if count != 0:
-        if not counting_damaged:
-            count = 0 - count
-        ret.append(count)
-    return ret
 
 def count_maximum_damaged_comprehensive(spring):
     ret = []
