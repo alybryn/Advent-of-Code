@@ -30,7 +30,7 @@ def count_minimum_damaged(spring):
         ret.append(count)
     return ret
 
-def count_maximum_damaged(spring):
+def count_maximum_damaged_comprehensive(spring):
     ret = []
     count = 0
     counting_damaged = False
@@ -41,7 +41,7 @@ def count_maximum_damaged(spring):
                 count = 0
                 counting_damaged = False
             count += 1
-        if c in ['#', '?']:
+        elif c in ['#', '?']:
             if not counting_damaged:
                 counting_damaged = True
                 if count != 0:
@@ -53,6 +53,9 @@ def count_maximum_damaged(spring):
             count = 0 - count
         ret.append(count)
     return ret
+
+def count_maximum_damaged_summary(spring):
+    return sum([i for i in count_maximum_damaged_comprehensive(spring) if i > 0])
 
 def part1(parsed):
     ret = 0
