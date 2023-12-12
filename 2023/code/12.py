@@ -9,7 +9,8 @@ def parse(puzzle_input):
     lines = [line.split(' ') for line in puzzle_input.split('\n')]
     return [[line[0],[int(l) for l in line[1].split(',')]] for line in lines]
 
-def count_minimum_damaged(spring):
+
+def count_minimum_damaged_comprehensive(spring):
     ret = []
     count = 0
     counting_damaged = False
@@ -27,6 +28,8 @@ def count_minimum_damaged(spring):
                 counting_damaged = True
             count +=1
     if count != 0:
+        if not counting_damaged:
+            count = 0 - count
         ret.append(count)
     return ret
 
