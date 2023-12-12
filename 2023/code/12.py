@@ -9,6 +9,19 @@ def parse(puzzle_input):
     lines = [line.split(' ') for line in puzzle_input.split('\n')]
     return [[line[0],[int(l) for l in line[1].split(',')]] for line in lines]
 
+def count_damage(spring):
+    ret = []
+    count = 0
+    for c in spring:
+        if c == '#':
+            count += 1
+        else:
+            if count != 0:
+                ret.append(count)
+                count = 0
+    if count != 0:
+        ret.append(count)
+    return ret
 
 def unknown_indices(spring):
     ret = []
