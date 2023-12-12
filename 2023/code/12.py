@@ -9,12 +9,35 @@ def parse(puzzle_input):
     lines = [line.split(' ') for line in puzzle_input.split('\n')]
     return [[line[0],[int(l) for l in line[1].split(',')]] for line in lines]
 
+def count_minimum_damaged(spring):
+    ret = []
+    count = 0
+    counting_damaged = False
+    for c in spring:
+        if c in ['?', '.']:
+            if counting_damaged:
+                ret.append(count)
+                count = 0
+                counting_damaged = False
+            count += 1
+        if c == '#':
+            if not counting_damaged:
+                ret.append(0 - count)
+                count = 0
+                counting_damaged = True
+            count +=1
+    if count != 0:
+        ret.append(count)
+    return ret
+
 
 def part1(parsed):
     ret = 0
     for record in parsed:
         spring = record[0]
         known = record[1]
+        print(spring)
+        print(count_minimum_damaged(spring))
     return parsed
 
 def part2(parsed):
