@@ -30,6 +30,29 @@ def count_minimum_damaged(spring):
         ret.append(count)
     return ret
 
+def count_maximum_damaged(spring):
+    ret = []
+    count = 0
+    counting_damaged = False
+    for c in spring:
+        if c == '.':
+            if counting_damaged:
+                ret.append(count)
+                count = 0
+                counting_damaged = False
+            count += 1
+        if c in ['#', '?']:
+            if not counting_damaged:
+                counting_damaged = True
+                if count != 0:
+                    ret.append(0 - count)
+                    count = 0
+            count +=1
+    if count != 0:
+        if not counting_damaged:
+            count = 0 - count
+        ret.append(count)
+    return ret
 
 def part1(parsed):
     ret = 0
@@ -38,6 +61,7 @@ def part1(parsed):
         known = record[1]
         print(spring)
         print(count_minimum_damaged(spring))
+        print(count_maximum_damaged(spring))
     return parsed
 
 def part2(parsed):
