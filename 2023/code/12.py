@@ -6,9 +6,15 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    lines = [line.split(' ') for line in puzzle_input.split('\n')]
+    return [[line[0],[int(l) for l in line[1].split(',')]] for line in lines]
+
 
 def part1(parsed):
+    ret = 0
+    for record in parsed:
+        spring = record[0]
+        known = record[1]
     return parsed
 
 def part2(parsed):
