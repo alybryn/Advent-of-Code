@@ -82,10 +82,10 @@ def part1(parsed):
     for record in parsed:
         spring = record[0]
         known = record[1]
-        print(spring)
-        print(count_minimum_damaged(spring))
-        print(count_maximum_damaged(spring))
-    return parsed
+        for iteration in all_iterations(spring):
+            if count_damage(iteration) == known:
+                ret += 1
+    return ret
 
 def part2(parsed):
     return 0
