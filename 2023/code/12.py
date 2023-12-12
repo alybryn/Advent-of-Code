@@ -37,8 +37,8 @@ def make_two_strings(string, index):
 def make_two_for_each(strings, index):
     """for each provided string, returns 2 altered at index"""
     ret = []
-    for strings in strings:
-        ret.extend(make_two_for_each(strings, index))
+    for string in strings:
+        ret.extend(make_two_strings(string, index))
     return ret
 
 def all_iterations(spring):
