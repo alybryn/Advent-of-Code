@@ -1,7 +1,7 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 405
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
