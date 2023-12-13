@@ -48,6 +48,29 @@ def vertical(pattern):
 def horizontal(pattern):
     return pattern.split('\n')
 
+# arg: pattern: string of single pattern (incl. \n)
+# arg: disallowed: int of previous reflection
+def fix_smudge(pattern, disallowed):
+    patt_list = list(pattern)
+    for i in range(len(patt_list)):
+        if patt_list[i] == '\n':
+            # print(i)
+            # print(''.join(patt_list[i:]))
+            continue
+        new_str = ''
+        if patt_list[i] == '#':
+            new_pattern = patt_list.copy()
+            new_pattern[i] = '.'
+            # new_str = ''.join(new_pattern)
+        else: # if patt_list[i] == '.':
+            new_pattern = patt_list.copy()
+            new_pattern[i] = '#'
+        new_str = ''.join(new_pattern)
+        n = check_inflection(new_str, disallowed)
+        if n and n != disallowed:
+            return n
+        if i == 120:
+            print(new_str)
 
 def value(inflection):
     return inflection[0] if inflection[1] == 'h' else inflection[0] * 100
