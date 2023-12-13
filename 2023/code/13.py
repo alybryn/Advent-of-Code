@@ -76,15 +76,9 @@ def value(inflection):
     return inflection[0] if inflection[1] == 'v' else inflection[0] * 100
 
 def part1(parsed):
-
     ret = 0
-
     for pattern in parsed:
-        n = find_inflection(horizontal(pattern))
-        if n:
-            ret += n * 100
-            continue
-        ret += find_inflection(vertical(pattern))
+        ret += value(check_inflection(pattern))
     return ret
 
 def part2(parsed):
