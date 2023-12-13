@@ -7,10 +7,11 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     patterns = [line for line in puzzle_input.split('\n\n')]
-    patterns_flipped = []
-    for pattern in patterns:
-        patterns_flipped.append([''.join(list(f)) for f in zip(*[list(c) for c in pattern.split('\n')])])
-    return [pattern.split('\n') for pattern in patterns], patterns_flipped
+    return patterns
+    # patterns_flipped = []
+    # for pattern in patterns:
+    #     patterns_flipped.append([''.join(list(f)) for f in zip(*[list(c) for c in pattern.split('\n')])])
+    # return [pattern.split('\n') for pattern in patterns], patterns_flipped
 
 def is_mirror(side1, side2):
     for i in range(min(len(side1), len(side2))):
@@ -26,6 +27,15 @@ def find_inflection(pattern):
         if is_mirror(pattern[:i], pattern[i:][::-1]):
             return i
 
+# arg: pattern: string of single pattern
+# returns list of strings arranged as they were vertically
+def vertical(pattern):
+    # return [list(f) for f in zip(*[list(c) for c in pattern.split('\n')])]
+    return [''.join(list(f)) for f in zip(*[list(c) for c in pattern.split('\n')])]
+
+# arg: pattern: string of single pattern
+def horizontal(pattern):
+    return pattern.split('\n')
 
 def part1(parsed):
     return 0
