@@ -1,4 +1,6 @@
+import functools
 import pathlib
+import re
 import sys
 
 SAMPLE_ANSWER_1 = 21
@@ -6,64 +8,56 @@ SAMPLE_ANSWER_2 = 525152
 
 def parse(puzzle_input):
     # parse the input
-    lines = [line.split(' ') for line in puzzle_input.split('\n')]
-    return [[line[0],[int(l) for l in line[1].split(',')]] for line in lines]
+    return [line.split(' ') for line in puzzle_input.split('\n')]
 
-def count_damage(spring):
-    ret = []
-    count = 0
-    for c in spring:
-        if c == '#':
-            count += 1
+@functools.cache
+def record_match(spring, record):
+    if spring == '':
+        if record == '':
+            return 1
         else:
-            if count != 0:
-                ret.append(count)
-                count = 0
-    if count != 0:
-        ret.append(count)
-    return ret
-
-def unknown_indices(spring):
-    ret = []
-    for i in range(len(spring)):
-        if spring[i] == '?':
-            ret.append(i)
-    return ret
-
-def make_two_strings(string, index):
-    """takes a string, returns 2 altered at index"""
-    return [''.join([string[:index], c, string[index+1:]]) for c in ['.', '#']]
-
-def make_two_for_each(strings, index):
-    """for each provided string, returns 2 altered at index"""
-    ret = []
-    for string in strings:
-        ret.extend(make_two_strings(string, index))
-    return ret
-
-def all_iterations(spring):
-    """Create all possible spring strings"""
-    springs = [spring]
-    indices = unknown_indices(spring)
-    for i in indices:
-        springs = make_two_for_each(springs, i)
-    return springs
+            return 0
+    elif record == '':
+        if '#' in record:
+            return 0
+        else:
+            return 1
+    list_record = [int(i) for i in record.split(',')]
+    record_element_removed = ','.join(str(c) for c in list_record[1:])
+    # regex things start
+    # consume an extra . or ? for spacing
+    matcher = r'^[#|?]{'+str(list_record[0])+'}[.|?]'
+    if spring[0] == '.':
+        return record_match(spring[1:], record)
+    elif spring[0] == '#': # has to match
+        if re.match(matcher, spring):
+            return record_match(spring[list_record[0]+1:], record_element_removed)
+        else:
+            return 0
+    else: # if spring[0] == '?': # optional match
+        if re.match(matcher, spring):
+            return record_match(spring[list_record[0]+1:], record_element_removed) + record_match(spring[1:], record)
+        else:
+            return record_match(spring[1:], record)
 
 def mult_five(input):
-    return ['?'.join([input[0]]*5), input[1]*5]
+    return ['?'.join([input[0]]*5), ','.join([input[1]]*5)]
 
 def part1(parsed):
     ret = 0
     for record in parsed:
-        spring = record[0]
-        known = record[1]
-        for iteration in all_iterations(spring):
-            if count_damage(iteration) == known:
-                ret += 1
+        # spring = record[0]
+        # known = record[1]
+        # for iteration in all_iterations(spring):
+        #     if count_damage(iteration) == known:
+        #         ret += 1
+        match = record_match(record[0], record[1])
+        print(f'{record}, {match}')
+        ret += match
     return ret
 
 def part2(parsed):
-    ret = 0
+    return 0
     new_version = []
     for p in parsed:
         new_version.append(mult_five(p))
