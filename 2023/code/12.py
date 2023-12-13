@@ -49,33 +49,8 @@ def all_iterations(spring):
         springs = make_two_for_each(springs, i)
     return springs
 
-
-def count_maximum_damaged_comprehensive(spring):
-    ret = []
-    count = 0
-    counting_damaged = False
-    for c in spring:
-        if c == '.':
-            if counting_damaged:
-                ret.append(count)
-                count = 0
-                counting_damaged = False
-            count += 1
-        elif c in ['#', '?']:
-            if not counting_damaged:
-                counting_damaged = True
-                if count != 0:
-                    ret.append(0 - count)
-                    count = 0
-            count +=1
-    if count != 0:
-        if not counting_damaged:
-            count = 0 - count
-        ret.append(count)
-    return ret
-
-def count_maximum_damaged_summary(spring):
-    return sum([i for i in count_maximum_damaged_comprehensive(spring) if i > 0])
+def mult_five(input):
+    return ['?'.join([input[0]]*5), input[1]*5]
 
 def part1(parsed):
     ret = 0
@@ -88,7 +63,19 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    return 0
+    ret = 0
+    new_version = []
+    for p in parsed:
+        new_version.append(mult_five(p))
+    new_version = [new_version[1]]
+    print(new_version)
+    for record in new_version:
+        spring = record[0]
+        known = record[1]
+        for iteration in all_iterations(spring):
+            if count_damage(iteration) == known:
+                ret += 1
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
