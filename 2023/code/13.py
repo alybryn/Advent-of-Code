@@ -21,8 +21,10 @@ def is_mirror(side1, side2):
     return True
 
 # orientation agnostic
-def find_inflection(pattern):
+def find_inflection(pattern, disallowed=None):
     for i in range(1, len(pattern)):
+        if i == disallowed:
+            continue
         # pass sides to helper
         if is_mirror(pattern[:i][::-1], pattern[i:]):
             return i
@@ -30,12 +32,15 @@ def find_inflection(pattern):
 # arg: pattern: string of single pattern
 # arg: disallowed: optional int of previous reflection line
 # return: unmodified n, 'h'|'v'
-def check_inflection(pattern, disallowed=None):
-    n = (find_inflection(vertical(pattern)), 'v')
-    if n[0] and n != disallowed:
+def check_inflection(pattern, disallowed=(None,None)):
+    v = 'v'
+    h = 'h'
+    n = (find_inflection(vertical(pattern), disallowed[0]),v) if disallowed[1] == v else (find_inflection(vertical(pattern)),v)
+    # n = (find_inflection(vertical(pattern)), v)
+    if n[0]:
         return n
-    n = (find_inflection(horizontal(pattern)), 'h')
-    if n[0] and n != disallowed:
+    n = (find_inflection(horizontal(pattern), disallowed[0]),h) if disallowed[1] == h else (find_inflection(horizontal(pattern)), h)
+    if n[0]:
         return n
 
 # arg: pattern: string of single pattern
