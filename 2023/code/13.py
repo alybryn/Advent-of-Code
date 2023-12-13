@@ -48,6 +48,10 @@ def vertical(pattern):
 def horizontal(pattern):
     return pattern.split('\n')
 
+
+def value(inflection):
+    return inflection[0] if inflection[1] == 'h' else inflection[0] * 100
+
 def part1(parsed):
 
     ret = 0
