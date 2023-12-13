@@ -20,10 +20,10 @@ def is_mirror(side1, side2):
             return False
     return True
 
+# orientation agnostic
 def find_inflection(pattern):
     for i in range(1, len(pattern)):
         # pass sides to helper
-        # print(f'{pattern[:i][::-1]} v {pattern[i:]}')
         if is_mirror(pattern[:i][::-1], pattern[i:]):
             return i
 
