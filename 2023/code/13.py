@@ -28,6 +28,17 @@ def find_inflection(pattern):
             return i
 
 # arg: pattern: string of single pattern
+# arg: disallowed: optional int of previous reflection line
+# return: unmodified n, 'h'|'v'
+def check_inflection(pattern, disallowed=None):
+    n = (find_inflection(vertical(pattern)), 'v')
+    if n[0] and n != disallowed:
+        return n
+    n = (find_inflection(horizontal(pattern)), 'h')
+    if n[0] and n != disallowed:
+        return n
+
+# arg: pattern: string of single pattern
 # returns list of strings arranged as they were vertically
 def vertical(pattern):
     # return [list(f) for f in zip(*[list(c) for c in pattern.split('\n')])]
