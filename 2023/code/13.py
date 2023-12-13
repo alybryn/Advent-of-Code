@@ -6,7 +6,12 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    patterns = [line for line in puzzle_input.split('\n\n')]
+    patterns_flipped = []
+    for pattern in patterns:
+        patterns_flipped.append([''.join(list(f)) for f in zip(*[list(c) for c in pattern.split('\n')])])
+    return [pattern.split('\n') for pattern in patterns], patterns_flipped
+
 
 def part1(parsed):
     return 0
