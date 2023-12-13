@@ -73,7 +73,7 @@ def fix_smudge(pattern, disallowed):
             print(new_str)
 
 def value(inflection):
-    return inflection[0] if inflection[1] == 'h' else inflection[0] * 100
+    return inflection[0] if inflection[1] == 'v' else inflection[0] * 100
 
 def part1(parsed):
 
