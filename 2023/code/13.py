@@ -38,7 +38,16 @@ def horizontal(pattern):
     return pattern.split('\n')
 
 def part1(parsed):
-    return 0
+
+    ret = 0
+
+    for pattern in parsed:
+        n = find_inflection(horizontal(pattern))
+        if n:
+            ret += n * 100
+            continue
+        ret += find_inflection(vertical(pattern))
+    return ret
 
 def part2(parsed):
     return 0
