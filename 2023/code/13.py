@@ -59,8 +59,6 @@ def fix_smudge(pattern, disallowed):
     patt_list = list(pattern)
     for i in range(len(patt_list)):
         if patt_list[i] == '\n':
-            # print(i)
-            # print(''.join(patt_list[i:]))
             continue
         new_str = ''
         if patt_list[i] == '#':
@@ -86,7 +84,10 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    return 0
+    ret = 0
+    for pattern in parsed:
+        ret += value(fix_smudge(pattern, check_inflection(pattern)))
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
