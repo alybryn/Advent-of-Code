@@ -15,6 +15,7 @@ def parse(puzzle_input):
 
 def is_mirror(side1, side2):
     for i in range(min(len(side1), len(side2))):
+        # print(f'{side1[i]} v {side2[i]}')
         if side1[i] != side2[i]:
             return False
     return True
@@ -22,9 +23,8 @@ def is_mirror(side1, side2):
 def find_inflection(pattern):
     for i in range(1, len(pattern)):
         # pass sides to helper
-        print(pattern[:i])
-        print(pattern[i:][::-1])
-        if is_mirror(pattern[:i], pattern[i:][::-1]):
+        # print(f'{pattern[:i][::-1]} v {pattern[i:]}')
+        if is_mirror(pattern[:i][::-1], pattern[i:]):
             return i
 
 # arg: pattern: string of single pattern
