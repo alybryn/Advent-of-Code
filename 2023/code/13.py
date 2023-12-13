@@ -74,8 +74,7 @@ def fix_smudge(pattern, disallowed):
         n = check_inflection(new_str, disallowed)
         if n and n != disallowed:
             return n
-        if i == 120:
-            print(new_str)
+    print('exiting wrong direction')
 
 def value(inflection):
     return inflection[0] if inflection[1] == 'v' else inflection[0] * 100
