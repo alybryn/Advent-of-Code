@@ -6,10 +6,22 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return Platform([list(line) for line in puzzle_input.split()])
+
+class Platform():
+    def __init__(self, input) -> None:
+        self._southern_edge = len(input)
+        self._eastern_edge = len(input[0])
+        self._map = {}
+        for x in range(self._southern_edge):
+            for y in range(self._eastern_edge):
+                if input[x][y] != '.':
+                    # round is True, square is False, none is None
+                    self._map.update({(x,y): input[x][y] == 'O'})
+
 
 def part1(parsed):
-    return 0
+    return parsed
 
 def part2(parsed):
     return 0
