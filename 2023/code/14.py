@@ -28,6 +28,30 @@ class Platform():
                     # round is True, square is False, none is None
                     self._map.update({(x,y): input[x][y] == 'O'})
 
+    def tilt(self, direction):
+        for k in self._map.keys():
+            # round is True, square is False, none is None
+            rock = self._map.get(k)
+            if rock:
+                new = self.tilt_at(direction, k)
+                self.update({new: rock})
+                # try del later, but not on first pass
+                self.update({k: None})
+
+    # args are Direction and location of a round rock
+    def tilt_at(self, direction, loc):
+        while loc not in self._map.keys():
+            pass
+        
+
+    def north_load(self):
+        ret = 0
+        for k in self._map.keys():
+            rock = self._map.get(k)
+            if rock.is_round:
+                ret += self._southern_edge - k[0]
+        return ret
+
     def __str__(self) -> str:
         p = ''
         for x in range(self._southern_edge):
