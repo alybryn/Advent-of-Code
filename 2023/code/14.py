@@ -9,7 +9,17 @@ SAMPLE_ANSWER_2 = 64
 
 def parse(puzzle_input):
     # parse the input
-    return Platform([list(line) for line in puzzle_input.split()])
+    lines = [list(line) for line in puzzle_input.split()]
+    south_bound = len(lines)
+    east_bound = len(lines[0])
+    platform = {}
+    switch = {'O': True, '#': False, '.': None}
+    for x in range(south_bound):
+        for y in range(east_bound):
+            # round is True, square is False, none is None
+            platform.update({(x,y): switch.get(lines[x][y])})
+
+    return platform, south_bound, east_bound
 
 class Direction(Enum):
     NORTH = (-1,0)
