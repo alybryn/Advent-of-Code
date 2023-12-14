@@ -102,10 +102,10 @@ def fall_down(section):
     return tuple(section)
  
 def part1(parsed):
-    platform = parsed[0]
+    platform = copy(parsed[0])
     south_bound = parsed[1]
     east_bound = parsed[2]
-    platform = tilt_north(platform, south_bound, east_bound)
+    tilt_north(platform, south_bound, east_bound)
     return north_load(platform, south_bound)
 
 def part2(parsed):
