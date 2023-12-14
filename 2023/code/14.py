@@ -8,6 +8,15 @@ def parse(puzzle_input):
     # parse the input
     return Platform([list(line) for line in puzzle_input.split()])
 
+class Direction(Enum):
+    NORTH = (-1,0)
+    SOUTH = (1, 0)
+    EAST = (0,1)
+    WEST = (0,-1)
+
+    def neighbor(self, coord):
+        return self.value[0] + coord[0], self.value[1] + coord[1]
+        
 class Platform():
     def __init__(self, input) -> None:
         self._southern_edge = len(input)
