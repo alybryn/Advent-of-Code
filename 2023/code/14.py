@@ -38,17 +38,51 @@ class Platform():
     def inside(self, loc):
         return self._bounds.get(Direction.NORTH) <= loc[0] < self._bounds.get(Direction.SOUTH) and self._bounds.get(Direction.WEST) <= loc[1] < self._bounds.get(Direction.EAST)
 
+    def spin(self, cycles):
+        for i in range(cycles):
+            # print('north')
+            self.tilt_north()
+            # print(self)
+            # print('west')
+            self.tilt_west()
+            # print(self)
+            # print('south')
+            self.tilt_south()
+            # print(self)
+            # print('east')
+            self.tilt_east()
+            # print(self)
+
+    def tilt_north(self):
         for x in range(self._bounds.get(Direction.SOUTH)):
             for y in range(self._bounds.get(Direction.EAST)):
-                k = (x,y)
-                rock = self._map.get(k)
-                # print(f'{k}: {rock}')
-                if rock:
-                    new = self.tilt_at(direction, k)
-                    if new != k:
-                        self._map.update({new: rock})
-                        self._map.update({k: None})
-                        # print(f'moved rock from {k} to {new}')
+                self.tilt(Direction.NORTH, x, y)
+
+    def tilt_west(self):
+        for x in range(self._bounds.get(Direction.SOUTH)):
+            for y in range(self._bounds.get(Direction.EAST)):
+                self.tilt(Direction.WEST, x, y)
+
+    def tilt_south(self):
+        for x in reversed(range(self._bounds.get(Direction.SOUTH))):
+            for y in range(self._bounds.get(Direction.EAST)):
+                self.tilt(Direction.SOUTH, x, y)
+
+    def tilt_east(self):
+        for x in range(self._bounds.get(Direction.SOUTH)):
+            for y in reversed(range(self._bounds.get(Direction.EAST))):
+                self.tilt(Direction.EAST, x, y)
+
+    def tilt(self, direction, x, y):
+        k = (x,y)
+        rock = self._map.get(k)
+        # print(f'{k}: {rock}')
+        if rock:
+            new = self.tilt_at(direction, k)
+            if new != k:
+                self._map.update({new: rock})
+                self._map.update({k: None})
+            # print(f'moved rock from {k} to {new}')
 
     # args are Direction and location of a round rock
     ### ONLY TILT TO ZERO! AND MAX ###
@@ -80,7 +114,12 @@ class Platform():
 def part1(parsed):
     # print(parsed)
     this_platform = deepcopy(parsed)
+    this_platform.tilt_north()
     # print(parsed)
+    return this_platform.north_load()
+
+def part2(parsed):
+    parsed.spin(1_000_000_000)
     return parsed.north_load()
 
 def part2(parsed):
