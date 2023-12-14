@@ -54,7 +54,7 @@ def north_load(platform, south_bound):
         return ret
 
 def spin(platform, cycles, south_bound, east_bound):
-    for _ in cycles:
+    for _ in range(cycles):
         tilt_north(platform, south_bound, east_bound)
         tilt_west(platform, south_bound, east_bound)
         tilt_south(platform, south_bound, east_bound)
@@ -86,8 +86,8 @@ def tilt_south(platform, south_bound, east_bound):
         for x in reversed(range(south_bound)):
             section.append(platform.get((x,y)))
         section = fall_down(tuple(section))
-        for x in reversed(range(south_bound)):
-            platform.update({(x,y): section[x]})
+        for x in range(south_bound):
+            platform.update({(x,y): section[south_bound-x-1]})
 
 def tilt_east(platform, south_bound, east_bound):
     for x in range(south_bound):
@@ -95,8 +95,8 @@ def tilt_east(platform, south_bound, east_bound):
         for y in reversed(range(east_bound)):
             section.append(platform.get((x,y)))
         section = fall_down(tuple(section))
-        for y in reversed(range(east_bound)):
-            platform.update({(x,y): section[y]})
+        for y in range(east_bound):
+            platform.update({(x,y): section[east_bound-y-1]})
 
 @cache
 def fall_down(section):
@@ -119,11 +119,13 @@ def part1(parsed):
     return north_load(platform, south_bound)
 
 def part2(parsed):
-    parsed.spin(1_000_000_000)
-    return parsed.north_load()
-
-def part2(parsed):
-    return 0
+    platform = copy(parsed[0])
+    south_bound = parsed[1]
+    east_bound = parsed[2]
+    cycles = 1_000_000_000
+    # cycles = 3
+    spin(platform, cycles, south_bound, east_bound)
+    return north_load(platform, south_bound)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
