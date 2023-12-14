@@ -22,8 +22,11 @@ def neighbor(loc, direction):
  
 class Platform():
     def __init__(self, input) -> None:
-        self._southern_edge = len(input)
-        self._eastern_edge = len(input[0])
+        self._bounds = {Direction.NORTH:0,
+                        Direction.SOUTH:len(input),
+                        Direction.EAST:len(input[0]),
+                        Direction.WEST:0
+                        }
         self._map = {}
         for x in range(self._southern_edge):
             for y in range(self._eastern_edge):
@@ -32,40 +35,50 @@ class Platform():
                     self._map.update({(x,y): input[x][y] == 'O'})
 
     def tilt(self, direction):
-        for k in self._map.keys():
-            # round is True, square is False, none is None
-            rock = self._map.get(k)
-            if rock:
-                new = self.tilt_at(direction, k)
-                self.update({new: rock})
-                # try del later, but not on first pass
-                self.update({k: None})
+        for x in range(self._bounds.get(Direction.SOUTH)):
+            for y in range(self._bounds.get(Direction.EAST)):
+                k = (x,y)
+                rock = self._map.get(k)
+                # print(f'{k}: {rock}')
+                if rock:
+                    new = self.tilt_at(direction, k)
+                    if new != k:
+                        self._map.update({new: rock})
+                        self._map.update({k: None})
+                        # print(f'moved rock from {k} to {new}')
 
     # args are Direction and location of a round rock
+    ### ONLY TILT TO ZERO! AND MAX ###
     def tilt_at(self, direction, loc):
-        while loc not in self._map.keys():
-            pass
-        
+        next_loc = neighbor(loc, direction)
+        # print(f'rock at {next_loc} is {self._map.get(next_loc)}')
+        while next_loc[0] >= 0 and self._map.get(next_loc) == None:
+            loc = next_loc
+            next_loc = neighbor(loc, direction)
+
+        return loc            
 
     def north_load(self):
         ret = 0
         for k in self._map.keys():
-            rock = self._map.get(k)
-            if rock.is_round:
-                ret += self._southern_edge - k[0]
+            if self._map.get(k):
+                ret += self._bounds.get(Direction.SOUTH) - k[0]
         return ret
 
     def __str__(self) -> str:
-        p = ''
-        for x in range(self._southern_edge):
-            for y in range(self._eastern_edge):
+        p = 'Platform:\n'
+        for x in range(self._bounds.get(Direction.SOUTH)):
+            for y in range(self._bounds.get(Direction.EAST)):
                 r = self._map.get((x, y))
                 p += 'O' if r else '.' if r == None else '#'
             p += '\n'
         return p
 
 def part1(parsed):
-    return parsed
+    # print(parsed)
+    parsed.tilt(Direction.NORTH)
+    # print(parsed)
+    return parsed.north_load()
 
 def part2(parsed):
     return 0
