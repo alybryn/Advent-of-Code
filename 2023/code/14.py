@@ -1,4 +1,6 @@
+from functools import cache
 import pathlib
+from enum import Enum
 import sys
 
 SAMPLE_ANSWER_1 = 136
@@ -14,9 +16,10 @@ class Direction(Enum):
     EAST = (0,1)
     WEST = (0,-1)
 
-    def neighbor(self, coord):
-        return self.value[0] + coord[0], self.value[1] + coord[1]
-        
+@cache
+def neighbor(loc, direction):
+    return loc[0] + direction.value[0], loc[1] + direction.value[1]
+ 
 class Platform():
     def __init__(self, input) -> None:
         self._southern_edge = len(input)
