@@ -19,6 +19,14 @@ class Platform():
                     # round is True, square is False, none is None
                     self._map.update({(x,y): input[x][y] == 'O'})
 
+    def __str__(self) -> str:
+        p = ''
+        for x in range(self._southern_edge):
+            for y in range(self._eastern_edge):
+                r = self._map.get((x, y))
+                p += 'O' if r else '.' if r == None else '#'
+            p += '\n'
+        return p
 
 def part1(parsed):
     return parsed
