@@ -1,44 +1,13 @@
-from copy import copy
 from functools import cache
 import pathlib
-from enum import Enum
 import sys
 
 SAMPLE_ANSWER_1 = 136
 SAMPLE_ANSWER_2 = 64
 
 def parse(puzzle_input):
-    # parse the input
-    lines = [list(line) for line in puzzle_input.split()]
-    south_bound = len(lines)
-    east_bound = len(lines[0])
-    platform = {}
-    switch = {'O': True, '#': False, '.': None}
-    for x in range(south_bound):
-        for y in range(east_bound):
-            # round is True, square is False, none is None
-            platform.update({(x,y): switch.get(lines[x][y])})
-
-    return platform, south_bound, east_bound
-
-class Direction(Enum):
-    NORTH = (-1,0)
-    WEST = (0,-1)
-    SOUTH = (1, 0)
-    EAST = (0,1)
-
-@cache
-def neighbor(loc, direction):
-    return loc[0] + direction.value[0], loc[1] + direction.value[1]
-
-def print_platform(platform, south_bound, east_bound):
-    p = 'Platform:\n'
-    for x in range(south_bound):
-        for y in range(east_bound):
-            r = platform.get((x, y))
-            p += 'O' if r else '.' if r == None else '#'
-        p += '\n'
-    print(p)
+    return puzzle_input
+    # don't parse the input
 
 def print_section(section):
     p = ''
@@ -46,86 +15,66 @@ def print_section(section):
         p += 'O' if v else '.' if v == None else '#'
     print(p)
 
-def north_load(platform, south_bound):
-        ret = 0
-        for k in platform.keys():
-            if platform.get(k):
-                ret += south_bound - k[0]
-        return ret
+def north_load(platform):
+    ret = 0
+    platform = [line for line in platform.split('\n')]
+    for x in range(len(platform)):
+        for y in range(len(platform[0])):
+            if platform[x][y] == 'O':
+                ret += len(platform) - x
+    return ret
 
-def spin(platform, cycles, south_bound, east_bound):
-    for _ in range(cycles):
-        tilt_north(platform, south_bound, east_bound)
-        tilt_west(platform, south_bound, east_bound)
-        tilt_south(platform, south_bound, east_bound)
-        tilt_east(platform, south_bound, east_bound)
+@cache
+def spin(platform):
+    return tilt_east(tilt_south(tilt_west(tilt_north(platform))))
 
+# platform is a string
+@cache
+def tilt_north(platform):
+    platform = [''.join(list(f)) for f in zip(*[list(c) for c in platform.split('\n')])]
+    platform = [fall_down(l) for l in platform]
+    platform = '\n'.join(''.join(f) for f in zip(*[list(p) for p in platform]))
     return platform
 
-def tilt_north(platform, south_bound, east_bound):
-    for y in range(east_bound):
-        section = []
-        for x in range(south_bound):
-            section.append(platform.get((x, y)))
-        section = fall_down(tuple(section))
-        for x in range(east_bound):
-            platform.update({(x,y): section[x]})
+@cache
+def tilt_west(platform):
+    platform = platform.split('\n')
+    platform = [fall_down(l) for l in platform]
+    platform = '\n'.join(platform)
+    return platform
 
-def tilt_west(platform, south_bound, east_bound):
-    for x in range(south_bound):
-        section = []
-        for y in range(east_bound):
-            section.append(platform.get((x,y)))
-        section = fall_down(tuple(section))
-        for y in range(east_bound):
-            platform.update({(x,y): section[y]})
+@cache
+def tilt_south(platform):
+    return tilt_north(platform[::-1])[::-1]
 
-def tilt_south(platform, south_bound, east_bound):
-    for y in range(east_bound):
-        section = []
-        for x in reversed(range(south_bound)):
-            section.append(platform.get((x,y)))
-        section = fall_down(tuple(section))
-        for x in range(south_bound):
-            platform.update({(x,y): section[south_bound-x-1]})
-
-def tilt_east(platform, south_bound, east_bound):
-    for x in range(south_bound):
-        section = []
-        for y in reversed(range(east_bound)):
-            section.append(platform.get((x,y)))
-        section = fall_down(tuple(section))
-        for y in range(east_bound):
-            platform.update({(x,y): section[east_bound-y-1]})
+@cache
+def tilt_east(platform):
+    return tilt_west(platform[::-1])[::-1]
 
 @cache
 def fall_down(section):
     section = list(section)
     for i in range(len(section)):
-        if section[i]:
+        if section[i] == 'O':
             next_i = i
-            while next_i - 1 >= 0 and section[next_i - 1] == None:
+            while next_i - 1 >= 0 and section[next_i - 1] == '.':
                 next_i = next_i-1
-            section[next_i] = True
+            section[next_i] = 'O'
             if i != next_i:
-                section[i] = None
-    return tuple(section)
+                section[i] = '.'
+    return ''.join(section)
  
 def part1(parsed):
-    platform = copy(parsed[0])
-    south_bound = parsed[1]
-    east_bound = parsed[2]
-    tilt_north(platform, south_bound, east_bound)
-    return north_load(platform, south_bound)
+    return north_load(tilt_north(parsed))
 
 def part2(parsed):
-    platform = copy(parsed[0])
-    south_bound = parsed[1]
-    east_bound = parsed[2]
+    platform = parsed
+    last_north_load = north_load(platform)
     cycles = 1_000_000_000
     # cycles = 3
-    spin(platform, cycles, south_bound, east_bound)
-    return north_load(platform, south_bound)
+    for _ in range(cycles):
+        platform = spin(platform)
+    return north_load(platform)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
