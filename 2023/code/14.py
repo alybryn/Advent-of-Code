@@ -46,6 +46,12 @@ def print_section(section):
         p += 'O' if v else '.' if v == None else '#'
     print(p)
 
+def north_load(platform, south_bound):
+        ret = 0
+        for k in platform.keys():
+            if platform.get(k):
+                ret += south_bound - k[0]
+        return ret
  
 class Platform():
     def __init__(self, input) -> None:
