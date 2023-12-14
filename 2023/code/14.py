@@ -52,6 +52,16 @@ def north_load(platform, south_bound):
             if platform.get(k):
                 ret += south_bound - k[0]
         return ret
+
+def spin(platform, cycles, south_bound, east_bound):
+    for _ in cycles:
+        tilt_north(platform, south_bound, east_bound)
+        tilt_west(platform, south_bound, east_bound)
+        tilt_south(platform, south_bound, east_bound)
+        tilt_east(platform, south_bound, east_bound)
+
+    return platform
+
 def tilt_north(platform, south_bound, east_bound):
     for y in range(east_bound):
         section = []
