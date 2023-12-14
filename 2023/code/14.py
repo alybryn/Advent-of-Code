@@ -61,6 +61,32 @@ def tilt_north(platform, south_bound, east_bound):
         for x in range(east_bound):
             platform.update({(x,y): section[x]})
 
+def tilt_west(platform, south_bound, east_bound):
+    for x in range(south_bound):
+        section = []
+        for y in range(east_bound):
+            section.append(platform.get((x,y)))
+        section = fall_down(tuple(section))
+        for y in range(east_bound):
+            platform.update({(x,y): section[y]})
+
+def tilt_south(platform, south_bound, east_bound):
+    for y in range(east_bound):
+        section = []
+        for x in reversed(range(south_bound)):
+            section.append(platform.get((x,y)))
+        section = fall_down(tuple(section))
+        for x in reversed(range(south_bound)):
+            platform.update({(x,y): section[x]})
+
+def tilt_east(platform, south_bound, east_bound):
+    for x in range(south_bound):
+        section = []
+        for y in reversed(range(east_bound)):
+            section.append(platform.get((x,y)))
+        section = fall_down(tuple(section))
+        for y in reversed(range(east_bound)):
+            platform.update({(x,y): section[y]})
 
 @cache
 def fall_down(section):
