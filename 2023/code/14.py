@@ -52,6 +52,31 @@ def north_load(platform, south_bound):
             if platform.get(k):
                 ret += south_bound - k[0]
         return ret
+def tilt_north(platform, south_bound, east_bound):
+    test = lambda x, _: x >= 0
+    for y in range(east_bound):
+        section = []
+        for x in range(south_bound):
+            section.append(platform.get((x, y)))
+        section = fall_down(tuple(section))
+        print_section(section)
+        for x in range(east_bound):
+            platform.update({(x,y): section[x]})
+    return platform
+
+
+@cache
+def fall_down(section):
+    section = list(section)
+    for i in range(len(section)):
+        if section[i]:
+            next_i = i
+            while next_i - 1 >= 0 and section[next_i - 1] == None:
+                next_i = next_i-1
+            section[next_i] = True
+            if i != next_i:
+                section[i] = None
+    return tuple(section)
  
 class Platform():
     def __init__(self, input) -> None:
@@ -144,11 +169,11 @@ class Platform():
         return p
 
 def part1(parsed):
-    # print(parsed)
-    this_platform = deepcopy(parsed)
-    this_platform.tilt_north()
-    # print(parsed)
-    return this_platform.north_load()
+    platform = parsed[0]
+    south_bound = parsed[1]
+    east_bound = parsed[2]
+    platform = tilt_north(platform, south_bound, east_bound)
+    return north_load(platform, south_bound)
 
 def part2(parsed):
     parsed.spin(1_000_000_000)
