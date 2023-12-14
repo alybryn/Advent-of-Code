@@ -53,16 +53,13 @@ def north_load(platform, south_bound):
                 ret += south_bound - k[0]
         return ret
 def tilt_north(platform, south_bound, east_bound):
-    test = lambda x, _: x >= 0
     for y in range(east_bound):
         section = []
         for x in range(south_bound):
             section.append(platform.get((x, y)))
         section = fall_down(tuple(section))
-        print_section(section)
         for x in range(east_bound):
             platform.update({(x,y): section[x]})
-    return platform
 
 
 @cache
