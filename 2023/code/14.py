@@ -4,7 +4,7 @@ from enum import Enum
 import sys
 
 SAMPLE_ANSWER_1 = 136
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 64
 
 def parse(puzzle_input):
     # parse the input
@@ -27,9 +27,14 @@ class Platform():
                         Direction.EAST:len(input[0]),
                         Direction.WEST:0
                         }
+        self._ranges = {Direction.NORTH:(range(self._bounds.get(Direction.SOUTH)), range(self._bounds.get(Direction.EAST))),
+                        Direction.SOUTH:(reversed(range(self._bounds.get(Direction.SOUTH))), range(self._bounds.get(Direction.EAST))),
+                        Direction.EAST:(reversed(range(self._bounds.get(Direction.EAST))), range(self._bounds.get(Direction.SOUTH))),
+                        Direction.WEST:(range(self._bounds.get(Direction.EAST)), range(self._bounds.get(Direction.SOUTH))),
+                        }
         self._map = {}
-        for x in range(self._southern_edge):
-            for y in range(self._eastern_edge):
+        for x in range(self._bounds.get(Direction.SOUTH)):
+            for y in range(self._bounds.get(Direction.EAST)):
                 if input[x][y] != '.':
                     # round is True, square is False, none is None
                     self._map.update({(x,y): input[x][y] == 'O'})
