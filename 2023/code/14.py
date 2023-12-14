@@ -30,6 +30,22 @@ class Direction(Enum):
 @cache
 def neighbor(loc, direction):
     return loc[0] + direction.value[0], loc[1] + direction.value[1]
+
+def print_platform(platform, south_bound, east_bound):
+    p = 'Platform:\n'
+    for x in range(south_bound):
+        for y in range(east_bound):
+            r = platform.get((x, y))
+            p += 'O' if r else '.' if r == None else '#'
+        p += '\n'
+    print(p)
+
+def print_section(section):
+    p = ''
+    for v in section:
+        p += 'O' if v else '.' if v == None else '#'
+    print(p)
+
  
 class Platform():
     def __init__(self, input) -> None:
