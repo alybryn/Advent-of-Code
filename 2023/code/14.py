@@ -1,3 +1,4 @@
+from copy import deepcopy
 from functools import cache
 import pathlib
 from enum import Enum
@@ -12,9 +13,9 @@ def parse(puzzle_input):
 
 class Direction(Enum):
     NORTH = (-1,0)
+    WEST = (0,-1)
     SOUTH = (1, 0)
     EAST = (0,1)
-    WEST = (0,-1)
 
 @cache
 def neighbor(loc, direction):
@@ -39,7 +40,9 @@ class Platform():
                     # round is True, square is False, none is None
                     self._map.update({(x,y): input[x][y] == 'O'})
 
-    def tilt(self, direction):
+    def inside(self, loc):
+        return self._bounds.get(Direction.NORTH) <= loc[0] < self._bounds.get(Direction.SOUTH) and self._bounds.get(Direction.WEST) <= loc[1] < self._bounds.get(Direction.EAST)
+
         for x in range(self._bounds.get(Direction.SOUTH)):
             for y in range(self._bounds.get(Direction.EAST)):
                 k = (x,y)
@@ -57,11 +60,11 @@ class Platform():
     def tilt_at(self, direction, loc):
         next_loc = neighbor(loc, direction)
         # print(f'rock at {next_loc} is {self._map.get(next_loc)}')
-        while next_loc[0] >= 0 and self._map.get(next_loc) == None:
+        while self.inside(next_loc) and self._map.get(next_loc) == None:
             loc = next_loc
             next_loc = neighbor(loc, direction)
 
-        return loc            
+        return loc
 
     def north_load(self):
         ret = 0
@@ -81,7 +84,7 @@ class Platform():
 
 def part1(parsed):
     # print(parsed)
-    parsed.tilt(Direction.NORTH)
+    this_platform = deepcopy(parsed)
     # print(parsed)
     return parsed.north_load()
 
