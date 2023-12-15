@@ -3,7 +3,7 @@ import re
 import sys
 
 SAMPLE_ANSWER_1 = 1320
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 145
 
 def parse(puzzle_input):
     # parse the input
