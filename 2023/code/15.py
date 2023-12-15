@@ -16,6 +16,22 @@ def hash(chunk):
         ret = ret%256
     return ret
 
+class Lens():
+    def __init__(self, l, fl) -> None:
+        self._label = l
+        self._focal_length = fl
+
+    @property
+    def label(self):
+        return self._label
+
+    @property
+    def focal_length(self):
+        return self._focal_length
+    
+    def __str__(self) -> str:
+        return f'[{self.label} {self.focal_length}]'
+
 class Boxes():
     def __init__(self) -> None:
         self._boxes = {}
