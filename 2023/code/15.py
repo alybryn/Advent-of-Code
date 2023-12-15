@@ -75,9 +75,12 @@ class Boxes():
     def __str__(self) -> str:
         p = ''
         for k in self._boxes.keys():
-            p += f'Box {k}: '
-            for l in self._boxes.get(k):
-                p += str(l)
+            unshelved = self._boxes.get(k)
+            if len(unshelved) > 0:
+                p += f'Box {k}: '
+                for l in self._boxes.get(k):
+                    p += str(l)
+                p += '\n'
         return p
 
 def part1(parsed):
