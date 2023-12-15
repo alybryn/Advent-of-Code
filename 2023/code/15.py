@@ -102,7 +102,10 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    return 0
+    boxes = Boxes()
+    for chunk in parsed:
+        boxes.process(chunk)    
+    return boxes.focusing_power
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
