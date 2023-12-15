@@ -43,7 +43,7 @@ class Boxes():
             # remove lens with label from box h
             self.remove(box, label)
         else: # '=' in chunk
-            self.place(box, label, lens[0])
+            self.place(box, Lens(label, lens[0]))
     
     # remove the lens with the given label if it is present
     # any other lenses should be moved forward
@@ -52,9 +52,18 @@ class Boxes():
         if label in unshelved:
             i = list
 
-    def place(self, box, label, lens):
+    def place(self, box, new_lens):
         unshelved = self._boxes.get(box, [])
-        if label
+        replaced = False
+        for i in len(unshelved):
+            if unshelved[i].focal_length == new_lens.focal_length:
+                # replace
+                unshelved[i] = new_lens
+                replaced = True
+        if not replaced:
+            unshelved.append(new_lens))
+        # replace box on shelf
+        self._boxes.update({box: unshelved})
 
     def focusing_power(self):
         ret = 0
