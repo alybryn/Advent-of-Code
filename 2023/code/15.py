@@ -1,15 +1,16 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 1320
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [chunk for chunk in puzzle_input.split(',')]
 
 def part1(parsed):
-    return 0
+    ret = 0
+    return ret
 
 def part2(parsed):
     return 0
