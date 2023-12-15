@@ -8,8 +8,18 @@ def parse(puzzle_input):
     # parse the input
     return [chunk for chunk in puzzle_input.split(',')]
 
+def hash(chunk):
+    ret = 0
+    for c in chunk:
+        ret += ord(c)
+        ret = ret * 17
+        ret = ret%256
+    return ret
+
 def part1(parsed):
     ret = 0
+    for chunk in parsed:
+        ret += hash(chunk)
     return ret
 
 def part2(parsed):
