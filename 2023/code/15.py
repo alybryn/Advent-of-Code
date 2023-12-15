@@ -75,11 +75,14 @@ class Boxes():
         # replace box on shelf
         self._boxes.update({box: unshelved})
 
+    @property
     def focusing_power(self):
         ret = 0
-        for k in self._boxes.keys():
-            for l in self._boxes.get(k):
-                pass
+        for box_number in self._boxes.keys():
+            box = self._boxes.get(box_number)
+            for slot_number in range(len(box)):
+                ret += (box_number + 1) * (slot_number + 1) * box[slot_number].focal_length
+        return ret
 
     def __str__(self) -> str:
         p = ''
