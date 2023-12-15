@@ -66,7 +66,7 @@ class Boxes():
         unshelved = self._boxes.get(box, [])
         replaced = False
         for i in range(len(unshelved)):
-            if unshelved[i].focal_length == new_lens.focal_length:
+            if unshelved[i].label == new_lens.label:
                 # replace
                 unshelved[i] = new_lens
                 replaced = True
