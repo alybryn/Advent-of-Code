@@ -44,7 +44,7 @@ class Boxes():
             # remove lens with label from box h
             self.remove(box, label)
         else: # '=' in chunk
-            self.place(box, Lens(label, lens[0]))
+            self.place(box, Lens(label, int(lens[0])))
     
     # remove the lens with the given label if it is present
     # any other lenses should be moved forward
