@@ -50,8 +50,17 @@ class Boxes():
     # any other lenses should be moved forward
     def remove(self, box, label):
         unshelved = self._boxes.get(box, [])
-        if label in unshelved:
-            i = list
+        moving = False
+        for i in range(len(unshelved)):
+            if moving:
+                unshelved[i-1] = unshelved[i]
+            else:
+                if unshelved[i].label == label:
+                    moving = True
+        if moving:
+            unshelved.pop()
+            # reshelve if changed
+            self._boxes.update({box: unshelved})
 
     def place(self, box, new_lens):
         unshelved = self._boxes.get(box, [])
