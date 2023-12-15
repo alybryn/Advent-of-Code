@@ -1,4 +1,5 @@
 import pathlib
+import re
 import sys
 
 SAMPLE_ANSWER_1 = 1320
@@ -37,7 +38,7 @@ class Boxes():
         self._boxes = {}
 
     def process(self, instruction):
-        label, *lens = instruction.split(',')
+        label, *lens = re.split(r'[-|=]', instruction)
         box = hash(label)
         if '-' in instruction:
             # remove lens with label from box h
