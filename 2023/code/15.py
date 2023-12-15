@@ -56,13 +56,13 @@ class Boxes():
     def place(self, box, new_lens):
         unshelved = self._boxes.get(box, [])
         replaced = False
-        for i in len(unshelved):
+        for i in range(len(unshelved)):
             if unshelved[i].focal_length == new_lens.focal_length:
                 # replace
                 unshelved[i] = new_lens
                 replaced = True
         if not replaced:
-            unshelved.append(new_lens))
+            unshelved.append(new_lens)
         # replace box on shelf
         self._boxes.update({box: unshelved})
 
