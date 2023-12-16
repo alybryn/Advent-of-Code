@@ -45,15 +45,22 @@ CHAR_TO_TYPE = {'.': NodeType.NONE,
 def parse(puzzle_input):
     # parse the input
     tile_map = {}
+    edges = []
     lines = tuple(tuple(line) for line in puzzle_input.split())
     for x in range(len(lines)):
+        # add an edge for maxy, v = (0,-1) and miny (0,1)
+        edges.append(((x,0), (0,1)))
+        edges.append(((x,len(lines[0])-1),(0,-1)))
         for y in range(len(lines[0])):
             tile_map.update({(x,y): CHAR_TO_TYPE.get(lines[x][y])})
-    ret = Tile_Graph()
+    for y in range(len(lines[0])):
+        edges.append(((0,y),(1,0)))
+        edges.append(((y,len(lines)-1),(-1,0)))
+    graph = Tile_Graph()
     for k in tile_map.keys():
         for v in [( 0,-1),( 0, 1),(-1, 0),( 1, 0)]:
-            ret.add_edge((k, v), neighbors(tile_map, k, v))
-    return ret
+            graph.add_edge((k, v), neighbors(tile_map, k, v))
+    return graph, edges
 
 # returns [(loc, vector),...]; ((x,y), vector) for each neighbor
 def neighbors(tile_map, loc, in_vector):
