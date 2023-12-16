@@ -119,11 +119,12 @@ def simplify_reached(reached):
     return ret
 
 def part1(parsed):
+    graph = parsed[0]
     start = ((0,0), (0,1))
-    reached = dfs(parsed, start)
+    reached = bfs(graph, start)
     # print(reached)
     reached = simplify_reached(reached)
-    print(reached)
+    # print(reached)
     # print_energized(reached)
     return len(reached)
 
