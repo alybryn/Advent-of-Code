@@ -122,14 +122,19 @@ def part1(parsed):
     graph = parsed[0]
     start = ((0,0), (0,1))
     reached = bfs(graph, start)
-    # print(reached)
     reached = simplify_reached(reached)
-    # print(reached)
-    # print_energized(reached)
     return len(reached)
 
 def part2(parsed):
-    return 0
+    graph, edges = parsed
+    most = 0
+    # for edge ((x,y),v):
+    for edge in edges:
+        # if len(simplify_reached(dfs(parsed, edge)) > most
+        l = len(simplify_reached(bfs(graph, edge)))
+        if  l > most:
+            most = l
+    return most
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
