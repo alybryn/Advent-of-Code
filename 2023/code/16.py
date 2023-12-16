@@ -48,7 +48,33 @@ def parse(puzzle_input):
     for x in range(len(lines)):
         for y in range(len(lines[0])):
             tile_map.update({(x,y): CHAR_TO_TYPE.get(lines[x][y])})
-    return tile_map
+    ret = Tile_Graph()
+    for k in tile_map.keys():
+        for v in [( 0,-1),( 0, 1),(-1, 0),( 1, 0)]:
+            ret.add_edge((k, v), neighbors(tile_map, k, v))
+    return ret
+
+# returns [(loc, vector),...]; ((x,y), vector) for each neighbor
+def neighbors(tile_map, loc, in_vector):
+    out_vectors = tile_map.get(loc).value.get(in_vector)
+    ret = []
+    for v in out_vectors:
+        n = (loc[0] + v[0], loc[1] + v[1])
+        if n in tile_map.keys():
+            ret.append(((loc[0] + v[0], loc[1] + v[1]), v))
+    return ret
+
+class Tile_Graph():
+    def __init__(self) -> None:
+        # edge is dict (loc, vec) -> [(loc,vec)]
+        self._edges = {}
+    
+    # id is ((x,y),v)
+    def neighbors(self, id):
+        return self._edges[id]
+    
+    def add_edge(self, start, end):
+        self._edges.update({start: end})
 
 def part1(parsed):
     return parsed
