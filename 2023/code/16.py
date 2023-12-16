@@ -76,8 +76,48 @@ class Tile_Graph():
     def add_edge(self, start, end):
         self._edges.update({start: end})
 
+def dfs(graph: Tile_Graph, start):
+    # frontier is queue
+    frontier = deque()
+    # put start in frontier
+    frontier.append(start)
+    # reached is a set
+    reached = set()
+    # put start in reached
+    reached.add(start)
+    # while frontier not empty:
+    while frontier:
+        # get an element from frontier
+        element = frontier.popleft()
+        # print(element)
+        # iterate on neighbors of that element
+        for neighbor in graph.neighbors(element):
+            # if neighbor not in reached
+            if neighbor not in reached:
+                # print(f'\t{element}')
+                # put neighbor in frontier
+                frontier.append(neighbor)
+                # put neighbor in reached
+                reached.add(neighbor)
+    #return reached
+    return reached
+
+def simplify_reached(reached):
+    ret = {}
+    for element in reached:
+        count = ret.get(element[0], 0)
+        count += 1
+        ret.update({element[0]: count})
+    return ret
+
 def part1(parsed):
-    return parsed
+    start = ((0,0), (0,1))
+    reached = dfs(parsed, start)
+    # print(reached)
+    reached = simplify_reached(reached)
+    print(reached)
+    # print_energized(reached)
+    return len(reached)
 
 def part2(parsed):
     return 0
