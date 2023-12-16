@@ -1,3 +1,4 @@
+from enum import Enum
 import pathlib
 import sys
 
@@ -7,6 +8,33 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     return tuple(tuple(line) for line in puzzle_input.split())
+
+class NodeType(Enum):
+    NONE = {( 0,-1): [( 0, 1)],
+            ( 0, 1): [( 0,-1)],
+            (-1, 0): [( 1, 0)],
+            ( 1, 0): [(-1, 0)],
+            }
+    DASH = {( 0,-1): [( 0, 1)],
+            ( 0, 1): [( 0,-1)],
+            (-1, 0): [( 0,-1),( 0, 1)],
+            ( 1, 0): [( 0,-1),( 0, 1)],
+            }
+    PIPE = {( 0,-1): [(-1, 0),( 1, 0)],
+            ( 0, 1): [(-1, 0),( 1, 0)],
+            (-1, 0): [( 1, 0)],
+            ( 1, 0): [(-1, 0)],
+            }
+    BACK = {( 0,-1): [( 1, 0)],
+            ( 0, 1): [(-1, 0)],
+            (-1, 0): [( 0, 1)],
+            ( 1, 0): [( 0,-1)],
+            }
+    FORE = {( 0,-1): [(-1, 0)],
+            ( 0, 1): [( 1, 0)],
+            (-1, 0): [ 0,-1],
+            ( 1, 0): [ 0, 1],
+            }
 
 def part1(parsed):
     return parsed
