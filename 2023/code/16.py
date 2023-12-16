@@ -1,9 +1,10 @@
+from collections import deque
 from enum import Enum
 import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 46
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 51
 
 class NodeType(Enum):
     # incoming vector from last cell perspective.
