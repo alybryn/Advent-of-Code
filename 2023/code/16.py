@@ -84,7 +84,7 @@ class Tile_Graph():
     def add_edge(self, start, end):
         self._edges.update({start: end})
 
-def dfs(graph: Tile_Graph, start):
+def bfs(graph: Tile_Graph, start):
     # frontier is queue
     frontier = deque()
     # put start in frontier
