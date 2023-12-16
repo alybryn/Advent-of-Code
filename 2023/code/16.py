@@ -5,10 +5,6 @@ import sys
 SAMPLE_ANSWER_1 = 46
 SAMPLE_ANSWER_2 = None
 
-def parse(puzzle_input):
-    # parse the input
-    return tuple(tuple(line) for line in puzzle_input.split())
-
 class NodeType(Enum):
     # incoming vector from last cell perspective.
     # (0,1) in will be (0,1) out unless acted upon
@@ -37,6 +33,22 @@ class NodeType(Enum):
             (-1, 0): [( 0,-1)],
             ( 1, 0): [( 0, 1)],
             }
+    
+CHAR_TO_TYPE = {'.': NodeType.NONE,
+                '\\': NodeType.BACK,
+                '/': NodeType.FORE,
+                '-': NodeType.DASH,
+                '|': NodeType.PIPE,
+                }
+
+def parse(puzzle_input):
+    # parse the input
+    tile_map = {}
+    lines = tuple(tuple(line) for line in puzzle_input.split())
+    for x in range(len(lines)):
+        for y in range(len(lines[0])):
+            tile_map.update({(x,y): CHAR_TO_TYPE.get(lines[x][y])})
+    return tile_map
 
 def part1(parsed):
     return parsed
