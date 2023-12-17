@@ -1,9 +1,12 @@
-from collections import deque, namedtuple
+from collections import namedtuple
+from queue import PriorityQueue
 import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 102
 SAMPLE_ANSWER_2 = None
+
+INF_COST = 1000000000000
 
 def parse(puzzle_input):
     # parse the input
