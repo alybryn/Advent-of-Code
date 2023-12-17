@@ -39,9 +39,13 @@ class CityMap():
     def neighbors(self, block):
         return self._edges.get(block)
 
-    def cost(self, block):
+    def cost(self, from_blocks, to_block):
+        admissable = False
+        for block in from_blocks:
+            if block.x != to_block.x or block.y != to_block.y:
+                admissable = True
         # this is where the ring of fire goes...
-        return self._heat_map.get(block, 1000)
+        return self._heat_map.get(to_block, INF_COST) if admissable else INF_COST
     
     def __str__(self) -> str:
         p = ''
