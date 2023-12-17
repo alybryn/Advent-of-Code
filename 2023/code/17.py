@@ -54,7 +54,42 @@ class CityMap():
                 p += str(self._heat_map.get((x, y)))
             p += '\n'
         return p
+    
+# PriorityQueue: put((cost, item)), get(), empty()
 
+def a_star(graph, start, goal):
+    frontier = PriorityQueue()
+    frontier.put((0,start))
+    came_from = {}
+    cost_so_far = {}
+    came_from[start] = None
+    cost_so_far[start] = 0
+
+    while not frontier.empty:
+        current = frontier.get()
+
+        # check for 3 in a row, create forbidden point if needed
+        n = came_from[current]
+        if n:
+            if n.x == current.x or n.y == current.y: #True
+                pass
+
+        if current == goal:
+            break
+
+        for next in graph.neighbors(current):
+            new_cost = cost_so_far[current] + graph.cost(current, next)
+            if next not in cost_so_far or new_cost < cost_so_far[next]:
+                cost_so_far[next] = new_cost
+                priority = new_cost + heuristic(goal, next)
+                frontier.put(next, priority)
+                came_from[next] = current
+
+def heuristic(goal: Block, next: Block):
+    return manhattan_distance(goal, next)
+
+def manhattan_distance(a: Block, b: Block):
+    return abs(a.x - b.x) + abs(a.y - b.y)
 
 def part1(parsed):
     return 0
