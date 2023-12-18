@@ -68,17 +68,18 @@ def a_star(graph, start, goal):
     while not frontier.empty:
         current = frontier.get()
 
-        # check for 3 in a row, create forbidden point if needed
-        n = came_from[current]
-        if n:
-            if n.x == current.x or n.y == current.y: #True
-                pass
-
         if current == goal:
             break
+        
+        # create list of last three blocks
+        prev1 = came_from.get(current)
+        prev2 = came_from.get(prev1)
+        prev = [current, prev1, prev2]
 
         for next in graph.neighbors(current):
-            new_cost = cost_so_far[current] + graph.cost(current, next)
+            if next == came_from[current]:
+                continue
+            new_cost = cost_so_far[current] + graph.cost(prev, next)
             if next not in cost_so_far or new_cost < cost_so_far[next]:
                 cost_so_far[next] = new_cost
                 priority = new_cost + heuristic(goal, next)
