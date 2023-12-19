@@ -6,6 +6,25 @@ import sys
 SAMPLE_ANSWER_1 = 19114
 SAMPLE_ANSWER_2 = None
 
+class Quality(str, Enum):
+    X = 'x'
+    M = 'm'
+    A = 'a'
+    S = 's'
+
+class Compare(str,Enum):
+    LESS = '<'
+    MORE = '>'
+
+    def compare(self):
+        match self:
+            case Compare.LESS:
+                return lambda m, w: m < w
+            case Compare.MORE:
+                return lambda m, w: m > w
+
+    def __str__(self) -> str:
+        return self.value
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
