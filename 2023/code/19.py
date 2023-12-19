@@ -29,33 +29,43 @@ class Compare(str,Enum):
 class CompDest(namedtuple('CompDest', ['comp', 'dest'])):
     def __repr__(self) -> str:
         return f'{str(self.comp)}:{self.dest}'
+    
+class RangeSplitResult(namedtuple('RangeSplitResult',['passing','failing'])):
+    def __repr__(self) -> str:
+        return f'pass: {self.passing}; fail: {self.failing}'
 
 class Workflow():
     # input is [Quality'[>|<]:'GoTo,...,Default]
     def __init__(self, input) -> None:
         # list of namedtuples (Comparator, str)
-        self.qualifications: [CompDest] = []
+        self._qualifications: [CompDest] = []
         self._default = 'R'
         for i in input:
             if ':' in i:
                 comp, dest = i.split(':')
-                self.qualifications.append(CompDest(Comparator(comp[0], comp[1], comp[2:]),dest))
+                self._qualifications.append(CompDest(Comparator(comp[0], comp[1], comp[2:]),dest))
             else:
                 #default
                 self._default = i
 
     def evaluate(self, part):
-        for qualification in self.qualifications:
+        for qualification in self._qualifications:
             if qualification.comp.evaluate(part):
                 return qualification.dest
         return self._default
     
-    def find_acceptance(self):
-        pass
+    def split(self, range):
+        ret = {}
+        split = None
+        for compdest in self._qualifications:
+            split = range.split(compdest.comp)
+            range = split.failing
+            ret[compdest.dest] = split.passing
+        ret[self._default] = split.failing
+        return ret
 
     def __repr__(self) -> str:
-        return f'{str(self.qualifications)},{self._default}'
-        
+        return f'{str(self._qualifications)},{self._default}'
 
 class MachinePart():
     def __init__(self, input) -> None:
@@ -77,6 +87,57 @@ class MachinePart():
     def __repr__(self) -> str:
         return '{'+f'x={self._qualities[Quality.X]},m={self._qualities[Quality.M]},a={self._qualities[Quality.A]},s={self._qualities[Quality.S]}'+'}'
 
+class ValueRange():
+    def __init__(self,low=1,high=4000) -> None:
+        self._low = low
+        self._high = high
+
+    def split(self, comp):
+        match comp.comparator:
+            case Compare.LESS:
+                return RangeSplitResult(ValueRange(self._low, comp.value-1),ValueRange(comp.value, self._high))
+            case Compare.MORE:
+                return RangeSplitResult(ValueRange(comp.value+1, self._high),ValueRange(self._low, comp.value))
+    
+    @property
+    def value(self):
+        return self._high - self._low + 1
+    
+    def __repr__(self) -> str:
+        return f'{self._low}->{self._high}'
+
+class PartRange():
+    # xmas are ValueRanges
+    def __init__(self, x=ValueRange(), m=ValueRange(), a=ValueRange(), s=ValueRange()) -> None:
+        self._qualities = {}
+        self._qualities[Quality.X] = x
+        self._qualities[Quality.M] = m
+        self._qualities[Quality.A] = a
+        self._qualities[Quality.S] = s
+
+    def split(self, comp):
+        result = self._qualities[comp.quality].split(comp)
+        match comp.quality:
+            case Quality.X:
+                return RangeSplitResult(PartRange(result.passing, self._qualities[Quality.M], self._qualities[Quality.A], self._qualities[Quality.S]),PartRange(result.failing, self._qualities[Quality.M], self._qualities[Quality.A], self._qualities[Quality.S]))
+            case Quality.M:
+                return RangeSplitResult(PartRange(self._qualities[Quality.X], result.passing, self._qualities[Quality.A], self._qualities[Quality.S]),PartRange(self._qualities[Quality.X], result.failing, self._qualities[Quality.A], self._qualities[Quality.S]))
+            case Quality.A:
+                return RangeSplitResult(PartRange(self._qualities[Quality.X], self._qualities[Quality.M], result.passing, self._qualities[Quality.S]),PartRange(self._qualities[Quality.X], self._qualities[Quality.M], result.failing, self._qualities[Quality.S]))
+            case Quality.S:
+                return RangeSplitResult(PartRange(self._qualities[Quality.X], self._qualities[Quality.M], self._qualities[Quality.A], result.passing),PartRange(self._qualities[Quality.X], self._qualities[Quality.M], self._qualities[Quality.A], result.failing))
+
+    @property
+    def value(self):
+        x = self._qualities[Quality.X].value
+        m = self._qualities[Quality.M].value
+        a = self._qualities[Quality.A].value
+        s = self._qualities[Quality.S].value
+        return x * m * a * s
+    
+    def __repr__(self) -> str:
+        return f'x:{self._qualities[Quality.X]},m:{self._qualities[Quality.M]},a:{self._qualities[Quality.A]},s:{self._qualities[Quality.S]}'
+
 class Comparator():
     def __init__(self, q: str, c: str, n: str) -> None:
         self._q = Quality(q)
@@ -85,6 +146,18 @@ class Comparator():
 
     def evaluate(self, part: MachinePart):
         return self._c.compare()(part.get(self._q), self._n)
+
+    @property
+    def value(self):
+        return self._n
+    
+    @property
+    def comparator(self):
+        return self._c
+    
+    @property
+    def quality(self):
+        return self._q
 
     def __str__(self) -> str:
         return f'{self._q.value}{str(self._c)}{self._n}'
@@ -115,7 +188,23 @@ def part1(parsed):
 
 def part2(parsed):
     workflows, _ = parsed
-    return 0
+    # list of PartRanges
+    accepted_ranges = []
+    # list of dictionaries of dest: PartRange
+    ranges = [workflows['in'].split(PartRange())]
+    while ranges:
+        new_ranges = []
+        for range_dict in ranges:
+            for k in range_dict.keys():
+                if k == 'A':
+                    accepted_ranges.append(range_dict[k])
+                elif k == 'R':
+                    continue
+                else:
+                    new_ranges.append(workflows[k].split(range_dict[k]))
+        ranges = new_ranges
+    print(accepted_ranges)
+    return sum([r.value for r in accepted_ranges])
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
