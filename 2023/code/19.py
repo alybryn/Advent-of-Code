@@ -195,7 +195,7 @@ def part2(parsed):
     workflows, _ = parsed
     # list of PartRanges
     accepted_ranges = []
-    # list of dictionaries of dest: PartRange
+    # list of sets of WorkflowSplitResults(str, PartRange)
     ranges = [workflows['in'].split(PartRange())]
     while ranges:
         new_ranges = []
