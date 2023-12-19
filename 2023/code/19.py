@@ -4,7 +4,7 @@ from enum import Enum
 import sys
 
 SAMPLE_ANSWER_1 = 19114
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 167409079868000
 
 class Quality(str, Enum):
     X = 'x'
@@ -49,8 +49,14 @@ class Workflow():
             if qualification.comp.evaluate(part):
                 return qualification.dest
         return self._default
+    
+    def find_acceptance(self):
+        pass
+
     def __repr__(self) -> str:
         return f'{str(self.qualifications)},{self._default}'
+        
+
 class MachinePart():
     def __init__(self, input) -> None:
         self._qualities = {}
@@ -79,11 +85,6 @@ class Comparator():
 
     def evaluate(self, part: MachinePart):
         return self._c.compare()(part.get(self._q), self._n)
-        # part_value = part.get(self._q)
-        # if self._c == Compare.MORE:
-        #     return part_value > self._n
-        # else:
-        #     return part_value < self._n
 
     def __str__(self) -> str:
         return f'{self._q.value}{str(self._c)}{self._n}'
@@ -110,9 +111,10 @@ def part1(parsed):
             wf = workflows[wf].evaluate(part)
         if wf == 'A':
             ret += part.value
-    return ret#parsed# sum([p.value for p in parsed if p.get(Quality.X) in [787,2036,2127]])
+    return ret
 
 def part2(parsed):
+    workflows, _ = parsed
     return 0
 
 def solve(puzzle_input):
