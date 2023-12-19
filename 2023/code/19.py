@@ -90,7 +90,16 @@ class Comparator():
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    workflows, parts = puzzle_input.split('\n\n')
+    workflows = workflows.split('\n')
+    workflow_dict = {}
+    for workflow in workflows:
+        name, workflow = workflow.split('{')
+        workflow = [w for w in workflow.removesuffix('}').split(',')]
+        workflow_dict[name] = Workflow(workflow)
+    parts = parts.split('\n')
+    parts = [MachinePart(p) for p in parts]
+    return workflow_dict, parts
 
 def part1(parsed):
     return parsed
