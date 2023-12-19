@@ -34,6 +34,10 @@ class RangeSplitResult(namedtuple('RangeSplitResult',['passing','failing'])):
     def __repr__(self) -> str:
         return f'pass: {self.passing}; fail: {self.failing}'
 
+class WorkflowSplitResult(namedtuple('WorkflowSplitResult',['dest','part_range'])):
+    def __repr__(self) -> str:
+        return f'{self.dest}: {self.part_range}'
+
 class Workflow():
     # input is [Quality'[>|<]:'GoTo,...,Default]
     def __init__(self, input) -> None:
