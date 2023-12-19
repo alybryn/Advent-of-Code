@@ -51,7 +51,25 @@ class Workflow():
         return self._default
     def __repr__(self) -> str:
         return f'{str(self.qualifications)},{self._default}'
-        
+class MachinePart():
+    def __init__(self, input) -> None:
+        self._qualities = {}
+        input = input.removeprefix('{').removesuffix('}').split(',')
+        for i in input:
+            self._qualities[Quality(i[0])] = int(i[2:])
+            
+    def get(self, q: Quality):
+        return self._qualities[q]
+    
+    @property
+    def value(self):
+        ret = 0
+        for q in Quality:
+            ret += self._qualities[q]
+        return ret
+
+    def __repr__(self) -> str:
+        return '{'+f'x={self._qualities[Quality.X]},m={self._qualities[Quality.M]},a={self._qualities[Quality.A]},s={self._qualities[Quality.S]}'+'}'
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
