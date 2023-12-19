@@ -25,6 +25,11 @@ class Compare(str,Enum):
 
     def __str__(self) -> str:
         return self.value
+
+class CompDest(namedtuple('CompDest', ['comp', 'dest'])):
+    def __repr__(self) -> str:
+        return f'{str(self.comp)}:{self.dest}'
+
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
