@@ -199,16 +199,16 @@ def part2(parsed):
     ranges = [workflows['in'].split(PartRange())]
     while ranges:
         new_ranges = []
-        for range_dict in ranges:
-            for k in range_dict.keys():
-                if k == 'A':
-                    accepted_ranges.append(range_dict[k])
-                elif k == 'R':
+        for range_set in ranges:
+            for wsr in range_set:
+                if wsr.dest == 'A':
+                    accepted_ranges.append(wsr.part_range)
+                elif wsr.dest == 'R':
                     continue
                 else:
-                    new_ranges.append(workflows[k].split(range_dict[k]))
+                    new_ranges.append(workflows[wsr.dest].split(wsr.part_range))
+           
         ranges = new_ranges
-    print(accepted_ranges)
     return sum([r.value for r in accepted_ranges])
 
 def solve(puzzle_input):
