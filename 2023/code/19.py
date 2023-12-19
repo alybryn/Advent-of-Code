@@ -1,4 +1,6 @@
+from collections import namedtuple
 import pathlib
+from enum import Enum
 import sys
 
 SAMPLE_ANSWER_1 = 19114
