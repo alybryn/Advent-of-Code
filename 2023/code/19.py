@@ -59,13 +59,14 @@ class Workflow():
         return self._default
     
     def split(self, range):
-        ret = {}
-        split = None
+        ret = set()
         for compdest in self._qualifications:
             split = range.split(compdest.comp)
             range = split.failing
-            ret[compdest.dest] = split.passing
-        ret[self._default] = split.failing
+            ret.add(WorkflowSplitResult(compdest.dest,split.passing))
+
+        # sometimes, _default might already be a key...
+        ret.add(WorkflowSplitResult(self._default, range))
         return ret
 
     def __repr__(self) -> str:
