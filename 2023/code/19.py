@@ -1,7 +1,7 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 19114
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
@@ -9,7 +9,7 @@ def parse(puzzle_input):
     return [line for line in puzzle_input.split()]
 
 def part1(parsed):
-    return 0
+    return parsed
 
 def part2(parsed):
     return 0
