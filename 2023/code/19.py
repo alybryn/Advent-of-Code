@@ -70,6 +70,24 @@ class MachinePart():
 
     def __repr__(self) -> str:
         return '{'+f'x={self._qualities[Quality.X]},m={self._qualities[Quality.M]},a={self._qualities[Quality.A]},s={self._qualities[Quality.S]}'+'}'
+
+class Comparator():
+    def __init__(self, q: str, c: str, n: str) -> None:
+        self._q = Quality(q)
+        self._c = Compare(c)
+        self._n = int(n)
+
+    def evaluate(self, part: MachinePart):
+        return self._c.compare()(part.get(self._q), self._n)
+        # part_value = part.get(self._q)
+        # if self._c == Compare.MORE:
+        #     return part_value > self._n
+        # else:
+        #     return part_value < self._n
+
+    def __str__(self) -> str:
+        return f'{self._q.value}{str(self._c)}{self._n}'
+
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
