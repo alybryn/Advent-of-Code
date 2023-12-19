@@ -102,7 +102,15 @@ def parse(puzzle_input):
     return workflow_dict, parts
 
 def part1(parsed):
-    return parsed
+    workflows, parts = parsed
+    ret = 0
+    for part in parts:
+        wf = workflows['in'].evaluate(part)
+        while wf not in ['R','A']:
+            wf = workflows[wf].evaluate(part)
+        if wf == 'A':
+            ret += part.value
+    return ret#parsed# sum([p.value for p in parsed if p.get(Quality.X) in [787,2036,2127]])
 
 def part2(parsed):
     return 0
