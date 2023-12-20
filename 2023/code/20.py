@@ -35,6 +35,31 @@ class Broadcaster():
     
     def __repr__(self) -> str:
         return f'Broadcasting to {self._destinations} knowing about:\n' + '\n'.join([str(m) for m in self._all_modules.values()])
+
+class FlipFlop():
+    def __init__(self, name, destinations) -> None:
+        self._name = name
+        # ON =True
+        self._state = False
+        self._destinations = destinations
+
+    def receive(self, pulse):
+        if pulse.signal == Signal.LOW:
+            to_send = Signal.LOW if self._state else Signal.HIGH
+            self._state = not self._state
+            ret = []
+            for destination in self.destinations:
+                ret.append(Pulse(to_send,destination,self._name))
+            return ret
+        print(f'{self._name} is ignoring Signal.HIGH')
+        return []
+
+    def is_reset(self):
+        return not self._state
+    
+    def __repr__(self) -> str:
+        return f'{self._name} is {'on' if self._state else 'off'} sending to {self._destinations}'
+
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
