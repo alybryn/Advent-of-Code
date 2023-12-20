@@ -60,6 +60,29 @@ class FlipFlop():
     def __repr__(self) -> str:
         return f'{self._name} is {'on' if self._state else 'off'} sending to {self._destinations}'
 
+class Conjunction():
+    def __init__(self, name, destinations, senders) -> None:
+        self._name = name
+        self._destinations = destinations
+        self._senders = senders
+        self._states = {}
+        for sender in self._senders:
+            self._states[sender] = Signal.LOW
+
+    def receive(self, pulse):
+        self._states.update({pulse.sender: pulse.signal})
+        to_send = Signal.HIGH if Signal.LOW in self._states.values() else Signal.HIGH
+        ret = []
+        for destination in self._destinations:
+            ret.append(Pulse(to_send,destination,self._name))
+        return ret
+
+    def is_reset(self):
+        return Signal.HIGH in self._states.values()
+    
+    def __repr__(self) -> str:
+        return f'{self._name} remembers '+'\n'.join([f'{s} is {self._states[s]}' for s in self._states.keys()]) + f' and sends to {self._destinations}'
+
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
