@@ -7,22 +7,37 @@ import sys
 SAMPLE_ANSWER_1 = 32000000
 SAMPLE_ANSWER_2 = None
 
-class Signal(Enum):
-    LOW = 0
-    HIGH = 1
+class Signal(str,Enum):
+    LOW = 'low'
+    HIGH = 'high'
 
 class Pulse(namedtuple('Pulse',['signal','destination', 'sender'])):
     def __repr__(self) -> str:
-        return f'{self.signal.name} -> {self.destination}'
+        return f'{self.sender} -{self.signal.name.lower()}-> {self.destination}'
 
 class Broadcaster():
     def __init__(self, destinations, modules) -> None:
-        self._name = 'broadcast'
+        self._name = 'broadcaster'
         self._destinations = destinations
         self._all_modules = modules
 
     def push_button(self):
-        count = 0
+        high_count = 0
+        low_count = 1
+        sending = []
+        for destination in self._destinations:
+            sending.append(Pulse(Signal.LOW,destination, self._name))
+        while sending:
+            signal_summation = [p.signal for p in sending]
+            high_count += signal_summation.count(Signal.HIGH)
+            low_count += signal_summation.count(Signal.LOW)
+            to_send_on = []
+            for pulse in sending:
+                destination = self._all_modules.get(pulse.destination)
+                if destination:
+                    to_send_on.extend(destination.receive(pulse))
+            sending = to_send_on
+        return {Signal.HIGH:high_count, Signal.LOW:low_count}
         sending = []
         for destination in self._destinations:
             sending.append(Pulse(Signal.LOW,destination, self._name))
@@ -32,8 +47,13 @@ class Broadcaster():
             for pulse in sending:
                 to_send_on.extend(self._all_modules.get(pulse.destination).receive(pulse))
             sending = to_send_on
-        return count
-    
+    def push_the_button_a_lot(self, n):
+        signal_counts = {Signal.HIGH: 0, Signal.LOW:0}
+        for _ in range(n):
+            more_counts = self.push_button()
+            for s in Signal:
+                signal_counts[s] += more_counts[s]
+        return signal_counts
     def __repr__(self) -> str:
         return f'Broadcasting to {self._destinations} knowing about:\n' + '\n'.join([str(m) for m in self._all_modules.values()])
 
@@ -45,15 +65,13 @@ class FlipFlop():
         self._destinations = destinations
 
     def receive(self, pulse):
+        ret = []
         if pulse.signal == Signal.LOW:
             to_send = Signal.LOW if self._state else Signal.HIGH
             self._state = not self._state
-            ret = []
-            for destination in self.destinations:
+            for destination in self._destinations:
                 ret.append(Pulse(to_send,destination,self._name))
-            return ret
-        print(f'{self._name} is ignoring Signal.HIGH')
-        return []
+        return ret
 
     def is_reset(self):
         return not self._state
@@ -72,7 +90,7 @@ class Conjunction():
 
     def receive(self, pulse):
         self._states.update({pulse.sender: pulse.signal})
-        to_send = Signal.HIGH if Signal.LOW in self._states.values() else Signal.HIGH
+        to_send = Signal.HIGH if Signal.LOW in self._states.values() else Signal.LOW
         ret = []
         for destination in self._destinations:
             ret.append(Pulse(to_send,destination,self._name))
@@ -104,7 +122,8 @@ def parse(puzzle_input):
     return broadcaster
 
 def part1(parsed):
-    return parsed
+    ret = parsed.push_the_button_a_lot(1000)
+    return ret[Signal.HIGH] * ret[Signal.LOW]
 
 def part2(parsed):
     return 0
