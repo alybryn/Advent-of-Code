@@ -1,6 +1,7 @@
 from collections import namedtuple
 from enum import Enum
 import pathlib
+import re
 import sys
 
 SAMPLE_ANSWER_1 = 32000000
@@ -85,7 +86,22 @@ class Conjunction():
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    lines = puzzle_input.split('\n')
+    modules = {}
+    for line in lines:
+        name, destinations = line.split(' -> ')
+        destinations = destinations.split(', ')
+        if name.startswith('&'):
+            name = name.removeprefix('&')
+            senders = [sender for sender in [re.match(r'[%|&](.+) -> ', c)[1] for c in lines if name in c] if sender != name]
+            modules[name] = Conjunction(name, destinations, senders)
+        elif name.startswith('%'):
+            name = name.removeprefix('%')
+            modules[name] = FlipFlop(name, destinations)
+        else:
+            assert(name == 'broadcaster')
+            broadcaster = Broadcaster(destinations,modules)
+    return broadcaster
 
 def part1(parsed):
     return parsed
