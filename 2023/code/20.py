@@ -38,15 +38,22 @@ class Broadcaster():
                     to_send_on.extend(destination.receive(pulse))
             sending = to_send_on
         return {Signal.HIGH:high_count, Signal.LOW:low_count}
+    
+    def push_button_for_record(self):
+        record = []
         sending = []
         for destination in self._destinations:
             sending.append(Pulse(Signal.LOW,destination, self._name))
         while sending:
-            count += len(sending)
+            record.extend(sending)
             to_send_on = []
             for pulse in sending:
-                to_send_on.extend(self._all_modules.get(pulse.destination).receive(pulse))
+                destination = self._all_modules.get(pulse.destination)
+                if destination:
+                    to_send_on.extend(destination.receive(pulse))
             sending = to_send_on
+        return record
+    
     def push_the_button_a_lot(self, n):
         signal_counts = {Signal.HIGH: 0, Signal.LOW:0}
         for _ in range(n):
@@ -54,6 +61,23 @@ class Broadcaster():
             for s in Signal:
                 signal_counts[s] += more_counts[s]
         return signal_counts
+    
+    def find_period_of(self, specific_pulse):
+        self.reset()
+        count = 0
+        sending = []
+        for destination in self._destinations:
+            sending.append(Pulse(Signal.LOW,destination,self._name))
+        while True:
+            record = self.push_button_for_record()
+            count += 1
+            if specific_pulse in record:
+                return count
+
+    def reset(self):
+        for module in self._all_modules.values():
+            module.reset()
+
     def __repr__(self) -> str:
         return f'Broadcasting to {self._destinations} knowing about:\n' + '\n'.join([str(m) for m in self._all_modules.values()])
 
@@ -73,8 +97,8 @@ class FlipFlop():
                 ret.append(Pulse(to_send,destination,self._name))
         return ret
 
-    def is_reset(self):
-        return not self._state
+    def reset(self):
+        self._state = False
     
     def __repr__(self) -> str:
         return f'{self._name} is {'on' if self._state else 'off'} sending to {self._destinations}'
@@ -96,8 +120,9 @@ class Conjunction():
             ret.append(Pulse(to_send,destination,self._name))
         return ret
 
-    def is_reset(self):
-        return Signal.HIGH in self._states.values()
+    def reset(self):
+        for k in self._states.keys():
+            self._states[k] = Signal.LOW
     
     def __repr__(self) -> str:
         return f'{self._name} remembers '+'\n'.join([f'{s} is {self._states[s]}' for s in self._states.keys()]) + f' and sends to {self._destinations}'
@@ -126,7 +151,12 @@ def part1(parsed):
     return ret[Signal.HIGH] * ret[Signal.LOW]
 
 def part2(parsed):
-    return 0
+    ret = 1
+    fv = parsed.find_period_of(Pulse(Signal.HIGH,'sq','fv'))
+    kk = parsed.find_period_of(Pulse(Signal.HIGH,'sq','kk'))
+    vt = parsed.find_period_of(Pulse(Signal.HIGH,'sq','vt'))
+    xr = parsed.find_period_of(Pulse(Signal.HIGH,'sq','xr'))
+    return fv * kk * vt * xr
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
