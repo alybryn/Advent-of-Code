@@ -1,8 +1,13 @@
+from enum import Enum
 import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 32000000
 SAMPLE_ANSWER_2 = None
+
+class Signal(Enum):
+    LOW = 0
+    HIGH = 1
 
 def parse(puzzle_input):
     # parse the input
