@@ -1,3 +1,4 @@
+from collections import namedtuple
 from enum import Enum
 import pathlib
 import sys
@@ -8,6 +9,10 @@ SAMPLE_ANSWER_2 = None
 class Signal(Enum):
     LOW = 0
     HIGH = 1
+
+class Pulse(namedtuple('Pulse',['signal','destination', 'sender'])):
+    def __repr__(self) -> str:
+        return f'{self.signal.name} -> {self.destination}'
 
 def parse(puzzle_input):
     # parse the input
