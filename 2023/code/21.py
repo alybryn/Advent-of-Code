@@ -35,7 +35,9 @@ class Step(namedtuple('Step',['plot','steps_rem'])):
 
     def is_end(self):
         return self.steps_rem == 0
-    
+
+# go ahead and assume min is (0,0)
+Bound = namedtuple('Bound',['max_x', 'max_y'])
 def parse(puzzle_input):
     # parse the input
     gardens = set()
