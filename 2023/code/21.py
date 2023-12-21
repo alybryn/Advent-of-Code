@@ -1,15 +1,34 @@
+from collections import namedtuple
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 16
 SAMPLE_ANSWER_2 = None
+
+class Plot(namedtuple('Plot',['x','y'])):
+    def __repr__(self) -> str:
+        return f'({self.x},{self.y})'
+    
+    def neighbors(self):
+        vectors = [(-1,0),(1,0),(0,-1),(0,1)]
+        return [Plot(self.x+v[0], self.y+v[1]) for v in vectors]
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    gardens = set()
+    start = None
+    lines = puzzle_input.split()
+    for x in range(len(lines)):
+        for y in range(len(lines[0])):
+            if lines[x][y] == '.':
+                gardens.add(Plot(x,y))
+            elif lines[x][y] == 'S':
+                start = Plot(x,y)
+    return gardens, start
 
 def part1(parsed):
-    return 0
+    gardens, start = parsed
+    return parsed
 
 def part2(parsed):
     return 0
