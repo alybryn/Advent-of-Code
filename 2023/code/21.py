@@ -80,6 +80,29 @@ def take_steps(start, gardens, steps):
                     reached.add(next)
     return ends
 
+def take_steps_inf(start, gardens, steps):
+    frontier = deque()
+    reached = {}
+    frontier.append(Step(start,steps))
+    reached[start] = steps
+
+    while frontier:
+        current = frontier.popleft()
+        for next in current.neighbors():
+            if gardens.query(next.plot):
+                if next.steps_rem < 0:
+                    continue
+                if next.plot not in reached:
+                    frontier.append(next)
+                    reached[next.plot] = next.steps_rem
+                elif reached[next.plot] > next.steps_rem:
+                    frontier.append(next)
+                    reached[next.plot] = next.steps_rem
+    return reached
+
+def count_zeros(reached_dict):
+    return sum([1 for p in reached_dict.values() if p == 0])
+
 def part1(parsed):
     gardens, start = parsed
     ends = take_steps(start, gardens, 64)
