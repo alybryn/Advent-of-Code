@@ -38,6 +38,16 @@ class Step(namedtuple('Step',['plot','steps_rem'])):
 
 # go ahead and assume min is (0,0)
 Bound = namedtuple('Bound',['max_x', 'max_y'])
+
+class InfiniteMap():
+    def __init__(self, map, bound) -> None:
+        self._base_map = map
+        self._rep_bound = bound
+
+    def query(self, plot):
+        check = plot.reduce(self._rep_bound)
+        return check in self._base_map
+
 def parse(puzzle_input):
     # parse the input
     gardens = set()
