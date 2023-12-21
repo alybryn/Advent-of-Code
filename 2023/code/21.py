@@ -13,6 +13,19 @@ class Plot(namedtuple('Plot',['x','y'])):
         vectors = [(-1,0),(1,0),(0,-1),(0,1)]
         return [Plot(self.x+v[0], self.y+v[1]) for v in vectors]
     
+    def reduce(self, bound):
+        new_x = self.x
+        new_y = self.y
+        while new_x >= bound.max_x:
+            new_x = new_x - bound.max_x
+        while new_x < 0:
+            new_x = new_x + bound.max_x
+        while new_y >= bound.max_y:
+            new_y = new_y - bound.max_y
+        while new_y < 0:
+            new_y = new_y + bound.max_y
+        return Plot(new_x,new_y)
+
 class Step(namedtuple('Step',['plot','steps_rem'])):
     def __repr__(self) -> str:
         return f'{self.steps_rem} at {str(self.plot)}'
