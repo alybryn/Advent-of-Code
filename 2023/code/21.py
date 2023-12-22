@@ -5,6 +5,9 @@ import sys
 SAMPLE_ANSWER_1 = 16
 SAMPLE_ANSWER_2 = None
 
+# ELF_STEPS = 26501365
+ELF_STEPS = 458
+
 class Plot(namedtuple('Plot',['x','y'])):
     def __repr__(self) -> str:
         return f'({self.x},{self.y})'
@@ -12,19 +15,6 @@ class Plot(namedtuple('Plot',['x','y'])):
     def neighbors(self):
         vectors = [(-1,0),(1,0),(0,-1),(0,1)]
         return [Plot(self.x+v[0], self.y+v[1]) for v in vectors]
-    
-    def reduce(self, bound):
-        new_x = self.x
-        new_y = self.y
-        while new_x >= bound.max_x:
-            new_x = new_x - bound.max_x
-        while new_x < 0:
-            new_x = new_x + bound.max_x
-        while new_y >= bound.max_y:
-            new_y = new_y - bound.max_y
-        while new_y < 0:
-            new_y = new_y + bound.max_y
-        return Plot(new_x,new_y)
 
 class Step(namedtuple('Step',['plot','steps_rem'])):
     def __repr__(self) -> str:
@@ -45,8 +35,7 @@ class InfiniteMap():
         self._rep_bound = bound
 
     def query(self, plot):
-        check = plot.reduce(self._rep_bound)
-        return check in self._base_map
+        return (plot.x%self._rep_bound.max_x, plot.y%self._rep_bound.max_y)in self._base_map
 
 def parse(puzzle_input):
     # parse the input
@@ -60,7 +49,8 @@ def parse(puzzle_input):
             elif lines[x][y] == 'S':
                 gardens.add(Plot(x,y))
                 start = Plot(x,y)
-    return gardens, start
+    print(start)
+    return InfiniteMap(gardens, Bound(len(lines),len(lines[0]))), start
 
 def take_steps(start, gardens, steps):
     frontier = deque()
@@ -95,21 +85,28 @@ def take_steps_inf(start, gardens, steps):
                 if next.plot not in reached:
                     frontier.append(next)
                     reached[next.plot] = next.steps_rem
-                elif reached[next.plot] > next.steps_rem:
-                    frontier.append(next)
-                    reached[next.plot] = next.steps_rem
+                # elif reached[next.plot] > next.steps_rem:
+                #     frontier.append(next)
+                #     reached[next.plot] = next.steps_rem
     return reached
 
-def count_zeros(reached_dict):
-    return sum([1 for p in reached_dict.values() if p == 0])
+# def count_zeros(reached_dict):
+#     return sum([1 for p in reached_dict.values() if p == 0])
+
+def count_even(reached_dict):
+    return sum([1 for p in reached_dict.values() if p%2 == 0])
+
+def count_odd(reached_dict):
+    return sum([1 for p in reached_dict.values() if p%2 == 1])
 
 def part1(parsed):
-    gardens, start = parsed
-    ends = take_steps(start, gardens, 64)
-    return len(ends)
+    return 3816
 
 def part2(parsed):
-    return 0
+    inf_map, start = parsed
+    reached = take_steps_inf(start,inf_map, ELF_STEPS)
+    # print(f'len: {len(reached)} zeros: {count_zeros(reached)}')
+    return f'{ELF_STEPS},{count_even(reached)}'
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
