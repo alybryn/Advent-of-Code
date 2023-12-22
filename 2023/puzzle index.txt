@@ -19,3 +19,4 @@ Lavaduct Lagoon
 Aplenty
 Pulse Propagation
 Step Counter
+Sand Slabs
