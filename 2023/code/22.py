@@ -18,6 +18,8 @@ class SandBrick():
         self._point1 = Point_3D(coords[0][0],coords[0][1],coords[0][2])
         self._point2 = Point_3D(coords[1][0],coords[1][1],coords[1][2])
         self._orientation = Orientation.X if self._point1.x != self._point2.x else Orientation.Y if self._point1.y != self._point2.y else Orientation.Z
+        self._supporting = set()
+        self._supporters = set()
 
     @property
     def lowest(self):
@@ -49,6 +51,26 @@ class SandBrick():
         self._point1 = Point_3D(self._point1.x,self._point1.y,self._point1.z-1)
         self._point2 = Point_3D(self._point2.x,self._point2.y,self._point2.z-1)
 
+    def add_supporting(self, brick):
+        self._supporting.add(brick)
+
+    def add_supporters(self,brick):
+        self._supporters.add(brick)
+
+    @property
+    def single_support(self):
+        return len(self._supporters) == 1
+    @property
+    def removable(self):
+        for neighbor in self._supporting:
+            if neighbor.single_support:
+                return False
+        return True
+    
+    @property
+    def supporting(self):
+        return self._supporting
+
     @property
     def all_points(self):
         ret = set()
@@ -62,6 +84,19 @@ class SandBrick():
             case Orientation.Z:
                 for z in self.range:
                     ret.add(Point_3D(self._point1.x,self._point1.y,z))
+        return ret
+    
+    def up_neighbors(self):
+        ret = []
+        match self._orientation:
+            case Orientation.X:
+                for x in self.range:
+                    ret.append(Point_3D(x,self._point1.y,self._point1.z+1))
+            case Orientation.Y:
+                for y in self.range:
+                    ret.append(Point_3D(self._point1.x,y,self._point1.z+1))
+            case Orientation.Z:
+                ret.append(Point_3D(self._point1.x,self._point1.y,max(self._point1.z,self._point2.z)+1))
         return ret
     
     def down_neighbors(self):
@@ -103,6 +138,29 @@ class Brick_Stack():
         level.append(brick)
         self._bricks[brick.lowest] = level
 
+    # doubly links all bricks with the bricks resting on them
+    def support_map(self):
+        for z in self._bricks.keys():
+            for brick in self._bricks[z]:
+                for neighbor in brick.up_neighbors():
+                    if neighbor in self._occupied:
+                        neighbor_brick = self.brick_lookup(neighbor)
+                        brick.add_supporting(neighbor_brick)
+                        neighbor_brick.add_supporters(brick)
+
+    # method for finding a brick resting on another brick (bricks are indexed by LOWEST z)
+    def brick_lookup(self,point):
+        for brick in self._bricks.get(point.z):
+            if point in brick.all_points:
+                return brick
+    
+    def find_removable(self):
+        ret = 0
+        for z in self._bricks.keys():
+            for brick in self._bricks[z]:
+                if brick.removable:
+                    ret += 1
+        return ret
     def __repr__(self) -> str:
         return str(self._bricks)
 
@@ -116,18 +174,20 @@ def parse(puzzle_input):
         level = ret.get(brick.lowest,[])
         level.append(brick)
         ret[brick.lowest]=level
-    return ret
+    return settle_on_down(ret)
 
 def settle_on_down(snap_shot):
     settled = Brick_Stack()
     for z in sorted(snap_shot.keys()):
-        print(z)
         for brick in snap_shot.get(z):
             settled.set(brick)
     return settled
 
 def part1(parsed):
-    return 0
+    brick_stack = parsed
+    brick_stack.support_map()
+
+    return brick_stack.find_removable()
 
 def part2(parsed):
     return 0
