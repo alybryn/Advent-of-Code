@@ -4,7 +4,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 5
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 7
 
 Point_3D = namedtuple('Point_3D', ['x','y','z'])
 
@@ -60,6 +60,13 @@ class SandBrick():
     @property
     def single_support(self):
         return len(self._supporters) == 1
+    
+    def all_support_removed(self, removed_bricks):
+        for supporter in self._supporters:
+            if supporter not in removed_bricks:
+                return False
+        return True
+
     @property
     def removable(self):
         for neighbor in self._supporting:
@@ -161,6 +168,22 @@ class Brick_Stack():
                 if brick.removable:
                     ret += 1
         return ret
+    
+    def find_chain(self):
+        ret = 0
+        for z in self._bricks.keys():
+            for brick in self._bricks[z]:
+                falling = set()
+                now_falling = {brick}
+                while len(now_falling) != len(falling):
+                    falling.update(now_falling)
+                    for brick in falling:
+                        for supported in brick.supporting:
+                            if supported.all_support_removed(falling):
+                                now_falling.add(supported)
+                ret += len(falling)-1
+        return ret
+
     def __repr__(self) -> str:
         return str(self._bricks)
 
@@ -190,7 +213,7 @@ def part1(parsed):
     return brick_stack.find_removable()
 
 def part2(parsed):
-    return 0
+    return parsed.find_chain()
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
