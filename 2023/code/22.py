@@ -14,11 +14,6 @@ class Orientation(int,Enum):
     Z = 2
 
 class SandBrick():
-    # def __init__(self,p1,p2) -> None:
-    #     self._point1 = p1
-    #     self._point2 = p2
-    #     self._orientation = Orientation.X if self._point1.x != self._point2.x else Orientation.Y if self._point1.y != self._point2.y else Orientation.Z
-
     def __init__(self,coords) -> None:
         self._point1 = Point_3D(coords[0][0],coords[0][1],coords[0][2])
         self._point2 = Point_3D(coords[1][0],coords[1][1],coords[1][2])
