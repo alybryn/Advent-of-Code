@@ -36,10 +36,12 @@ def parse(puzzle_input):
     # parse the input
     lines = puzzle_input.split()
     # dictionary of bricks with lowest point z {z:[SandBrick]}
-    ret = []
+    ret = {}
     for line in lines:
         brick = SandBrick([[int(i) for i in part.split(',')] for part in line.split('~')])
-        ret.append(brick)
+        level = ret.get(brick.lowest,[])
+        level.append(brick)
+        ret[brick.lowest]=level
     return ret
 
 def part1(parsed):
