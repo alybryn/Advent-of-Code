@@ -5,25 +5,43 @@ import sys
 SAMPLE_ANSWER_1 = 94
 SAMPLE_ANSWER_2 = None
 
-class Path(namedtuple('Path',['x','y','slope'])):
+class Path(namedtuple('Path',['x','y'])):
     def __repr__(self):
-        return f'{self.x},{self.y}:{self.slope}'
+        return f'({self.x},{self.y})'
 
-    def neighbors(self):
-        pass
+    def neighbors(self,slope):
+        switch = {'.':[(-1,0),(1,0),(0,-1),(0,1)],
+                  '^':[(-1,0)],
+                  'v':[(1,0)],
+                  '>':[(0,1)],
+                  '<':[(0,-1)]}
+        matrix = switch[slope]
+        return [Path(self.x+m[0], self.y+m[1]) for m in matrix]
 
 def parse(puzzle_input):
     # parse the input
     lines =  puzzle_input.split()
-    start = None
-    end = None
-    for x in range(len(lines)):
-        for y in range(len(lines[0])):
-            if x == 0 and lines[x][y]=='.':
-                start = Path(x,y,lines[x][y])
-            if x == len(lines)-1 and lines[x][y]=='.':
-                end = Path(x,y,lines[x][y])
-            Path(x,y,lines[x][y])
+    paths = {}
+    start = lines[0]
+    end = lines[-1]
+    lines = lines[1:-1]
+
+    for y in range(len(lines[0])):
+        if start[y] == '.':
+            start_path = Path(0,y)
+            paths['start'] = start_path
+            paths[start_path] = '.'
+        if end[y] == '.':
+             end_path = Path(len(lines)-1,y)
+             paths['end'] = end_path
+             paths[end_path] = '.'
+        for x in range(len(lines)):
+            if lines[x][y] == '#':
+                continue
+            paths[Path(x,y)] = lines[x][y]
+    
+    return paths
+
 
 def part1(parsed):
     return parsed
