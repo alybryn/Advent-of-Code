@@ -1,4 +1,4 @@
-from collections import namedtuple
+from collections import deque, namedtuple
 import pathlib
 import sys
 
@@ -42,6 +42,20 @@ def parse(puzzle_input):
     
     return paths
 
+def weigh(path):
+    start = path['start']
+    frontier = deque()
+    frontier.append(start)
+    reached = set()
+    reached.add(start)
+    weights = {}
+    while frontier:
+        current = frontier.popleft()
+        for next in current.neighbors(path[current]):
+            if next in path:
+                if next not in reached:
+                    frontier.append(next)
+                    reached.add(next)
 
 def part1(parsed):
     return parsed
