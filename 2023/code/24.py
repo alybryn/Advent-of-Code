@@ -16,6 +16,15 @@ class Point3D(namedtuple('Point3D',['x','y','z'])):
 class Vector3D(namedtuple('Vector3D',['a','b','c'])):
     def __repr__(self) -> str:
         return f'({self.a},{self.b},{self.c})'
+    
+    def is_parallel(self,other):
+        return self.reduce() == other.reduce()
+    
+    def is_xy_parallel(self,other):
+        s_r = self.reduce()
+        o_r = other.reduce()
+        return s_r.a == o_r.a and s_r.b == o_r.b
+
     def reduce(self):
         div = gcd(self.a,self.b,self.c)
         return Vector3D(self.a//div, self.b//div, self.c//div)
@@ -24,6 +33,12 @@ class Vector3D(namedtuple('Vector3D',['a','b','c'])):
 class Line3D(namedtuple('Line3D',['point','vector'])):
     def __repr__(self) -> str:
         return f'{str(self.point)} @ {str(self.vector)}'
+    
+    def is_parallel(self,other):
+        return self.vector.is_parallel(other.vector)
+    
+    def is_xy_parallel(self,other):
+        return self.vector.is_xy_parallel(other.vector)
         
 def parse(puzzle_input):
     # parse the input
