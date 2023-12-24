@@ -1,15 +1,19 @@
+from collections import namedtuple
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 2
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    for line in puzzle_input.split('\n'):
+        pos, vec = line.split(' @ ')
+        px,py,pz = pos.split(', ')
+        vx,vy,vz = vec.split(', ')
 
 def part1(parsed):
-    return 0
+    return parsed
 
 def part2(parsed):
     return 0
