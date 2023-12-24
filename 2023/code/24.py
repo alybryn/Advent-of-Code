@@ -5,6 +5,9 @@ import sys
 SAMPLE_ANSWER_1 = 2
 SAMPLE_ANSWER_2 = None
 
+SAMPLE_BOUND = (7,27)
+DATA_BOUND = (200000000000000,400000000000000)
+
 class Point3D(namedtuple('Point3D',['x','y','z'])):
     def __repr__(self) -> str:
         return f'({self.x},{self.y},{self.z})'
