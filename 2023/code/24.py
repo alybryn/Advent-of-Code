@@ -1,4 +1,5 @@
 from collections import namedtuple
+from math import gcd, sqrt
 import pathlib
 import sys
 
