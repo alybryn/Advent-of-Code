@@ -11,10 +11,10 @@ DATA_BOUND = (200000000000000,400000000000000)
 class Point3D(namedtuple('Point3D',['x','y','z'])):
     def __repr__(self) -> str:
         return f'({self.x},{self.y},{self.z})'
-    
-class Vector3D(namedtuple('Vector3D',['x','y','z'])):
+
+class Vector3D(namedtuple('Vector3D',['a','b','c'])):
     def __repr__(self) -> str:
-        return f'({self.x},{self.y},{self.z})'
+        return f'({self.a},{self.b},{self.c})'
 
 class Line3D(namedtuple('Line3D',['point','vector'])):
     def __repr__(self) -> str:
