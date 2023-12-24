@@ -29,10 +29,8 @@ def parse(puzzle_input):
     ret = []
     for line in puzzle_input.split('\n'):
         pos, vec = line.split(' @ ')
-        px,py,pz = pos.split(', ')
-        vx,vy,vz = vec.split(', ')
-        ret.append(Line3D(Point3D(px,py,pz),Vector3D(vx,vy,vz)))
-
+        x,y,z = [int(p) for p in pos.split(', ')]
+        a,b,c = [int(v) for v in vec.split(', ')]
     return ret
 
 def part1(parsed):
