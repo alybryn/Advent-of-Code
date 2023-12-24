@@ -5,12 +5,28 @@ import sys
 SAMPLE_ANSWER_1 = 2
 SAMPLE_ANSWER_2 = None
 
+class Point3D(namedtuple('Point3D',['x','y','z'])):
+    def __repr__(self) -> str:
+        return f'({self.x},{self.y},{self.z})'
+    
+class Vector3D(namedtuple('Vector3D',['x','y','z'])):
+    def __repr__(self) -> str:
+        return f'({self.x},{self.y},{self.z})'
+
+class Line3D(namedtuple('Line3D',['point','vector'])):
+    def __repr__(self) -> str:
+        return f'{str(self.point)} @ {str(self.vector)}'
+        
 def parse(puzzle_input):
     # parse the input
+    ret = []
     for line in puzzle_input.split('\n'):
         pos, vec = line.split(' @ ')
         px,py,pz = pos.split(', ')
         vx,vy,vz = vec.split(', ')
+        ret.append(Line3D(Point3D(px,py,pz),Vector3D(vx,vy,vz)))
+
+    return ret
 
 def part1(parsed):
     return parsed
