@@ -15,6 +15,10 @@ class Point3D(namedtuple('Point3D',['x','y','z'])):
 class Vector3D(namedtuple('Vector3D',['a','b','c'])):
     def __repr__(self) -> str:
         return f'({self.a},{self.b},{self.c})'
+    def reduce(self):
+        div = gcd(self.a,self.b,self.c)
+        return Vector3D(self.a//div, self.b//div, self.c//div)
+
 
 class Line3D(namedtuple('Line3D',['point','vector'])):
     def __repr__(self) -> str:
