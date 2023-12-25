@@ -6,6 +6,13 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
+    ret = Graph()
+    for line in puzzle_input.split('\n'):
+        a, bs = line.split(': ')
+        for b in bs.split(' '):
+            ret.add_edge(a,b)
+    return ret
+
 class Graph():
     def __init__(self) -> None:
         self._edges = {}
