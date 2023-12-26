@@ -28,6 +28,9 @@ PRINTING = {'ddn','csj','hsc','ljl','qkk','lvj','dvr','hnq','dqr','nvc','tjh','c
             'gpz','zrp','qlv','fmb','vbf','vhc','djt','mlc','bbp','zhk','pxz','zgh','pgl','kdb','tnt','ntf','vhc','bnn','ngx','mmr','vtx','mmr','mft','jxd','sgp','trp','xvr','tdp','sjs','rnt','hxp','dkq','kpg','vfs','ljl','sgj','rkp','lvx','nkk','qlj','hrq','jnp','rxh','qzl','dbj','plj','fcp','dxk','xzf','tzp','lnk','sgc','thk','pdz','pqr','qrm','kfn','qsn',
             'jcl','shk','sbx','kxx','xkb','fhl','tqn','vfg','bzr','lzq','zdg','qdh','khp','zqd','mjl','khx','ssd','fpl','dgf','dxv','nlh','xzf','xzc','shm','xzf','fhr','blm','drn','lbl','mzj','pvj','lkc','nsh','njp','xcp','dbh','mft','vdr','vlf','qrm','fkt','sks','ngs','hkz','nfr','ffp','dcf','fnn','trq','xqn','lbj','mfd','vtb','ksc','zlb','pzd'}
 
+SAMPLE_EDGES = [('hfx','pzl'),('bvb','cmg'),('nvd','jqt')]
+DATA_EDGES = [('xvp','zpc'),('vfs','dhl'),('pbq','nzn')]
+
 def parse(puzzle_input):
     # parse the input
     ret = Graph()
@@ -42,17 +45,37 @@ class Graph():
         self._edges = {}
     
     def add_edge(self, a, b):
-        a_set = self._edges.get(a,set())
-        a_set.add(b)
-        b_set = self._edges.get(b,set())
-        b_set.add(a)
-        self._edges.update({a:a_set})
-        self._edges.update({b:b_set})
+        if a in self._edges.keys():
+            self._edges[a].add(b)
+        else:
+            self._edges[a] = {b}
+        if b in self._edges.keys():
+            self._edges[b].add(a)
+        else:
+            self._edges[b] = {a}
+        # a_set = self._edges.get(a,set())
+        # a_set.add(b)
+        # b_set = self._edges.get(b,set())
+        # b_set.add(a)
+        # self._edges.update({a:a_set})
+        # self._edges.update({b:b_set})
 
-    def output(self, selections):
+    def remove_edge(self,a,b):
+        a_set = self._edges[a]
+        b_set = self._edges[b]
+        a_set.remove(b)
+        b_set.remove(a)
+
+    def get_edges(self,a):
+        return self._edges[a]
+    
+    def get_nodes(self):
+        return self._edges.keys()
+
+    def output(self, selections=[]):
         printed = set()
         for k in self._edges:
-            if k not in selections:
+            if k not in selections and len(selections) > 0:
                 continue
             for v in self._edges[k]:
                 if v in printed:
@@ -61,6 +84,14 @@ class Graph():
             printed.add(k)
 
     def find_seed(self):
+        ret = []
+        # for k in self._edges.keys():
+        #     if len(self._edges[k]) == 3:
+        #         print(k)
+        #         for v in self._edges[k]:
+        #             print(len(self._edges[v]))
+        #     ret.append(len(self._edges[k]))
+        return sorted(ret)
         for k in self._edges.keys():
             print(f'k:{k}')
             if len(self._edges[k]) >=3:
@@ -76,11 +107,30 @@ class Graph():
                                 if c == a or c == b:
                                     continue
                                 print(f'\t\t\tc:{c}')
-                                if c in self._edges[a] and c in self._edges[b]:
+                                if c in self._edges[a] or c in self._edges[b]:
                                     return (k,a,b,c)
+                                
+    def find_connected(self, node):
+        connections = set()
+        new_connections = {node}
+        while connections != new_connections:
+            connections = new_connections.copy()
+            for k in self._edges.keys():
+                if k in connections:
+                    for v in self._edges[k]:
+                        new_connections.add(v)
+        return connections
+
 
 def part1(parsed):
-    return 0
+    print(len(parsed._edges))
+    use_edges = DATA_EDGES
+    for edge in use_edges:
+        parsed.remove_edge(edge[0],edge[1])
+    a = len(parsed.find_connected(use_edges[0][0]))
+    b = len(parsed.find_connected(use_edges[0][1]))
+    print(f'lens: {a},{b}')
+    return a*b
 
 def part2(parsed):
     return 0
