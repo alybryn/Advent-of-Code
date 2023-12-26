@@ -4,6 +4,11 @@ import sys
 SAMPLE_ANSWER_1 = 54
 SAMPLE_ANSWER_2 = None
 
+## NOTES TO SELF ON ACTUAL IDEAS FOR SOLVING:
+## Graph gets 2 subsets, every node assigned to smaller subset on creation
+## Do Kernighan-Lin, also check for nodes only connected to the other subset. maybe just once, at the beginning
+## still don't know how to load balance the SIZE of the subsets.
+
 # an awful thing i did to use an online graphviz tool
 PRINTING = {'ddn','csj','hsc','ljl','qkk','lvj','dvr','hnq','dqr','nvc','tjh','cqf','rrz','dvq','ltg','pvj','vjt','dvq','jhq','bnj','zcq','jrb','phg','dvq','mtg','znm','dvb','fkk','hjq','zgz','hnq','znm','tqj','jgc','qsm','dxl','vzd','llg','kpf','lcx','ddj','llg','mqf','fdx','ptc','nsm','crk','pbz','rbv','vng','fcq','mfp','clc','fbq','lxn','hlf','mrm','vdf',
             'sxf','zgc','xhj','xcs','ttm','xvv','rhj','phf','cbp','rfz','htp','hlf','rgr','vdh','hlg','kxc','mml','vms','kxc','ngx','ltl','kxr','vtf','xnp','gzm','qmj','xtd','fsp','dbs','vxt','mcn','rkp','fxk','hdn','njr','rkp','rmd','vfv','lnk','lqv','sjd','nrj','kkz','fnv','trb','ptc','nkk','qmj','zpc','ptc','rjh','jhn','ddr','ptc','zcm','jrs','hlm','pzd',
