@@ -1,0 +1,25 @@
+Inverse Captcha
+Corruption Checksum
+Spiral Memory
+High-Entropy Passphrases
+A Maze of Twisty Trampolines, All Alike
+Memory Reallocation
+Recursive Circus
+I Heard You Like Registers
+Stream Processing
+Knot Hash
+Hex Ed
+Digital Plumber
+Packet Scanners
+Disk Defragmentation
+Dueling Generators
+Permutation Promenade
+Spinlock
+Duet
+A Series of Tubes
+Particle Swarm
+Fractal Art
+Sporifica Virus
+Coprocessor Conflagration
+Electromagnetic Moat
+The Halting Problem
