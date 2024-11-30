@@ -7,7 +7,15 @@ SAMPLE_ANSWER_2 = None
 # 100 octopuses in a 10x10 grid
 def parse(puzzle_input):
     # parse the input
-    return [[l for l in line] for line in puzzle_input.split()]
+    return [[int(l) for l in line] for line in puzzle_input.split()]
+
+def gridPrint(grid):
+    pr = ''
+    for i in grid:
+        for j in i:
+            pr += str(j)
+        pr += '\n'
+    print(pr)
 
 def adjacentcy(x, y):
     ret = []
@@ -33,7 +41,9 @@ def flash(grid):
                         grid[a[0]][a[1]] = grid[a[0]][a[1]] + 1
 
 def part1(parsed):
-    print(parsed)
+    gridPrint(parsed)
+    energize(parsed)
+    gridPrint(parsed)
     print(adjacentcy(9,9))
     return 0
 
