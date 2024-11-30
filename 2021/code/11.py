@@ -4,6 +4,8 @@ import sys
 SAMPLE_ANSWER_1 = None
 SAMPLE_ANSWER_2 = None
 
+GRID_SIZE = 5
+
 # 100 octopuses in a 10x10 grid
 def parse(puzzle_input):
     # parse the input
@@ -22,19 +24,19 @@ def adjacentcy(x, y):
     for i in [-1,0, 1]:
         for j in [-1,0,1]:
             ret.append([x+i,y+j])
-    return [r for r in ret if 0 <= r[0] < 10 and 0 <=r[1] < 10]
+    return [r for r in ret if 0 <= r[0] < GRID_SIZE and 0 <=r[1] < GRID_SIZE]
 
 def energize(grid):
-    for i in range(0,10):
-        for j in range(0,10):
+    for i in range(0,GRID_SIZE):
+        for j in range(0,GRID_SIZE):
             grid[i][j] = grid[i][j] + 1
 
 def flash(grid):
     flashed = True
     while flashed:
         flashed = False
-        for i in range(0,10):
-            for j in range(0,10):
+        for i in range(0,GRID_SIZE):
+            for j in range(0,GRID_SIZE):
                 if grid[i][j] >= 9:
                     flashed = True
                     grid[i][j] = 0
@@ -42,11 +44,14 @@ def flash(grid):
                         if grid[a[0]][a[1]] != 0:
                             grid[a[0]][a[1]] = grid[a[0]][a[1]] + 1
 
+def step(grid):
+    energize(grid)
+    flash(grid)
+
 def part1(parsed):
     gridPrint(parsed)
-    energize(parsed)
-    gridPrint(parsed)
-    flash(parsed)
+    step(parsed)
+    step(parsed)
     gridPrint(parsed)
     return 0
 
