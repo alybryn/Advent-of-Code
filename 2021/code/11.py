@@ -4,7 +4,7 @@ import sys
 SAMPLE_ANSWER_1 = None
 SAMPLE_ANSWER_2 = None
 
-GRID_SIZE = 5
+GRID_SIZE = 10
 
 # 100 octopuses in a 10x10 grid
 def parse(puzzle_input):
@@ -31,32 +31,48 @@ def energize(grid):
         for j in range(0,GRID_SIZE):
             grid[i][j] = grid[i][j] + 1
 
+# detonated ABOVE 9
 def flash(grid):
     flashed = True
     while flashed:
         flashed = False
         for i in range(0,GRID_SIZE):
             for j in range(0,GRID_SIZE):
-                if grid[i][j] >= 9:
+                if grid[i][j] > 9:
                     flashed = True
                     grid[i][j] = 0
                     for a in adjacentcy(i,j):
                         if grid[a[0]][a[1]] != 0:
                             grid[a[0]][a[1]] = grid[a[0]][a[1]] + 1
 
+# count flashes (zeros)
+def countFlashes(grid):
+    count = 0
+    for i in range(0, GRID_SIZE):
+        for j in range(0, GRID_SIZE):
+            if grid[i][j] == 0:
+                count += 1
+    return count
+
 def step(grid):
     energize(grid)
     flash(grid)
 
 def part1(parsed):
-    gridPrint(parsed)
-    step(parsed)
-    step(parsed)
-    gridPrint(parsed)
-    return 0
+    c = 0
+    for s in range(0,100):
+        step(parsed)
+        if countFlashes(parsed) == 100:
+            print(f"PART 2 ANSWER IS {s}")
+        c += countFlashes(parsed)
+    return c
 
 def part2(parsed):
-    return 0
+    steps = 100
+    while countFlashes(parsed) != 100:
+        step(parsed)
+        steps += 1
+    return steps
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
