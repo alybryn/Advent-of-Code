@@ -33,18 +33,21 @@ def flash(grid):
     flashed = True
     while flashed:
         flashed = False
-        for i in range(1,10):
-            for j in range(1,10):
+        for i in range(0,10):
+            for j in range(0,10):
                 if grid[i][j] >= 9:
                     flashed = True
-                    for a in adjacentcy(grid[i][j]):
-                        grid[a[0]][a[1]] = grid[a[0]][a[1]] + 1
+                    grid[i][j] = 0
+                    for a in adjacentcy(i,j):
+                        if grid[a[0]][a[1]] != 0:
+                            grid[a[0]][a[1]] = grid[a[0]][a[1]] + 1
 
 def part1(parsed):
     gridPrint(parsed)
     energize(parsed)
     gridPrint(parsed)
-    print(adjacentcy(9,9))
+    flash(parsed)
+    gridPrint(parsed)
     return 0
 
 def part2(parsed):
