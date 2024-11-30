@@ -9,24 +9,27 @@ def parse(puzzle_input):
     ret = {}
     for line in puzzle_input.split():
         a, b = line.split("-")
-        up = ret.get(a,[])
-        up.append(b)
-        ret.update({a:up})
-        up = ret.get(b,[])
-        up.append(a)
-        ret.update({b:up})
+        # don't add 'start' to anyone's neighbors
+        if b != 'start':
+            up = ret.get(a,[])
+            up.append(b)
+            ret.update({a:up})
+        if a != 'start':
+            up = ret.get(b,[])
+            up.append(a)
+            ret.update({b:up})
     return ret
 
-def findPath(path, system):
+def findPath1(path, system):
     ret = []
-    for step in lookAhead(path, system):
+    for step in lookAhead1(path, system):
         if step != 'end':
-            ret+=(findPath(traverse(path,step),system))
+            ret+=(findPath1(traverse(path,step),system))
         else:
             ret.append(str(f"{path},{step}"))
     return ret
 
-def lookAhead(path, system):
+def lookAhead1(path, system):
     ret = []
     # print(f"{path}:{path.split(',')[-1]}")
     for s in system.get(path.split(',')[-1]):
@@ -34,15 +37,56 @@ def lookAhead(path, system):
             ret.append(s)
     return ret
 
+# pathDouble -> (path, hasDouble)
+def findPath2(pathD, system):
+    ret = []
+    # step -> (step, hasDouble)
+    # print(lookAhead2(pathD, system))
+    for step in lookAhead2(pathD, system):
+        if step[0] != 'end':
+            ret+=(findPath2((traverse2(pathD, step)),system))
+            # print(ret)
+        else:
+            ret.append(str(f"{pathD[0]},{step}"))
+    # print(ret)
+    return ret
+
+def lookAhead2(pathD, system):
+    ret = []
+    path = pathD[0]
+    hasDouble = pathD[1]
+    # print(f"{path},{hasDouble}")
+    for s in system.get(path.split(',')[-1]):
+        # print(s)
+        if s.isupper():
+            ret.append((s,hasDouble))
+        else:
+            if path.find(s) > -1:
+                if not hasDouble:
+                    ret.append((s,True))
+            else:
+                ret.append((s,hasDouble))
+    # print(ret)
+    return ret
+
 def traverse(path, step):
     return str(f"{path},{step}")
 
+def traverse2(path, step):
+    ret = (traverse(path[0],step[0]),step[1])
+    # print(ret)
+    return ret
+
 def part1(parsed):
     # print(parsed)
-    return len(findPath('start',parsed))
+    ret = findPath1('start',parsed)
+    # print(ret)
+    return len(ret)
 
 def part2(parsed):
-    return 0
+    ret = findPath2(('start',False),parsed)
+    # print(ret)
+    return len(ret)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
