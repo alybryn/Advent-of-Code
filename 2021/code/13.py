@@ -38,10 +38,18 @@ def printGrid(grid):
     print(pr)
 
 def part1(parsed):
+    grid, instructions = parsed
+    gridCopy = grid.copy()
+    fold(gridCopy, instructions[0])
     print(parsed)
     return 0
 
 def part2(parsed):
+    grid, instructions = parsed
+    printGrid(grid)
+    for i in instructions:
+        fold(grid, i)
+        printGrid(grid)
     return 0
 
 def solve(puzzle_input):
