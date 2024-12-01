@@ -8,12 +8,15 @@ def parse(puzzle_input):
     # parse the input
     dots, instructions = puzzle_input.split('\n\n')
     for dot in dots.split():
-        print(f'dot:{dot}')
-    instructions = [i for i in instructions.split('\n')]
-    return (dots, instructions)
-
-def fold(x, y):
-    return
+def findExtremes(grid):
+    maxX = 0
+    maxY = 0
+    for g in grid:
+        if g[0] > maxX:
+            maxX = g[0]
+        if g[1] > maxY:
+            maxY = g[1]
+    return (maxX,maxY)
 
 def part1(parsed):
     print(parsed)
