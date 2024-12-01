@@ -10,8 +10,8 @@ def parse(puzzle_input):
     l2 = []
     for line in puzzle_input.split():
         a, b = line.split("   ")
-        l1.append(a)
-        l2.append(b)
+        l1.append(int(a))
+        l2.append(int(b))
     l1.sort()
     l2.sort()
     return (l1,l2)
