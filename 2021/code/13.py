@@ -6,9 +6,17 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    dots, instructions = puzzle_input.split('\n\n')
+    for dot in dots.split():
+        print(f'dot:{dot}')
+    instructions = [i for i in instructions.split('\n')]
+    return (dots, instructions)
+
+def fold(x, y):
+    return
 
 def part1(parsed):
+    print(parsed)
     return 0
 
 def part2(parsed):
