@@ -6,11 +6,23 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    l1 = []
+    l2 = []
+    for line in puzzle_input.split():
+        a, b = line.split("   ")
+        l1.append(a)
+        l2.append(b)
+    l1.sort()
+    l2.sort()
+    return (l1,l2)
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    (a,b) = parsed
+    diff = 0
+    for i in len(a):
+        diff += math.abs(a[i] - b[i])
+    return diff
 
 def part2(parsed):
     return 0
