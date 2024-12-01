@@ -8,7 +8,7 @@ def parse(puzzle_input):
     # parse the input
     l1 = []
     l2 = []
-    for line in puzzle_input.split():
+    for line in puzzle_input.split('\n'):
         a, b = line.split("   ")
         l1.append(int(a))
         l2.append(int(b))
@@ -17,11 +17,10 @@ def parse(puzzle_input):
     return (l1,l2)
 
 def part1(parsed):
-    print(parsed)
     (a,b) = parsed
     diff = 0
-    for i in len(a):
-        diff += math.abs(a[i] - b[i])
+    for i in range(0,len(a)):
+        diff += abs(a[i] - b[i])
     return diff
 
 def part2(parsed):
