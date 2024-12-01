@@ -17,19 +17,21 @@ def parse(puzzle_input):
 def fold(grid, instruction):
     xy, num = instruction.split('=')
     num  = int(num)
+    (maxX, maxY) = findExtremes(grid)
     newGrid = set()
     if xy == 'x':
         for dot in grid:
             if dot[0] < num:
                 newGrid.add(dot)
             else:
-                newGrid.add((dot[0]-num,dot[1]))
+                newGrid.add((maxX - dot[0],dot[1]))
     if xy == 'y':
         for dot in grid:
             if dot[1] < num:
                 newGrid.add(dot)
             else:
-                newGrid.add((dot[0],dot[1]-num))
+                newGrid.add((dot[0], maxY - dot[1]))
+    return newGrid
 
 def findExtremes(grid):
     maxX = 0
@@ -55,19 +57,20 @@ def printGrid(grid):
         pr += '\n'
     print(pr)
 
+def countDots(grid):
+    return len(grid)
+
 def part1(parsed):
     grid, instructions = parsed
     gridCopy = grid.copy()
-    fold(gridCopy, instructions[0])
-    print(parsed)
-    return 0
+    gridCopy = fold(gridCopy, instructions[0])
+    return countDots(gridCopy)
 
 def part2(parsed):
     grid, instructions = parsed
-    printGrid(grid)
     for i in instructions:
-        fold(grid, i)
-        printGrid(grid)
+        grid = fold(grid, i)
+    printGrid(grid)
     return 0
 
 def solve(puzzle_input):
