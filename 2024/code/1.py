@@ -6,24 +6,25 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    l1 = []
-    l2 = []
+    left = []
+    right = []
     for line in puzzle_input.split('\n'):
-        a, b = line.split("   ")
-        l1.append(int(a))
-        l2.append(int(b))
-    l1.sort()
-    l2.sort()
-    return (l1,l2)
+        l, r = line.split("   ")
+        left.append(int(l))
+        right.append(int(r))
+    left.sort()
+    right.sort()
+    return (left,right)
 
 def part1(parsed):
-    (a,b) = parsed
+    (left,right) = parsed
     diff = 0
-    for i in range(0,len(a)):
-        diff += abs(a[i] - b[i])
+    for i in range(0,len(left)):
+        diff += abs(left[i] - right[i])
     return diff
 
 def part2(parsed):
+    (left,right) = parsed
     return 0
 
 def solve(puzzle_input):
