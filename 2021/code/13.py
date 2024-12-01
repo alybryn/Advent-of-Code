@@ -7,7 +7,12 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     dots, instructions = puzzle_input.split('\n\n')
+    grid = set()
     for dot in dots.split():
+        x, y = dot.split(',')
+        grid.add((int(x),int(y)))
+    instructions = [i.strip('fold along ') for i in instructions.split('\n')]
+    return (grid, instructions)
 def findExtremes(grid):
     maxX = 0
     maxY = 0
