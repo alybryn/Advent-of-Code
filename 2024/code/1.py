@@ -25,7 +25,14 @@ def part1(parsed):
 
 def part2(parsed):
     (left,right) = parsed
-    return 0
+    ret = 0
+    for l in left:
+        count = 0
+        for r in right:
+            if l == r:
+                count += 1
+        ret += l * count
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
