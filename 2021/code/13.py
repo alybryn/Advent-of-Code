@@ -13,6 +13,24 @@ def parse(puzzle_input):
         grid.add((int(x),int(y)))
     instructions = [i.strip('fold along ') for i in instructions.split('\n')]
     return (grid, instructions)
+
+def fold(grid, instruction):
+    xy, num = instruction.split('=')
+    num  = int(num)
+    newGrid = set()
+    if xy == 'x':
+        for dot in grid:
+            if dot[0] < num:
+                newGrid.add(dot)
+            else:
+                newGrid.add((dot[0]-num,dot[1]))
+    if xy == 'y':
+        for dot in grid:
+            if dot[1] < num:
+                newGrid.add(dot)
+            else:
+                newGrid.add((dot[0],dot[1]-num))
+
 def findExtremes(grid):
     maxX = 0
     maxY = 0
