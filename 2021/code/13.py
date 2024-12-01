@@ -23,6 +23,20 @@ def findExtremes(grid):
             maxY = g[1]
     return (maxX,maxY)
 
+def printGrid(grid):
+    (maxX, maxY) = findExtremes(grid)
+    maxX += 1
+    maxY += 1
+    pr = ''
+    for y in range(0,maxY):
+        for x in range(0,maxX):
+            if (x,y) in grid:
+                pr += '#'
+            else:
+                pr += '.'
+        pr += '\n'
+    print(pr)
+
 def part1(parsed):
     print(parsed)
     return 0
