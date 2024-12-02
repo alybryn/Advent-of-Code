@@ -9,7 +9,6 @@ def parse(puzzle_input):
     return [line for line in puzzle_input.split('\n')]
 
 def reportReport(report):
-    report = [int(r) for r in report.split(' ')]
     rr = set()
     for i in range(0, len(report)-1):
         rr.add(report[i] - report[i+1])
@@ -22,7 +21,8 @@ def isSafe(report):
 def part1(parsed):
     c=0
     for report in parsed:
-        if isSafe(report):
+        r = [int(r) for r in report.split(' ')]
+        if isSafe(r):
             c += 1
     return c
 
