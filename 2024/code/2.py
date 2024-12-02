@@ -6,7 +6,7 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [line for line in puzzle_input.split('\n')]
 
 def reportReport(report):
     report = [int(r) for r in report.split(' ')]
@@ -20,7 +20,6 @@ def isSafe(report):
     return rr <= {-1,-2,-3} or rr <= {1,2,3}
 
 def part1(parsed):
-    print(parsed)
     c=0
     for report in parsed:
         if isSafe(report):
