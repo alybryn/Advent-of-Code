@@ -18,6 +18,14 @@ def isSafe(report):
     rr = reportReport(report)
     return rr <= {-1,-2,-3} or rr <= {1,2,3}
 
+def isSafish(report):
+    for i in range(0, len(report)):
+        copy = report.copy()
+        copy.pop(i)
+        if isSafe(copy):
+            return True
+    return False
+
 def part1(parsed):
     c=0
     for report in parsed:
@@ -27,7 +35,12 @@ def part1(parsed):
     return c
 
 def part2(parsed):
-    return 0
+    c = 0
+    for report in parsed:
+        r = report = [int(r) for r in report.split(' ')]
+        if isSafish(r):
+            c += 1
+    return c
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
