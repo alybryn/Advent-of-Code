@@ -7,24 +7,22 @@ SAMPLE_ANSWER_2 = 48
 
 def parse(puzzle_input):
     # parse the input
-    return (re.findall("mul\(\d{1,4},\d{1,4}\)",puzzle_input),re.findall("mul\(\d{1,4},\d{1,4}\)|don't\(\)|do\(\)",puzzle_input))
-
+    return re.findall("mul\(\d{1,4},\d{1,4}\)|don't\(\)|do\(\)",puzzle_input)
+    
 def mul(match):
     x, y = map(int,(re.findall("\d{1,4}", match)))
     return x*y
 
 def part1(parsed):
-    parsed = parsed[0]
     # print(parsed)
     ret = 0
     for m in parsed:
-        ret += mul(m)
+        if m != 'do()' and m != "don't()":
+            ret += mul(m)
     return ret
 
 def part2(parsed):
-    parsed = parsed[1]
-    print(parsed)
-    return 0
+    # print(parsed)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
