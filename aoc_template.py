@@ -10,7 +10,7 @@ def parse(puzzle_input):
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    return 0
 
 def part2(parsed):
     return 0
