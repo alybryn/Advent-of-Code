@@ -2,7 +2,7 @@ import pathlib
 import re
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 161
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
@@ -10,17 +10,20 @@ def parse(puzzle_input):
     return re.findall("mul\(\d{1,4},\d{1,4}\)",puzzle_input)
 
 def mul(match):
-    x, y = re.findall("\d{1,4}", match)
+    x, y = map(int,(re.findall("\d{1,4}", match)))
     return x*y
 
 def part1(parsed):
-    print(parsed)
+    parsed = parsed[0]
+    # print(parsed)
     ret = 0
     for m in parsed:
         ret += mul(m)
     return ret
 
 def part2(parsed):
+    parsed = parsed[1]
+    print(parsed)
     return 0
 
 def solve(puzzle_input):
