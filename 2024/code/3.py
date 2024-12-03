@@ -7,7 +7,7 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return re.findall("mul\(\d{1,4},\d{1,4}\)",puzzle_input)
+    return (re.findall("mul\(\d{1,4},\d{1,4}\)",puzzle_input),re.findall("mul\(\d{1,4},\d{1,4}\)|don't\(\)|do\(\)",puzzle_input))
 
 def mul(match):
     x, y = map(int,(re.findall("\d{1,4}", match)))
