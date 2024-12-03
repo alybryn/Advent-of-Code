@@ -9,9 +9,16 @@ def parse(puzzle_input):
     # parse the input
     return re.findall("mul\(\d{1,4},\d{1,4}\)",puzzle_input)
 
+def mul(match):
+    x, y = re.findall("\d{1,4}", match)
+    return x*y
+
 def part1(parsed):
     print(parsed)
-    return parsed
+    ret = 0
+    for m in parsed:
+        ret += mul(m)
+    return ret
 
 def part2(parsed):
     return 0
