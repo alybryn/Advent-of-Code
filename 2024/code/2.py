@@ -19,6 +19,8 @@ def isSafe(report):
     return rr <= {-1,-2,-3} or rr <= {1,2,3}
 
 def isSafish(report):
+    if isSafe(report):
+        return True
     for i in range(0, len(report)):
         copy = report.copy()
         copy.pop(i)
