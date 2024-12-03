@@ -1,4 +1,5 @@
 import pathlib
+import re
 import sys
 
 SAMPLE_ANSWER_1 = None
@@ -6,7 +7,7 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return re.findall("mul\(\d{1,4},\d{1,4}\)",puzzle_input)
 
 def part1(parsed):
     print(parsed)
