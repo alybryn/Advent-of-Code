@@ -23,6 +23,17 @@ def part1(parsed):
 
 def part2(parsed):
     # print(parsed)
+    enabled = True
+    ret = 0
+    for p in parsed:
+        if p == "don't()":
+            enabled = False
+        elif p == "do()":
+            enabled = True
+        else:
+            if enabled:
+                ret += mul(p)
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
