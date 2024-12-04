@@ -24,12 +24,36 @@ def searchH(p):
     m = 0
     for i in len(p):
         for j in len(p[0]):
-            if p[i][j] == X or p[i][j] == S
+            if p[i][j] == X or p[i][j] == S:
+                return None
+
+def buildH(puzzle):
+    m = []
+    for i in range(0, len(p)):
+        s = ""
+        for j in range(0, len(p[0])):
+            s += puzzle[i][j]
+        m.append(s)
+    return m
     
 # vertical
 # vertical reversed
+def buildV(puzzle):
+    m = []
+    for i in range(0, len(p[0])):
+        s = ""
+        for j in range(0, len(p)):
+            s += puzzle[j][i]
+        m.append(s)
+    return m
+
 # diagonal down right
 # diagonal up left
+#x=y,x=y+1,x=y+2...
+def buildDD(puzzle):
+    # start len(p[0]), 0
+    for j in 
+
 # diagonal up right
 # diagonal down left
 
