@@ -61,7 +61,7 @@ def buildDU(puzzle):
         
 
 def part1(parsed):
-    print(parsed)
+    # print(parsed)
     c = 0
     for f in [buildH, buildV, buildDD, buildDU]:
         for line in f(parsed):
