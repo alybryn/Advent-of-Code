@@ -1,13 +1,9 @@
 import pathlib
+import re
 import sys
 
 SAMPLE_ANSWER_1 = 18
 SAMPLE_ANSWER_2 = None
-
-X = "x"
-M = "m"
-A = "a"
-S = "s"
 
 def parse(puzzle_input):
     # parse the input
@@ -15,8 +11,9 @@ def parse(puzzle_input):
 
 # check XMAS and SAMX... 
 # can share Ss and Xs...
-def confirm(x,m,a,s):
-    return x == X and m == M and a == A and s == S
+def count(line):
+    # TODO, check for no matches
+    return len(re.findall('XMAS')) + len(re.findall('SAMX'))
 
 # horizontal
 # horizontal reversed
@@ -51,15 +48,34 @@ def buildV(puzzle):
 # diagonal up left
 #x=y,x=y+1,x=y+2...
 def buildDD(puzzle):
+    m = []
     # start len(p[0]), 0
-    for j in 
+    for j in range(0, len(puzzle[0])):
+        s = ""
+        for i in range(0, len(puzzle)):
+            s += puzzle[0][0]
+        m.append(s)
+    return m
 
 # diagonal up right
 # diagonal down left
+def buildDU(puzzle):
+    m = []
+    for i in range(0, len(puzzle)):
+        s=""
+        for j in range(0, len(puzzle[0]):
+            s += puzzle[0][0]
+        m.append(s)
+    return m
+        
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    c = 0
+    for f in [buildH, buildV, buildDD, buildDU]:
+        for line in f(parsed):
+            c += count(line)
+    return c
 
 def part2(parsed):
     return 0
