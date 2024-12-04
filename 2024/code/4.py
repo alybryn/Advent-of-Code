@@ -1,12 +1,21 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 18
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
+
+# horizontal
+# horizontal reversed
+# vertical
+# vertical reversed
+# diagonal down right
+# diagonal up left
+# diagonal up right
+# diagonal down left
 
 def part1(parsed):
     print(parsed)
