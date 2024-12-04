@@ -4,12 +4,28 @@ import sys
 SAMPLE_ANSWER_1 = 18
 SAMPLE_ANSWER_2 = None
 
+X = "x"
+M = "m"
+A = "a"
+S = "s"
+
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [[l for l in line] for line in puzzle_input.split()]
+
+# check XMAS and SAMX... 
+# can share Ss and Xs...
+def confirm(x,m,a,s):
+    return x == X and m == M and a == A and s == S
 
 # horizontal
 # horizontal reversed
+def searchH(p):
+    m = 0
+    for i in len(p):
+        for j in len(p[0]):
+            if p[i][j] == X or p[i][j] == S
+    
 # vertical
 # vertical reversed
 # diagonal down right
