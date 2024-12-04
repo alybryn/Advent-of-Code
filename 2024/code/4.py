@@ -77,7 +77,14 @@ def buildDU(puzzle):
         # print(s[::-1])
         m.add(s[::-1])
     return list(m)
-        
+
+class searchBox:
+    def __init__(self,x,y,puzzle):
+        self.zz = puzzle[x][y]
+        self.tt = puzzle[x+2][y+2]
+        self.zt = puzzle[x][y+2]
+        self.tz = puzzle[x+2][y]
+        self.c = puzzle[x+1][y+1]
 
 def part1(parsed):
     # print(parsed)
