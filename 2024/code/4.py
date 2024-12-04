@@ -41,31 +41,52 @@ def buildV(puzzle):
 def buildDD(puzzle):
     m = []
     # start len(p[0]), 0
-    for j in range(0, len(puzzle[0])):
-        s = ""
-        for i in range(0, len(puzzle)):
-            s += puzzle[0][0]
+    for i in range(0,len(puzzle)):
+        s=""
+        for n in range(i,len(puzzle)):
+            print(f"{n-i},{n},{puzzle[n-i][n]}")
+            s += puzzle[n-i][n]#f"({n-i},{n})"
+        # print(s)
         m.append(s)
+    print('---')
+    for i in range(0,len(puzzle)):
+        s = ''
+        for n in range(0,i+1):
+            # print(f"{i-n},{n},{puzzle[i-n][n]}")
+            print(f'{n},{i},{len(puzzle)-1-n},{len(puzzle)-i-1}')
+            s += f"({len(puzzle)-1-n},{n})"
+        print(s)
     return m
 
 # diagonal up right
 # diagonal down left
 def buildDU(puzzle):
     m = []
-    for i in range(0, len(puzzle)):
+    for i in range(0,len(puzzle)):
         s=""
-        for j in range(0, len(puzzle[0])):
-            s += puzzle[0][0]
+        for n in range(0,i+1):
+            # print(f"{i-n},{n},{puzzle[i-n][n]}")
+            s += puzzle[i-n][n]
+        # print(s)
+        m.append(s)
+    for i in range(0,len(puzzle)):
+        s=''
+        for n in range(len(puzzle)-1, i-1,-1):
+            s += puzzle[len(puzzle)-1+i-n][n]
+        # print(s)
         m.append(s)
     return m
         
 
 def part1(parsed):
     # print(parsed)
+    # print(f'{len(parsed)}x{len(parsed[0])}')
     c = 0
     for f in [buildH, buildV, buildDD, buildDU]:
         for line in f(parsed):
+            # print(line)
             c += count(line)
+        # print('\n')
     return c
 
 def part2(parsed):
