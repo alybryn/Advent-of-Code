@@ -85,6 +85,19 @@ class searchBox:
         self.zt = puzzle[x][y+2]
         self.tz = puzzle[x+2][y]
         self.c = puzzle[x+1][y+1]
+    
+    def check(self):
+        checksout = True
+        # check (1,1) == A
+        if self.c != 'A':
+            checksout = False
+        # check (0,0), (2,2) contain M and S
+        if {self.zz, self.tt} != {'M','S'}:
+            checksout = False
+        # check (0,2), (2,0) contain M and S
+        if {self.zt, self.tz} != {'M','S'}:
+            checksout = False
+        return checksout
 
 def part1(parsed):
     # print(parsed)
