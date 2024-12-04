@@ -26,9 +26,9 @@ def searchH(p):
 
 def buildH(puzzle):
     m = []
-    for i in range(0, len(p)):
+    for i in range(0, len(puzzle)):
         s = ""
-        for j in range(0, len(p[0])):
+        for j in range(0, len(puzzle[0])):
             s += puzzle[i][j]
         m.append(s)
     return m
@@ -37,9 +37,9 @@ def buildH(puzzle):
 # vertical reversed
 def buildV(puzzle):
     m = []
-    for i in range(0, len(p[0])):
+    for i in range(0, len(puzzle[0])):
         s = ""
-        for j in range(0, len(p)):
+        for j in range(0, len(puzzle)):
             s += puzzle[j][i]
         m.append(s)
     return m
@@ -63,7 +63,7 @@ def buildDU(puzzle):
     m = []
     for i in range(0, len(puzzle)):
         s=""
-        for j in range(0, len(puzzle[0]):
+        for j in range(0, len(puzzle[0])):
             s += puzzle[0][0]
         m.append(s)
     return m
