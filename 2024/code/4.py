@@ -111,7 +111,13 @@ def part1(parsed):
     return c
 
 def part2(parsed):
-    return 0
+    c = 0
+    for i in range(0, len(parsed)-3):
+        for j in range(0, len(parsed)-3):
+            box = searchBox(i,j,parsed)
+            if box.check():
+                c += 1
+    return c
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
