@@ -12,17 +12,8 @@ def parse(puzzle_input):
 # check XMAS and SAMX... 
 # can share Ss and Xs...
 def count(line):
-    # TODO, check for no matches
-    return len(re.findall('XMAS')) + len(re.findall('SAMX'))
-
-# horizontal
-# horizontal reversed
-def searchH(p):
-    m = 0
-    for i in len(p):
-        for j in len(p[0]):
-            if p[i][j] == X or p[i][j] == S:
-                return None
+    # no matches? Returns empty list
+    return len(re.findall('XMAS',line)) + len(re.findall('SAMX',line))
 
 def buildH(puzzle):
     m = []
