@@ -112,8 +112,8 @@ def part1(parsed):
 
 def part2(parsed):
     c = 0
-    for i in range(0, len(parsed)-3):
-        for j in range(0, len(parsed)-3):
+    for i in range(0, len(parsed)-2):
+        for j in range(0, len(parsed)-2):
             box = searchBox(i,j,parsed)
             if box.check():
                 c += 1
