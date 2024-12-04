@@ -74,8 +74,8 @@ def buildDU(puzzle):
         s=''
         for n in range(len(puzzle)-1, i-1,-1):
             s += puzzle[len(puzzle)-1+i-n][n]
-        # print(s)
-        m.add(s)
+        # print(s[::-1])
+        m.add(s[::-1])
     return list(m)
         
 
