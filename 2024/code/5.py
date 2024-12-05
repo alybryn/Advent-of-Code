@@ -34,7 +34,7 @@ def fix(update, rules):
         problems = rules.get(update[i],set()).intersection(update[i:])
         if len(problems) > 0:
             update = move(update, i, problems)
-    return middle(update)
+            return update
 
 def move(update, index, problems):
     # find the index for insertion
@@ -58,9 +58,8 @@ def part1(parsed):
 def part2(parsed):
     rules, updates = parsed
     s = 0
-    for update in updates:
-        if not check(update, rules):
-            s += fix(update, rules)
+        while not check(update, rules):
+            update = fix(update, rules)
     return s
 
 def solve(puzzle_input):
