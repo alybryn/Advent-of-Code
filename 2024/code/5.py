@@ -57,10 +57,12 @@ def part1(parsed):
     return s
 
 def part2(parsed):
-    rules, updates = parsed
+    _, bad_updates, rules = parsed
     s = 0
+    for update in bad_updates:
         while not check(update, rules):
             update = fix(update, rules)
+        s += middle(update)
     return s
 
 def solve(puzzle_input):
