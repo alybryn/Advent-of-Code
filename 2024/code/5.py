@@ -7,10 +7,20 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     rules, updates = puzzle_input.split("\n\n")
-    rules = [Rule(r) for r in rules.split("\n")]
-    updates = [u for u in updates.split("\n")]
+    rules = makeRules(rules)
+    updates = [[u for u in update.split(",")] for update in updates.split("\n")]
     return rules, updates
 
+def makeRules(rules):
+    #return [Rule(r) for r in rules]
+    d = {}
+    for r in rules.split("\n"):
+        b,a = r.split('|')
+        t = d.get(b,set())
+        t.add(a)
+        d.update({b:t})
+    return d
+"""
 class Rule:
     def __init__(self, r):
         self.before, self.after = r.split("|")
@@ -21,22 +31,22 @@ class Rule:
         if a == -1 or b == -1:
             return False
         return b > a
+"""
+def check(update, rules):
+    for i in range(0, len(update)):
+        if len(rules.get(update[i]).intersection(update[i+1:])) > 0:
+            return False
+   return True
 
 def middle(update):
-    l=[u for u in update.split(",")]
-    return int(l[len(l)//2])
+    return int(update[len(update)//2])
 
 def part1(parsed):
     print(parsed)
     rules, updates = parsed
     s = 0
     for update in updates:
-        breaks = False
-        for rule in rules:
-            if rule.isBroken(update):
-                breaks = True
-                break
-        if not breaks:
+        if check(update, rules):
             s += middle(update)
     return s
 
