@@ -19,18 +19,7 @@ def make_rules(rules):
         t.add(b)
         d.update({a:t})
     return d
-"""
-class Rule:
-    def __init__(self, r):
-        self.before, self.after = r.split("|")
 
-    def isBroken(self, u):
-        b = u.find(self.before)
-        a = u.find(self.after)
-        if a == -1 or b == -1:
-            return False
-        return b > a
-"""
 def check(update, rules):
     for i in range(0, len(update)):
         if len(rules.get(update[i],set()).intersection(update[:i])) > 0:
