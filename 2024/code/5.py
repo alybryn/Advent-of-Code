@@ -9,7 +9,9 @@ def parse(puzzle_input):
     rules, updates = puzzle_input.split("\n\n")
     rules = make_rules(rules)
     updates = [[u for u in update.split(",")] for update in updates.split("\n")]
-    return rules, updates
+    good_updates = [update for update in updates if check(update, rules)]
+    bad_updates = [update for update in updates if not check(update, rules)]
+    return good_updates, bad_updates, rules
 
 def make_rules(rules):
     d = {}
@@ -48,11 +50,10 @@ def move(update, index, problems):
 
 def part1(parsed):
     # print(parsed)
-    rules, updates = parsed
+    good_updates = parsed[0]
     s = 0
-    for update in updates:
-        if check(update, rules):
-            s += middle(update)
+    for update in good_updates:
+        s += middle(update)
     return s
 
 def part2(parsed):
