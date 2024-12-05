@@ -22,7 +22,7 @@ def make_rules(rules):
 
 def check(update, rules):
     for i in range(0, len(update)):
-        if len(rules.get(update[i],set()).intersection(update[:i])) > 0:
+        if len(rules.get(update[i],set()).intersection(update[i:])) > 0:
             return False
     return True
 
