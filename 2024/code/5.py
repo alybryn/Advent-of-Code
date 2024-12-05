@@ -7,18 +7,17 @@ SAMPLE_ANSWER_2 = 123
 def parse(puzzle_input):
     # parse the input
     rules, updates = puzzle_input.split("\n\n")
-    rules = makeRules(rules)
+    rules = make_rules(rules)
     updates = [[u for u in update.split(",")] for update in updates.split("\n")]
     return rules, updates
 
-def makeRules(rules):
-    #return [Rule(r) for r in rules]
+def make_rules(rules):
     d = {}
     for r in rules.split("\n"):
         b,a = r.split('|')
-        t = d.get(b,set())
-        t.add(a)
-        d.update({b:t})
+        t = d.get(a,set())
+        t.add(b)
+        d.update({a:t})
     return d
 """
 class Rule:
