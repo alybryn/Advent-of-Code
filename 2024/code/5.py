@@ -31,10 +31,9 @@ def middle(update):
 
 def fix(update, rules):
     for i in range(0, len(update)):
-        intersect = rules.get(update[i],set()).intersection(update[:i])
-        if len(intersect) > 0:
-            update = move(update, i, intersect)
-    print(update)
+        problems = rules.get(update[i],set()).intersection(update[i:])
+        if len(problems) > 0:
+            update = move(update, i, problems)
     return middle(update)
 
 def move(update, index, problems):
@@ -44,7 +43,7 @@ def move(update, index, problems):
         if update[i] in problems:
             maxI = i
     t = update.pop(index)
-    update.insert(i,t)
+    update.insert(maxI,t)
     return update
 
 def part1(parsed):
@@ -61,7 +60,6 @@ def part2(parsed):
     s = 0
     for update in updates:
         if not check(update, rules):
-            print(update)
             s += fix(update, rules)
     return s
 
