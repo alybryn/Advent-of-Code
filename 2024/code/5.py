@@ -2,7 +2,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 143
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 123
 
 def parse(puzzle_input):
     # parse the input
@@ -41,6 +41,24 @@ def check(update, rules):
 def middle(update):
     return int(update[len(update)//2])
 
+def fix(update, rules):
+    for i in range(0, len(update)):
+        intersect = rules.get(update[i],set()).intersection(update[:i])
+        if len(intersect) > 0:
+            update = move(update, i, intersect)
+    print(update)
+    return middle(update)
+
+def move(update, index, problems):
+    # find the index for insertion
+    maxI = 0
+    for i in range(len(update)):
+        if update[i] in problems:
+            maxI = i
+    t = update.pop(index)
+    update.insert(i,t)
+    return update
+
 def part1(parsed):
     # print(parsed)
     rules, updates = parsed
@@ -52,7 +70,12 @@ def part1(parsed):
 
 def part2(parsed):
     rules, updates = parsed
-    return 0
+    s = 0
+    for update in updates:
+        if not check(update, rules):
+            print(update)
+            s += fix(update, rules)
+    return s
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
