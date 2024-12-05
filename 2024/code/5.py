@@ -24,7 +24,7 @@ class Rule:
 
 def middle(update):
     l=[u for u in update.split(",")]
-    return int(l[len(l)/2])
+    return int(l[len(l)//2])
 
 def part1(parsed):
     print(parsed)
@@ -35,11 +35,13 @@ def part1(parsed):
         for rule in rules:
             if rule.isBroken(update):
                 breaks = True
+                break
         if not breaks:
             s += middle(update)
     return s
 
 def part2(parsed):
+    rules, updates = parsed
     return 0
 
 def solve(puzzle_input):
