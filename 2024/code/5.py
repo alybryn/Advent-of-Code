@@ -22,14 +22,22 @@ class Rule:
             return False
         return b > a
 
+def middle(update):
+    l=[u for u in update.split(",")]
+    return int(l[len(l)/2])
+
 def part1(parsed):
     print(parsed)
     rules, updates = parsed
     s = 0
     for update in updates:
+        breaks = False
         for rule in rules:
-            if rule.isBroken(update)
-    return 0
+            if rule.isBroken(update):
+                breaks = True
+        if not breaks:
+            s += middle(update)
+    return s
 
 def part2(parsed):
     return 0
