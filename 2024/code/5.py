@@ -34,15 +34,15 @@ class Rule:
 """
 def check(update, rules):
     for i in range(0, len(update)):
-        if len(rules.get(update[i]).intersection(update[i+1:])) > 0:
+        if len(rules.get(update[i],set()).intersection(update[:i])) > 0:
             return False
-   return True
+    return True
 
 def middle(update):
     return int(update[len(update)//2])
 
 def part1(parsed):
-    print(parsed)
+    # print(parsed)
     rules, updates = parsed
     s = 0
     for update in updates:
