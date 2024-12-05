@@ -1,16 +1,35 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 143
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    rules, updates = puzzle_input.split("\n\n")
+    rules = [Rule(r) for r in rules.split("\n")]
+    updates = [u for u in updates.split("\n")]
+    return rules, updates
+
+class Rule:
+    def __init__(self, r):
+        self.before, self.after = r.split("|")
+
+    def isBroken(self, u):
+        b = u.find(self.before)
+        a = u.find(self.after)
+        if a == -1 or b == -1:
+            return False
+        return b > a
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    rules, updates = parsed
+    s = 0
+    for update in updates:
+        for rule in rules:
+            if rule.isBroken(update)
+    return 0
 
 def part2(parsed):
     return 0
