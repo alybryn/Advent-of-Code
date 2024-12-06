@@ -114,7 +114,7 @@ def part2(parsed):
             au_guard.set(prev)
             if au_guard.loops():
                 placed.add(guard.loc)
-    return len(placed), placed
+    return len(placed)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
