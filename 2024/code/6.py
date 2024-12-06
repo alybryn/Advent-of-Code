@@ -100,9 +100,21 @@ def part1(parsed):
 
 def part2(parsed):
     guard, patrol = parsed
-    guard = deepcopy(guard)
-    # loop on patrol locations
-    return guard.loc
+    placed = set()
+    while guard.in_bounds():
+        prev = guard.loc
+        # if not forward
+        if not guard.forward():
+            # turn
+            guard.turn()
+        # else
+        else:
+            # spin off an AU
+            au_guard = deepcopy(guard)
+            au_guard.set(prev)
+            if au_guard.loops():
+                placed.add(guard.loc)
+    return len(placed), placed
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
