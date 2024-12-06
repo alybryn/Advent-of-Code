@@ -9,7 +9,7 @@ def parse(puzzle_input):
     lines = [[l for l in line] for line in puzzle_input.split('\n')]
     obstacles = set()
     guard = None
-    upper_bounds = (len(lines),len(lines[0]))
+    upper_bounds = (len(lines)-1,len(lines[0])-1)
     for i in range(0, len(lines)):
         for j in range(len(lines[0])):
             if lines[i][j] == "#":
@@ -23,8 +23,8 @@ class Guard():
         self.dir = "up"
         self.loc = loc
 
-    def in_bounds(uppers):
-        return 0 <= self.loc[0] <= uppers[0] and 0 <= self.loc[1] <= uppers[1]
+    def in_bounds(self, uppers):
+        return 0 < self.loc[0] < uppers[0] and 0 <= self.loc[1] <= uppers[1]
     
     def forward(self):
         pass
