@@ -1,3 +1,4 @@
+from enum import Enum
 import pathlib
 import sys
 
@@ -18,9 +19,21 @@ def parse(puzzle_input):
                 guard = Guard((i,j))
     return guard, obstacles, upper_bounds
 
+class Direction(Enum):
+    N = (-1, 0)
+    S = ( 1, 0)
+    E = ( 0, 1)
+    W = ( 0,-1)
+
+    NINTY = {N:E,
+             E:S,
+             S:W,
+             W:N,
+             }
+
 class Guard():
     def __init__(self, loc):
-        self.dir = "up"
+        self.dir = Direction.N
         self.loc = loc
 
     def in_bounds(self, uppers):
