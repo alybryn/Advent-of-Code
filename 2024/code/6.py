@@ -67,8 +67,8 @@ class Guard():
                  }
         self.dir = ninty.get(self.dir)
 
-    def loops(self):
-        self.obstacles.add(self.__look_ahead__())
+    def loops(self, new_obstacle):
+        self.obstacles.add(new_obstacle)
         patrol = set()
         while self.in_bounds() and not (self.loc,self.dir) in patrol:
             # add current loc and dir
@@ -100,20 +100,17 @@ def part1(parsed):
 
 def part2(parsed):
     guard, patrol = parsed
+    # places a single obstacle causes a loop
     placed = set()
-    while guard.in_bounds():
-        prev = guard.loc
-        # if not forward
-        if not guard.forward():
-            # turn
-            guard.turn()
-        # else
-        else:
-            # spin off an AU
-            au_guard = deepcopy(guard)
-            au_guard.set(prev)
-            if au_guard.loops():
-                placed.add(guard.loc)
+
+    # don't make it weird, this space is sacred
+    patrol.remove(guard.loc)
+
+    for b in patrol:
+        au_guard = deepcopy(guard)
+        if au_guard.loops(b):
+            placed.add(b)
+
     return len(placed)
 
 def solve(puzzle_input):
