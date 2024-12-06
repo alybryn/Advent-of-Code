@@ -4,7 +4,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 41
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 6
 
 def parse(puzzle_input):
     # parse the input
@@ -86,7 +86,10 @@ def part1(parsed):
     return len(patrol)
 
 def part2(parsed):
-    return 0
+    guard, patrol = parsed
+    guard = deepcopy(guard)
+    # loop on patrol locations
+    return guard.loc
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
