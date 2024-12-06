@@ -1,4 +1,3 @@
-from copy import deepcopy
 from enum import Enum
 import pathlib
 import sys
@@ -19,18 +18,18 @@ def parse(puzzle_input):
             elif lines[i][j] == "^":
                 guard.set((i,j))
     # PART 1
-    guard1 = deepcopy(guard)
-    occupied = {guard1.loc}
+    occupied = {guard.loc}
     # while in bounds
-    while guard1.in_bounds():
+    while guard.in_bounds():
         # if not forward
-        if not guard1.forward():
+        if not guard.forward():
             # turn
-            guard1.turn()
+            guard.turn()
         # else
         else:
             # log location
-            occupied.add(guard1.loc)
+            occupied.add(guard.loc)
+    guard.reset()
     return guard, occupied
 
 class Direction(Enum):
@@ -48,9 +47,15 @@ class Guard():
         self.loc = loc
         self.obstacles = obstacles
         self.bounds = bounds
+        self.start = loc
 
     def set(self,loc):
         self.loc = loc
+        self.start = loc
+
+    def reset(self):
+        self.loc = self.start
+        self.dir = Direction.N
 
     def forward(self):
         step = self.__look_ahead__()
@@ -76,9 +81,16 @@ class Guard():
             # change either loc or dir
             if not self.forward():
                 self.turn()
+
+        #save ans
         # in_bounds: false if no loop
         # in_bounds: true if loop
-        return self.in_bounds()
+        ret = self.in_bounds()
+
+        # reset guard and return
+        self.obstacles.remove(new_obstacle)
+        self.reset()
+        return ret
 
     def in_bounds(self):
         return 0 < self.loc[0] < self.bounds[0] and 0 < self.loc[1] < self.bounds[1]
@@ -107,9 +119,13 @@ def part2(parsed):
     patrol.remove(guard.loc)
 
     for b in patrol:
-        au_guard = deepcopy(guard)
-        if au_guard.loops(b):
+        if guard.loops(b):
             placed.add(b)
+
+    # for b in patrol:
+    #     au_guard = deepcopy(guard)
+    #     if au_guard.loops(b):
+    #         placed.add(b)
 
     return len(placed)
 
