@@ -67,6 +67,19 @@ class Guard():
                  }
         self.dir = ninty.get(self.dir)
 
+    def loops(self):
+        self.obstacles.add(self.__look_ahead__())
+        patrol = set()
+        while self.in_bounds() and not (self.loc,self.dir) in patrol:
+            # add current loc and dir
+            patrol.add((self.loc, self.dir))
+            # change either loc or dir
+            if not self.forward():
+                self.turn()
+        # in_bounds: false if no loop
+        # in_bounds: true if loop
+        return self.in_bounds()
+
     def in_bounds(self):
         return 0 < self.loc[0] < self.bounds[0] and 0 < self.loc[1] < self.bounds[1]
     
