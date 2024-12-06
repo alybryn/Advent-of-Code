@@ -1,16 +1,41 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 41
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    lines = [[l for l in line] for line in puzzle_input.split('\n')]
+    obstacles = set()
+    guard = None
+    upper_bounds = (len(lines),len(lines[0]))
+    for i in range(0, len(lines)):
+        for j in range(len(lines[0])):
+            if lines[i][j] == "#":
+                obstacles.add((i,j))
+            elif lines[i][j] == "^":
+                guard = Guard((i,j))
+    return guard, obstacles, upper_bounds
+
+class Guard():
+    def __init__(self, loc):
+        self.dir = "up"
+        self.loc = loc
+
+    def in_bounds(uppers):
+        return 0 <= self.loc[0] <= uppers[0] and 0 <= self.loc[1] <= uppers[1]
+    
+    def forward(self):
+        pass
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    guard, obstacles, upper_bounds = parsed
+    occupied = {guard.loc}
+    while guard.in_bounds(upper_bounds):
+        guard.forward()
+    return occupied
 
 def part2(parsed):
     return 0
