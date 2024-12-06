@@ -9,38 +9,62 @@ def parse(puzzle_input):
     # parse the input
     lines = [[l for l in line] for line in puzzle_input.split('\n')]
     obstacles = set()
-    guard = None
     upper_bounds = (len(lines)-1,len(lines[0])-1)
+    guard = Guard((0,0),obstacles, upper_bounds)
     for i in range(0, len(lines)):
         for j in range(len(lines[0])):
             if lines[i][j] == "#":
                 obstacles.add((i,j))
             elif lines[i][j] == "^":
-                guard = Guard((i,j))
-    return guard, obstacles, upper_bounds
+                guard.set((i,j))
+    return guard
 
 class Direction(Enum):
     N = (-1, 0)
     S = ( 1, 0)
     E = ( 0, 1)
     W = ( 0,-1)
-
-    NINTY = {N:E,
-             E:S,
-             S:W,
-             W:N,
-             }
+    
+    def __repr__(self) -> str:
+        return f"{self.name}"
 
 class Guard():
-    def __init__(self, loc):
+    def __init__(self, loc, obstacles, bounds):
         self.dir = Direction.N
         self.loc = loc
+        self.obstacles = obstacles
+        self.bounds = bounds
 
-    def in_bounds(self, uppers):
-        return 0 < self.loc[0] < uppers[0] and 0 <= self.loc[1] <= uppers[1]
-    
+    def set(self,loc):
+        self.loc = loc
+
     def forward(self):
-        pass
+        step = self.__look_ahead__()
+        if not step in self.obstacles:
+            self.loc = step
+            return True
+        return False
+
+    def turn(self):
+        ninty = {Direction.N:Direction.E,
+                 Direction.E:Direction.S,
+                 Direction.S:Direction.W,
+                 Direction.W:Direction.N
+                 }
+        self.dir = ninty.get(self.dir)
+
+    def in_bounds(self):
+        return 0 < self.loc[0] < self.bounds[0] and 0 < self.loc[1] < self.bounds[1]
+    
+    def __look_ahead__(self):
+        return (self.loc[0] + self.dir.value[0],
+                self.loc[1] + self.dir.value[1])
+
+    def __isObstructed__(self,loc):
+        return loc in self.obstacles
+
+    def __repr__(self) -> str:
+        return f"Guard at {self.loc} facing {self.dir}."
 
 def part1(parsed):
     print(parsed)
