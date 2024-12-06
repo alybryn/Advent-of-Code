@@ -1,3 +1,4 @@
+from copy import deepcopy
 from enum import Enum
 import pathlib
 import sys
@@ -17,7 +18,20 @@ def parse(puzzle_input):
                 obstacles.add((i,j))
             elif lines[i][j] == "^":
                 guard.set((i,j))
-    return guard
+    # PART 1
+    guard1 = deepcopy(guard)
+    occupied = {guard1.loc}
+    # while in bounds
+    while guard1.in_bounds():
+        # if not forward
+        if not guard1.forward():
+            # turn
+            guard1.turn()
+        # else
+        else:
+            # log location
+            occupied.add(guard1.loc)
+    return guard, occupied
 
 class Direction(Enum):
     N = (-1, 0)
@@ -67,12 +81,9 @@ class Guard():
         return f"Guard at {self.loc} facing {self.dir}."
 
 def part1(parsed):
-    print(parsed)
-    guard, obstacles, upper_bounds = parsed
-    occupied = {guard.loc}
-    while guard.in_bounds(upper_bounds):
-        guard.forward()
-    return occupied
+    # print(parsed)
+    _, patrol = parsed
+    return len(patrol)
 
 def part2(parsed):
     return 0
