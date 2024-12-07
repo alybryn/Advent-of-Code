@@ -9,7 +9,8 @@ def parse(puzzle_input):
     ret = {}
     for line in puzzle_input.split("\n"):
         result, values = line.split(": ")
-        ret.update({result:values})
+        values = [int(value) for value in values.split(" ")]
+        ret.update({int(result):values})
     return ret
 
 def solveable(result, values):
