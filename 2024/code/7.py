@@ -7,29 +7,22 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     ret = {}
-    for line in puzzle_input.split("\n"):
+    for line in puzzle_input.splitlines():
         result, values = line.split(": ")
         values = [int(value) for value in values.split(" ")]
         ret.update({int(result):values})
     return ret
 
-def try_add(result, values):
+def attempt(result, values):
     if len(values) == 1:
         return result == values[0]
-    new_values = [values[0] + values[1]] + values[2:]
-    return try_add(result, new_values) or try_mult(result, new_values)
-
-def try_mult(result, values):
-    if len(values) == 1:
-        return result == values[0]
-    new_values = [values[0] * values[1]] + values[2:]
-    return try_add(result, new_values) or try_mult(result, new_values)
+    return attempt(result, [values[0] + values[1]] + values[2:]) or attempt(result, [values[0] * values[1]] + values[2:])
 
 def part1(parsed):
     print(parsed)
     ret = 0
     for result, values in parsed.items():
-        if try_add(result, values) or try_mult(result, values):
+        if attempt(result, values):
             ret += result
     return ret
 
