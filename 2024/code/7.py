@@ -3,7 +3,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 3749 / 7498
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 11387
 
 def parse(puzzle_input):
     # parse the input
@@ -22,19 +22,15 @@ Test = namedtuple('Test', ['result', 'first', 'values'])
 def attempt_add_mult(test, concat=False):
     if len(test.values) == 0:
         return test.result == test.first
-    if attempt_add_mult(Test(result=test.result, first=test.first + test.values[0], values=test.values[1:])):
+    if attempt_add_mult(Test(result=test.result, first=test.first + test.values[0], values=test.values[1:]), concat):
         return True
-    if attempt_add_mult(Test(result=test.result, first=test.first * test.values[0], values=test.values[1:])):
+    if attempt_add_mult(Test(result=test.result, first=test.first * test.values[0], values=test.values[1:]), concat):
         return True
     if concat:
-        if attempt_add_mult(Test(result=test.result, first=int(str(test.first) + str(test.values[0])), values=test.values[1:]), concat):
+        res = int(str(test.first) + str(test.values[0]))
+        if attempt_add_mult(Test(result=test.result, first=res, values=test.values[1:]), concat):
             return True
     return False
-
-# def attempt(result, values):
-#     if len(values) == 1:
-#         return result == values[0]
-#     return attempt(result, [values[0] + values[1]] + values[2:]) or attempt(result, [values[0] * values[1]] + values[2:])
 
 def part1(parsed):
     # print(parsed)
