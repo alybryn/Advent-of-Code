@@ -12,9 +12,16 @@ def parse(puzzle_input):
         ret.update({result:values})
     return ret
 
+def solveable(result, values):
+    pass
+
 def part1(parsed):
     print(parsed)
-    return parsed
+    ret = 0
+    for result, values in parsed.items():
+        if solveable(result, values):
+            ret += result
+    return ret
 
 def part2(parsed):
     return 0
