@@ -1,3 +1,4 @@
+from collections import namedtuple
 import pathlib
 import sys
 
@@ -6,24 +7,33 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    ret = {}
+    ret = []
     for line in puzzle_input.splitlines():
         result, values = line.split(": ")
         values = [int(value) for value in values.split(" ")]
-        ret.update({int(result):values})
+        # result = int(result)
+        # first = values[0]
+        # values = values[1:]
+        ret.append(Test(result=int(result), first=values[0], values=values[1:]))
     return ret
 
-def attempt(result, values):
-    if len(values) == 1:
-        return result == values[0]
-    return attempt(result, [values[0] + values[1]] + values[2:]) or attempt(result, [values[0] * values[1]] + values[2:])
+Test = namedtuple('Test', ['result', 'first', 'values'])
+
+def attempt_add_mult(test):
+    if len(test.values) == 0:
+        return test.result == test.values[0]
+
+# def attempt(result, values):
+#     if len(values) == 1:
+#         return result == values[0]
+#     return attempt(result, [values[0] + values[1]] + values[2:]) or attempt(result, [values[0] * values[1]] + values[2:])
 
 def part1(parsed):
-    print(parsed)
+    # print(parsed)
     ret = 0
-    for result, values in parsed.items():
-        if attempt(result, values):
-            ret += result
+    for test in parsed:
+        if attempt_add_mult(test):
+            ret += test.result
     return ret
 
 def part2(parsed):
