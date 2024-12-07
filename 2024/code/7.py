@@ -19,13 +19,16 @@ def parse(puzzle_input):
 
 Test = namedtuple('Test', ['result', 'first', 'values'])
 
-def attempt_add_mult(test):
+def attempt_add_mult(test, concat=False):
     if len(test.values) == 0:
         return test.result == test.first
     if attempt_add_mult(Test(result=test.result, first=test.first + test.values[0], values=test.values[1:])):
         return True
     if attempt_add_mult(Test(result=test.result, first=test.first * test.values[0], values=test.values[1:])):
         return True
+    if concat:
+        if attempt_add_mult(Test(result=test.result, first=int(str(test.first) + str(test.values[0])), values=test.values[1:]), concat):
+            return True
     return False
 
 # def attempt(result, values):
@@ -42,7 +45,11 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    return 0
+    ret = 0
+    for test in parsed:
+        if attempt_add_mult(test, True):
+            ret += test.result
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
