@@ -13,14 +13,23 @@ def parse(puzzle_input):
         ret.update({int(result):values})
     return ret
 
-def solveable(result, values):
-    pass
+def try_add(result, values):
+    if len(values) == 1:
+        return result == values[0]
+    new_values = [values[0] + values[1]] + values[2:]
+    return try_add(result, new_values) or try_mult(result, new_values)
+
+def try_mult(result, values):
+    if len(values) == 1:
+        return result == values[0]
+    new_values = [values[0] * values[1]] + values[2:]
+    return try_add(result, new_values) or try_mult(result, new_values)
 
 def part1(parsed):
     print(parsed)
     ret = 0
     for result, values in parsed.items():
-        if solveable(result, values):
+        if try_add(result, values) or try_mult(result, values):
             ret += result
     return ret
 
