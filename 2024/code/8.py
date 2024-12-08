@@ -1,3 +1,4 @@
+from math import sqrt
 import pathlib
 import sys
 
@@ -16,6 +17,16 @@ def parse(puzzle_input):
                 temp.add(puzzle_input[i][j])
                 grid.update({puzzle_input[i][j]:temp)})
     return grid, bounds
+
+
+class Point():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def dist(self, other):
+        # sqrt((x1-x2)^2+(y1-y2)^2)
+        return sqrt(pow(self.x - other.x, 2) + pow(self.y - other.y, 2))
 
 def find_antinodes(points, bounds):
     pass
