@@ -3,7 +3,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 14
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 34
 
 def parse(puzzle_input):
     # parse the input
@@ -39,6 +39,22 @@ def dist_antinode(p1, p2):
 def is_in_bounds(point, bounds):
     return 0 <= point.x < bounds[0] and 0 <= point.y < bounds[1]
 
+def find_line_antinodes(points, bounds):
+    ret = []
+    for p1 in points:
+        for p2 in points:
+            if p1 == p2:
+                continue
+            ret += line_antinodes(p1, p2, bounds)
+    return ret
+
+def line_antinodes(p1,p2,bounds):
+    v = Vector(p1.x - p2.x, p1.y - p2.y)
+    ret = []
+    while is_in_bounds(p1, bounds):
+        ret.append(p1)
+        p1 = Point(p1.x + v.dx, p1.y + v.dy)
+    return ret
 
 def part1(parsed):
     # print(parsed)
@@ -49,7 +65,13 @@ def part1(parsed):
     return len(set(antinodes))
 
 def part2(parsed):
-    return 0
+    grid, bounds = parsed
+    antinodes = []
+    for points in grid.values():
+        if len(points) == 1:
+            continue
+        antinodes += find_line_antinodes(points,bounds)
+    return len(set(antinodes))
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
