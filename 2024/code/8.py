@@ -14,7 +14,7 @@ def parse(puzzle_input):
         for j in range(0, bounds[1]):
             if puzzle_input[i][j] != '.':
                 temp = grid.get(puzzle_input[i][j], set())
-                temp.add(puzzle_input[i][j])
+                temp.add(Point(i, j))
                 grid.update({puzzle_input[i][j]:temp)})
     return grid, bounds
 
@@ -24,20 +24,41 @@ class Point():
         self.x = x
         self.y = y
 
+    # just return a vector... or two
     def dist(self, other):
-        # sqrt((x1-x2)^2+(y1-y2)^2)
-        return sqrt(pow(self.x - other.x, 2) + pow(self.y - other.y, 2))
+        vs = (self.x - other.x, self.y - other.y)
+        vo = (v1[0] * -1, v1[1] * -1)
+        return (vs, vo)
 
-def find_antinodes(points, bounds):
-    pass
+    def antinodes(self, other):
+        vs, vo = self.dist(other)
+        return [self.x + vs[0], self.y + vs[1]), (other.x + vo[0], other.y + vo[1]]
 
-def anti_nodes(a,b):
-    pass
+def find_antinodes(points):
+    ret = []
+    for i in range(0, len(points)):
+        for j in range(i+1, len(points)):
+            if i==j:
+                continue
+            ret += points[i].antinodes(points[i+1])
+    return ret
+
+def prune_to_bounds(points, bounds):
+    return [p for p in points if 0 <= p[0] < bounds[0] and 0 <= p[1] < bounds[1]]
+    # ret = set()
+    # for p in points:
+        # if 0 <= p[0] < bounds[0] and 0 <= p[1] < bounds[1]:
+            # ret.add(p)
 
 def part1(parsed):
     print(parsed)
     grid, bounds = parsed
-    return parsed
+    antinodes = []
+    for points in grid.values():
+        antinodes += find_antinodes(points)
+    antinodes = set(prune_to_bounds(antinodes, bounds))
+    print(antinodes)
+    return len(antinodes)
 
 def part2(parsed):
     return 0
