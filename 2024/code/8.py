@@ -1,15 +1,31 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 14
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    grid = {}
+    puzzle_input = [[l for l in line.split()] for line in puzzle_input.splitlines()]
+    bounds =(len(puzzle_input), len(puzzle_input[0]))
+    for i in range(0, bounds[0]):
+        for j in range(0, bounds[1]):
+            if puzzle_input[i][j] != '.':
+                temp = grid.get(puzzle_input[i][j], set())
+                temp.add(puzzle_input[i][j])
+                grid.update({puzzle_input[i][j]:temp)})
+    return grid, bounds
+
+def find_antinodes(points, bounds):
+    pass
+
+def anti_nodes(a,b):
+    pass
 
 def part1(parsed):
     print(parsed)
+    grid, bounds = parsed
     return parsed
 
 def part2(parsed):
