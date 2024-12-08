@@ -8,14 +8,14 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     grid = {}
-    puzzle_input = [[l for l in line.split()] for line in puzzle_input.splitlines()]
+    puzzle_input = [[l for l in line] for line in puzzle_input.splitlines()]
     bounds =(len(puzzle_input), len(puzzle_input[0]))
     for i in range(0, bounds[0]):
         for j in range(0, bounds[1]):
             if puzzle_input[i][j] != '.':
                 temp = grid.get(puzzle_input[i][j], set())
                 temp.add(Point(i, j))
-                grid.update({puzzle_input[i][j]:temp)})
+                grid.update({puzzle_input[i][j]:temp})
     return grid, bounds
 
 
@@ -27,24 +27,36 @@ class Point():
     # just return a vector... or two
     def dist(self, other):
         vs = (self.x - other.x, self.y - other.y)
-        vo = (v1[0] * -1, v1[1] * -1)
+        vo = (vs[0] * -1, vs[1] * -1)
         return (vs, vo)
+    
+    def add(self, vector):
+        return Point(self.x + vector[0], self.y + vector[1])
 
     def antinodes(self, other):
         vs, vo = self.dist(other)
-        return [self.x + vs[0], self.y + vs[1]), (other.x + vo[0], other.y + vo[1]]
+        return [self.add(vs), other.add(vo)]
+        return [(self.x + vs[0], self.y + vs[1]), (other.x + vo[0], other.y + vo[1])]
+
+    def __repr__(self):
+        return f"({self.x}, {self.y})"
 
 def find_antinodes(points):
     ret = []
-    for i in range(0, len(points)):
-        for j in range(i+1, len(points)):
-            if i==j:
+    for p in points:
+        for p2 in points:
+            if p == p2:
                 continue
-            ret += points[i].antinodes(points[i+1])
+            ret += p.antinodes(p2)
+    # for i in range(0, len(points)):
+    #     for j in range(i+1, len(points)):
+    #         if i==j:
+    #             continue
+    #         ret += points[i].antinodes(points[i+1])
     return ret
 
 def prune_to_bounds(points, bounds):
-    return [p for p in points if 0 <= p[0] < bounds[0] and 0 <= p[1] < bounds[1]]
+    return [p for p in points if 0 <= p.x < bounds[0] and 0 <= p.y < bounds[1]]
     # ret = set()
     # for p in points:
         # if 0 <= p[0] < bounds[0] and 0 <= p[1] < bounds[1]:
