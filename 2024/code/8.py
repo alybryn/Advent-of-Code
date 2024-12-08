@@ -21,31 +21,32 @@ def parse(puzzle_input):
 Point = namedtuple('Point', ['x','y'])
 Vector = namedtuple('Vector', ['dx','dy'])
 
-def find_antinodes(points):
+def find_dist_antinodes(points, bounds):
     ret = []
     for p1 in points:
         for p2 in points:
             if p1 == p2:
                 continue
-            ret += antinodes(p1, p2)
+            p3 = dist_antinode(p1,p2)
+            if is_in_bounds(p3, bounds):
+                ret.append(p3)
     return ret
 
-def antinodes(p1, p2):
-    v1 = Vector(p1.x - p2.x, p1.y - p2.y)
-    v2 = Vector(v1.dx*-1, v1.dy*-1)
-    return [Point(p1.x + v1.dx, p1.y + v1.dy),Point(p2.x+v2.dx,p2.y+v2.dy)]
+def dist_antinode(p1, p2):
+    v = Vector(p1.x - p2.x, p1.y - p2.y)
+    return Point(p1.x + v.dx, p1.y + v.dy)
 
-def prune_to_bounds(points, bounds):
-    return [p for p in points if 0 <= p.x < bounds[0] and 0 <= p.y < bounds[1]]
+def is_in_bounds(point, bounds):
+    return 0 <= point.x < bounds[0] and 0 <= point.y < bounds[1]
+
 
 def part1(parsed):
     # print(parsed)
     grid, bounds = parsed
     antinodes = []
     for points in grid.values():
-        antinodes += find_antinodes(points)
-    antinodes = set(prune_to_bounds(antinodes, bounds))
-    return len(antinodes)
+        antinodes += find_dist_antinodes(points, bounds)
+    return len(set(antinodes))
 
 def part2(parsed):
     return 0
