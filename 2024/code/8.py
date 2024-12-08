@@ -1,4 +1,4 @@
-from math import sqrt
+from collections import namedtuple
 import pathlib
 import sys
 
@@ -18,58 +18,33 @@ def parse(puzzle_input):
                 grid.update({puzzle_input[i][j]:temp})
     return grid, bounds
 
-
-class Point():
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    # just return a vector... or two
-    def dist(self, other):
-        vs = (self.x - other.x, self.y - other.y)
-        vo = (vs[0] * -1, vs[1] * -1)
-        return (vs, vo)
-    
-    def add(self, vector):
-        return Point(self.x + vector[0], self.y + vector[1])
-
-    def antinodes(self, other):
-        vs, vo = self.dist(other)
-        return [self.add(vs), other.add(vo)]
-        return [(self.x + vs[0], self.y + vs[1]), (other.x + vo[0], other.y + vo[1])]
-
-    def __repr__(self):
-        return f"({self.x}, {self.y})"
+Point = namedtuple('Point', ['x','y'])
+Vector = namedtuple('Vector', ['dx','dy'])
 
 def find_antinodes(points):
     ret = []
-    for p in points:
+    for p1 in points:
         for p2 in points:
-            if p == p2:
+            if p1 == p2:
                 continue
-            ret += p.antinodes(p2)
-    # for i in range(0, len(points)):
-    #     for j in range(i+1, len(points)):
-    #         if i==j:
-    #             continue
-    #         ret += points[i].antinodes(points[i+1])
+            ret += antinodes(p1, p2)
     return ret
+
+def antinodes(p1, p2):
+    v1 = Vector(p1.x - p2.x, p1.y - p2.y)
+    v2 = Vector(v1.dx*-1, v1.dy*-1)
+    return [Point(p1.x + v1.dx, p1.y + v1.dy),Point(p2.x+v2.dx,p2.y+v2.dy)]
 
 def prune_to_bounds(points, bounds):
     return [p for p in points if 0 <= p.x < bounds[0] and 0 <= p.y < bounds[1]]
-    # ret = set()
-    # for p in points:
-        # if 0 <= p[0] < bounds[0] and 0 <= p[1] < bounds[1]:
-            # ret.add(p)
 
 def part1(parsed):
-    print(parsed)
+    # print(parsed)
     grid, bounds = parsed
     antinodes = []
     for points in grid.values():
         antinodes += find_antinodes(points)
     antinodes = set(prune_to_bounds(antinodes, bounds))
-    print(antinodes)
     return len(antinodes)
 
 def part2(parsed):
