@@ -15,12 +15,21 @@ def parse(puzzle_input):
     return template, rules_dict
 
 def step(start, rules):
-    pass
+    ret = start[0]
+    
+    for i in range(0, len(start)-1):
+        ret += rules.get(start[i:i+2], '')
+        ret += start[i+1]
+
+    return ret
 
 def part1(parsed):
-    template = parsed[0]
-    
-    return 0
+    template, rules = parsed
+    for i in range(0, 10):
+        # print(template)
+        # print( '-------------')
+        template = step(template, rules)
+    return template.count('B')
 
 def part2(parsed):
     return 0
