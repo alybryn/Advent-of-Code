@@ -1,16 +1,44 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 1928
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    file_system = []
+
+    for i in range(0, len(puzzle_input/2)):
+        file_name = i
+        file = puzzle_input[i*2]
+        free = puzzle_input[i*2+1]
+        for b in range(0, file):
+            file_system.append(file_name)
+        for b in range(0, free):
+            file_system.append(None)
+    return file_system
+
+def defrag(file_system):
+    while None in file_system:
+        temp = file_system.pop()
+        if temp == None:
+            continue
+        # get index of earliest None
+        i = file_system.index(None)
+        # remove that None
+        # insert temp
+        file_system[i] = temp
+
+def checksum(file_system):
+    ret = 0
+    for i in range(0, len(file_system)):
+        ret += i * file_system[i]
+        return ret
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    defrag(parsed)
+    return checksum(parsed)
 
 def part2(parsed):
     return 0
