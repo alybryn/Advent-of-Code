@@ -16,6 +16,9 @@ def parse(puzzle_input):
             file_system.append(file_name)
         for b in range(0, free):
             file_system.append(None)
+    file = int(puzzle_input[-1])
+    for b in range(0,file):
+        file_system.append(len(puzzle_input)//2)
     return file_system
 
 def defrag(file_system):
@@ -36,7 +39,7 @@ def checksum(file_system):
     return ret
 
 def part1(parsed):
-    print(parsed)
+    # print(parsed)
     defrag(parsed)
     return checksum(parsed)
 
