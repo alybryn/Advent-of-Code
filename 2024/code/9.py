@@ -8,10 +8,10 @@ def parse(puzzle_input):
     # parse the input
     file_system = []
 
-    for i in range(0, len(puzzle_input/2)):
+    for i in range(0, len(puzzle_input)//2):
         file_name = i
-        file = puzzle_input[i*2]
-        free = puzzle_input[i*2+1]
+        free = int(puzzle_input[i*2+1])
+        file = int(puzzle_input[i*2])
         for b in range(0, file):
             file_system.append(file_name)
         for b in range(0, free):
@@ -33,7 +33,7 @@ def checksum(file_system):
     ret = 0
     for i in range(0, len(file_system)):
         ret += i * file_system[i]
-        return ret
+    return ret
 
 def part1(parsed):
     print(parsed)
