@@ -1,14 +1,25 @@
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 1588
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    template, rules = puzzle_input.split('\n\n')
+    rules = [r for r in rules.splitlines()]
+    rules_dict = {}
+    for rule in rules:
+        p, i = rule.split(' -> ')
+        rules_dict.update({p:i})
+    return template, rules_dict
+
+def step(start, rules):
+    pass
 
 def part1(parsed):
+    template = parsed[0]
+    
     return 0
 
 def part2(parsed):
