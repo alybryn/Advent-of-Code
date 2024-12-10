@@ -37,18 +37,36 @@ def adjacent(point):
 def find_trailheads(map):
     return [(i,j) for i,m in enumerate(map) for j,n in enumerate(m) if n == 0]
 
-def evaluate(map, trailhead):
-    # trailhead is coord
-    # neighbors of trailhead
-    # is a neighbor in map[1]?
+def score(map, trailhead):
+    explored = {trailhead}
+    # change elevation from 0 -> 9
+    for l in range(0, 9):
+        if len(explored) == 0:
+            return 0
+        new_level = set()
+        for loc in explored:
+            new_level = new_level.union(step_up(map, loc, l))
+        explored = new_level
+    return len(explored)
+
+def step_up(map, loc, level):
+    ret = set()
+    # neighbors of location
+    for n in adjacent(loc):
+        # if the neighbor is one step up
+        if n in map.get(level+1,set()):
+            ret.add(n)
     # progress to next level
+    return ret
+
     pass
 
 def part1(parsed):
     trailheads = parsed.get(0)
+    c = 0
     for trailhead in trailheads:
-        evaluate(parsed, trailhead)
-    return parsed
+        c += score(parsed, trailhead)
+    return c
 
 def part2(parsed):
     return 0
