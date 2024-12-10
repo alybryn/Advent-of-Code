@@ -2,7 +2,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 1588
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 2188189693529
 
 def parse(puzzle_input):
     # parse the input
@@ -26,7 +26,7 @@ def step(start, rules):
 def most_minus_less(template):
     min = len(template)
     max = 0
-    for c in set(template.split()):
+    for c in set(list(template)):
         temp = template.count(c)
         if temp > max:
             max = temp
@@ -43,7 +43,10 @@ def part1(parsed):
     return most_minus_less(template)
 
 def part2(parsed):
-    return 0
+    template, rules = parsed
+    for i in range(0, 40):
+        template = step(template, rules)
+    return most_minus_less(template)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
