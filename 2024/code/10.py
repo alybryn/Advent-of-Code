@@ -8,7 +8,7 @@ ONLY_SAMPLE = [SAMPLE_PATH]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
-RUN = ONLY_SAMPLE
+RUN = ONLY_ARGS
 
 # --------------------------------
 
@@ -20,27 +20,34 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [[int(l) for l in line.split()] for line in puzzle_input.split()]
+    map = {}
+    puzzle_input = [[int(l) for l in line] for line in puzzle_input.splitlines()]
+    for i in range(0,len(puzzle_input)):
+        for j in range(0,len(puzzle_input[0])):
+            # store p_i[i][j]:.add(i,j)
+            s = map.get(puzzle_input[i][j],set())
+            s.add((i,j))
+            map.update({puzzle_input[i][j]:s})
+    return map
 
 def adjacent(point):
     vectors = [(0,-1),(0,1),(-1,0),(1,0)]
     return [(point[0]+v[0],point[1]+v[1]) for v in vectors]
 
 def find_trailheads(map):
-    return [[j for j, n in m if n == 0]for i, m in map]
-    ret = []
-    for i in range(0, len(map)):
-        for j in range(0, len(map[0])):
-            if map[i][j] == 0:
-                ret.append((i,j))
-    return ret
+    return [(i,j) for i,m in enumerate(map) for j,n in enumerate(m) if n == 0]
 
-def climb_trailhead(map, trailhead):
+def evaluate(map, trailhead):
+    # trailhead is coord
+    # neighbors of trailhead
+    # is a neighbor in map[1]?
+    # progress to next level
     pass
 
 def part1(parsed):
-    print(parsed)
-    print(find_trailheads(parsed))
+    trailheads = parsed.get(0)
+    for trailhead in trailheads:
+        evaluate(parsed, trailhead)
     return parsed
 
 def part2(parsed):
