@@ -20,7 +20,22 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [[int(l) for l in line.split()] for line in puzzle_input.split()]
+
+def adjacent(point):
+    vectors = [(0,-1),(0,1),(-1,0),(1,0)]
+    return [(point[0]+v[0],point[1]+v[1]) for v in vectors]
+
+def find_trailheads(map):
+    ret = []
+    for i in range(0, len(map)):
+        for j in range(0, len(map[0])):
+            if map[i][j] == 0:
+                ret.append((i,j))
+    return ret
+
+def climb_trailhead(map, trailhead):
+    pass
 
 def part1(parsed):
     print(parsed)
