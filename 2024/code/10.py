@@ -16,7 +16,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 36
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 81
 
 def parse(puzzle_input):
     # parse the input
@@ -59,7 +59,17 @@ def step_up(map, loc, level):
     # progress to next level
     return ret
 
-    pass
+def rate(map, trailhead):
+    explored = [trailhead]
+    # change elevation from 0 -> 9
+    for l in range(0, 9):
+        if len(explored) == 0:
+            return 0
+        new_level = []
+        for loc in explored:
+            new_level += step_up(map, loc, l)
+        explored = new_level
+    return len(explored)
 
 def part1(parsed):
     trailheads = parsed.get(0)
@@ -69,7 +79,11 @@ def part1(parsed):
     return c
 
 def part2(parsed):
-    return 0
+    trailheads = parsed.get(0)
+    c = 0
+    for trailhead in trailheads:
+        c += rate(parsed, trailhead)
+    return c
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
