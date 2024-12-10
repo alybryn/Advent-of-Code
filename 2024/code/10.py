@@ -27,6 +27,7 @@ def adjacent(point):
     return [(point[0]+v[0],point[1]+v[1]) for v in vectors]
 
 def find_trailheads(map):
+    return [[j for j, n in m if n == 0]for i, m in map]
     ret = []
     for i in range(0, len(map)):
         for j in range(0, len(map[0])):
@@ -39,6 +40,7 @@ def climb_trailhead(map, trailhead):
 
 def part1(parsed):
     print(parsed)
+    print(find_trailheads(parsed))
     return parsed
 
 def part2(parsed):
