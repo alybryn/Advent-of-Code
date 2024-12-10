@@ -23,13 +23,24 @@ def step(start, rules):
 
     return ret
 
+def most_minus_less(template):
+    min = len(template)
+    max = 0
+    for c in set(template.split()):
+        temp = template.count(c)
+        if temp > max:
+            max = temp
+        if temp < min:
+            min = temp
+    return max - min
+
 def part1(parsed):
     template, rules = parsed
     for i in range(0, 10):
         # print(template)
         # print( '-------------')
         template = step(template, rules)
-    return template.count('B')
+    return most_minus_less(template)
 
 def part2(parsed):
     return 0
