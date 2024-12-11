@@ -22,7 +22,7 @@ def parse(puzzle_input):
     # parse the input
     ret = Stones()
     for num in puzzle_input.split():
-        ret.add(int(num))
+        ret.add(num)
 
 class Stones():
     def __init__(self, stones):
@@ -40,15 +40,11 @@ class Stones():
         return ret
 
 def evolve(stone):
-    if stone == 0:
-        return [1]
-    if len(str(stone)) % 2 == 0:
-        return split(stone)
-    return [stone * 2024]
-
-def split(stone):
-    str_stone = str(stone)
-    return [int(str_stone[:len(str_stone)//2]), int(str_stone[len(str_stone)//2:])]
+    if stone == '0':
+        return ['1']
+    if len(stone) % 2 == 0:
+        return [stone[:len(stone)//2], stone[len(stone)//2:]]
+    return [str(int(stone) * 2024)]
 
 def part1(parsed):
     # print(parsed)
