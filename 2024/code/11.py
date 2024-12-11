@@ -62,15 +62,16 @@ def part1(parsed):
     # print(parsed)
     stones = parsed
     cache = {}
-    new_stones = []
+    new_stones = Stones()
     for _ in range(0,25):
-        for stone in stones:
+        for stone, number in stones.items:
             if stone not in cache:
                 cache[stone] = evolve(stone)
-            new_stones += cache[stone]
+            for s in cache[stone]:
+                new_stones.add(s,number)
         stones = new_stones
-        new_stones = []
-    return len(stones)
+        new_stones = Stones()
+    return stones.count
 
 def part2(parsed):
     stones = parsed
