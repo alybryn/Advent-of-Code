@@ -20,7 +20,7 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [int(num) for num in puzzle_input.split()]
 
 # copied from Ask Python
 # memoize decorator
@@ -32,9 +32,31 @@ def memoize(f):
         return cache[x]
     return foo
 
+@memoize
+def evolve(stone):
+    if stone == 0:
+        return [1]
+    if even_digits(stone):
+        return split(stone)
+    return [stone * 2024]
+
+def even_digits(stone):
+    return len(str(stone)) % 2 == 0
+
+def split(stone):
+    str_stone = str(stone)
+    return [int(str_stone[:len(str_stone)//2]), int(str_stone[len(str_stone)//2:])]
+
 def part1(parsed):
-    print(parsed)
-    return parsed
+    # print(parsed)
+    stones = parsed
+    new_stones = []
+    for _ in range(0,25):
+        for stone in stones:
+            new_stones += evolve(stone)
+        stones = new_stones
+        new_stones = []
+    return len(stones)
 
 def part2(parsed):
     return 0
