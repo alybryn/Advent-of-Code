@@ -22,17 +22,6 @@ def parse(puzzle_input):
     # parse the input
     return [int(num) for num in puzzle_input.split()]
 
-# copied from Ask Python
-# memoize decorator
-def memoize(f):
-    cache = {}
-    def foo(x):
-        if x not in cache:
-            cache[x] = f(x)
-        return cache[x]
-    return foo
-
-@memoize
 def evolve(stone):
     if stone == 0:
         return [1]
@@ -50,20 +39,26 @@ def split(stone):
 def part1(parsed):
     # print(parsed)
     stones = parsed
+    cache = {}
     new_stones = []
     for _ in range(0,25):
         for stone in stones:
-            new_stones += evolve(stone)
+            if stone not in cache:
+                cache[stone] = evolve(stone)
+            new_stones += cache[stone]
         stones = new_stones
         new_stones = []
     return len(stones)
 
 def part2(parsed):
     stones = parsed
+    cache = {}
     new_stones = []
     for _ in range(0,75):
         for stone in stones:
-            new_stones += evolve(stone)
+            if stone not in cache:
+                cache[stone] = evolve(stone)
+            new_stones += cache[stone]
         stones = new_stones
         new_stones = []
     return len(stones)
