@@ -20,7 +20,24 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [int(num) for num in puzzle_input.split()]
+    ret = Stones()
+    for num in puzzle_input.split():
+        ret.add(int(num))
+
+class Stones():
+    def __init__(self, stones):
+        self.stones = {}
+    
+    def add(self, stone):
+        if stone not in self.stones:
+            self.stones[stone] = 0
+        self.stones[stone] += 1
+    
+    def count(self):
+        ret = 0
+        for c in self.stones.values():
+            ret += c
+        return ret
 
 def evolve(stone):
     if stone == 0:
