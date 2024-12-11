@@ -34,11 +34,22 @@ class Stones():
             self._stones[stone] = 0
         self._stones[stone] += n
 
+    @property
     def count(self):
         ret = 0
-        for c in self.stones.values():
+        for c in self._stones.values():
             ret += c
         return ret
+    
+    @property
+    def items(self):
+        return self._stones.items()
+    
+    def __repr__(self):
+        ret = ''
+        for key in self._stones.keys():
+            ret += f'{self._stones[key]} stones called {key}, '
+        return ret.strip(', ')
 
 def evolve(stone):
     if stone == '0':
