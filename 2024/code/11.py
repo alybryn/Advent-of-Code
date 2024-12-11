@@ -58,12 +58,11 @@ def evolve(stone):
         return [stone[:len(stone)//2], stone[len(stone)//2:].lstrip('0')]
     return [str(int(stone) * 2024)]
 
-def part1(parsed):
-    # print(parsed)
-    stones = parsed
+def blink(times, input_stones):
+    stones = input_stones
     cache = {}
     new_stones = Stones()
-    for _ in range(0,25):
+    for _ in range(0, times):
         for stone, number in stones.items:
             if stone not in cache:
                 cache[stone] = evolve(stone)
@@ -73,18 +72,12 @@ def part1(parsed):
         new_stones = Stones()
     return stones.count
 
+def part1(parsed):
+    # print(parsed)
+    return blink(25, parsed)
+
 def part2(parsed):
-    stones = parsed
-    cache = {}
-    new_stones = []
-    for _ in range(0,75):
-        for stone in stones:
-            if stone not in cache:
-                cache[stone] = evolve(stone)
-            new_stones += cache[stone]
-        stones = new_stones
-        new_stones = []
-    return len(stones)
+    return blink(75, parsed)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
