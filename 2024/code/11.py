@@ -52,10 +52,10 @@ class Stones():
         return ret.strip(', ')
 
 def evolve(stone):
-    if stone == '0':
+    if stone == '0' or stone == '':
         return ['1']
     if len(stone) % 2 == 0:
-        return [stone[:len(stone)//2], stone[len(stone)//2:]]
+        return [stone[:len(stone)//2], stone[len(stone)//2:].lstrip('0')]
     return [str(int(stone) * 2024)]
 
 def part1(parsed):
