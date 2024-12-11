@@ -8,7 +8,7 @@ ONLY_SAMPLE = [SAMPLE_PATH]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
-RUN = ONLY_SAMPLE
+RUN = ONLY_DATA
 
 # --------------------------------
 
@@ -59,7 +59,14 @@ def part1(parsed):
     return len(stones)
 
 def part2(parsed):
-    return 0
+    stones = parsed
+    new_stones = []
+    for _ in range(0,75):
+        for stone in stones:
+            new_stones += evolve(stone)
+        stones = new_stones
+        new_stones = []
+    return len(stones)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
