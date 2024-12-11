@@ -15,12 +15,22 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 55312
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
+
+# copied from Ask Python
+# memoize decorator
+def memoize(f):
+    cache = {}
+    def foo(x):
+        if x not in cache:
+            cache[x] = f(x)
+        return cache[x]
+    return foo
 
 def part1(parsed):
     print(parsed)
