@@ -25,12 +25,9 @@ def parse(puzzle_input):
 def evolve(stone):
     if stone == 0:
         return [1]
-    if even_digits(stone):
+    if len(str(stone)) % 2 == 0:
         return split(stone)
     return [stone * 2024]
-
-def even_digits(stone):
-    return len(str(stone)) % 2 == 0
 
 def split(stone):
     str_stone = str(stone)
