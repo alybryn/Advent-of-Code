@@ -1,3 +1,17 @@
+DAY = 1
+
+SAMPLE_PATH = f'sample/{DAY}.txt'
+DATA_PATH = f'data/{DAY}.txt'
+
+ONLY_ARGS = []
+ONLY_SAMPLE = [SAMPLE_PATH]
+ONLY_DATA = [DATA_PATH]
+ALL = [SAMPLE_PATH, DATA_PATH]
+
+RUN = ONLY_SAMPLE
+
+# --------------------------------
+
 import pathlib
 import sys
 
@@ -22,10 +36,15 @@ def solve(puzzle_input):
 
     return solution1, solution2
 
-if __name__ == "__main__":
-    for path in sys.argv[1:]:
-        print(f"{path}")
-        puzzle_input = pathlib.Path(path).read_text().strip()
+def run(path):
+    print(f'{path}')
+    puzzle_input = pathlib.Path(path).read_text().strip()
 
-        solutions = solve(puzzle_input)
-        print("\n".join(str(solution) for solution in solutions))
+    solutions = solve(puzzle_input)
+    print('\n'.join(str(solution) for solution in solutions))
+
+if __name__ == "__main__":
+    for path in RUN:
+        run(path)
+    for path in sys.argv[1:]:
+        run(path)
