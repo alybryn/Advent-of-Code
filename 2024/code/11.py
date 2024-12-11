@@ -23,16 +23,17 @@ def parse(puzzle_input):
     ret = Stones()
     for num in puzzle_input.split():
         ret.add(num)
+    return ret
 
 class Stones():
-    def __init__(self, stones):
-        self.stones = {}
+    def __init__(self):
+        self._stones = {}
     
-    def add(self, stone):
-        if stone not in self.stones:
-            self.stones[stone] = 0
-        self.stones[stone] += 1
-    
+    def add(self, stone, n=1):
+        if stone not in self._stones:
+            self._stones[stone] = 0
+        self._stones[stone] += n
+
     def count(self):
         ret = 0
         for c in self.stones.values():
