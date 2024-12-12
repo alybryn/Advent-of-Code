@@ -16,7 +16,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 1930
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 1206
 
 def parse(puzzle_input):
     # parse the input
@@ -68,6 +68,9 @@ class Plot():
     def perimeter(self):
         return sum([sum([1 for adj in adjacent(loc)if adj not in self._locs]) for loc in self._locs])
     
+    def sides(self):
+        pass
+
     @property
     def locs(self):
         return self._locs
