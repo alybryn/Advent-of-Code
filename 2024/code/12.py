@@ -64,10 +64,39 @@ class Plot():
                 [1 for adj in adjacent(loc)
                  if adj not in self._locs])
                  for loc in self._locs])
-        self._sides = self.find_sides()
+        self._sides = self.walk_sides()
     
-    def find_sides(self):
-        a = self._perimeter
+    def walk_sides(self):
+        num_sides = 0
+        num_fence = 0
+        # start shouldn't be in the center
+        # nor the middle of a side
+        start = min(self._locs)
+        # outside is the direction of fence
+        outside = Direction.N
+        # dir is the direction of travel
+        dir = Direction.W
+        # set a cursor
+        curr = start
+        while curr != start and dir != Direction.N:
+            # if outside becomes inside:
+            if (curr[0]+outside[0],curr[1]+outside[1]) in self._locs:
+                # turn left, increment sides
+                outside = outside.turn_left()
+                dir = dir.turn_left()
+                num_sides += 1
+            # if direction of travel outside:
+            step = (curr[0]+dir[0],curr[1]+dir[1])
+            if step not in self._locs:
+                # turn right, increment sides
+                outside = outside.turn_right()
+                dir = dir.turn_right()
+                num_sides += 1
+            # else
+            else:
+                # step forward
+                curr = step
+        return num_sides
 
     @property
     def locs(self):
