@@ -87,8 +87,8 @@ class Plot():
             # keep track of outside visited:
             last = (start[0]+Direction.S.value[0]+Direction.W.value[0], 
                     start[1]+Direction.S.value[1]+Direction.W.value[1])
-            # if start.South is not inside, turn the whole car around
-            if (start[0]+inside.value[0], start[1]+inside.value[1]) not in self._locs:
+            # if start.North IS inside, turn the whole car around
+            if (start[0]+Direction.N.value[0], start[1]+Direction.N.value[1]) in self._locs:
                 inside = Direction.W
                 dir = Direction.S
                 stop_dir = Direction.W
