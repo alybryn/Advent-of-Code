@@ -12,6 +12,7 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
+from enum import Enum
 import pathlib
 import sys
 
@@ -51,9 +52,8 @@ def travel_plot(lines,bounds, name, start):
     return plot
 
 def adjacent(loc):
-    vectors = [(0,1),(0,-1),(1,0),(-1,0)]
-    return [(loc[0]+v[0],loc[1] + v[1]) for v in vectors]
-
+    return[(loc[0]+dir.value[0],loc[1]+dir.value[1]) for dir in Direction]
+    
 class Plot():
     def __init__(self,name,locs):
         self.name = name
@@ -84,6 +84,26 @@ class Plot():
     @property
     def sides(self):
         return self._sides
+
+class Direction(Enum):
+    N = (-1, 0)
+    S = ( 1, 0)
+    E = ( 0, 1)
+    W = ( 0,-1)
+    
+    def turn_right(self):
+        ret = {Direction.N:Direction.E,
+        Direction.E:Direction.S,
+        Direction.S:Direction.W,
+        Direction.W:Direction.N}
+        return ret[self]
+    
+    def turn_left(self):
+        ret = {Direction.N:Direction.W,
+        Direction.W:Direction.S,
+        Direction.S:Direction.E,
+        Direction.E:Direction.N}
+        return ret[self]
 
 def part1(parsed):
     # print(parsed)
