@@ -15,16 +15,50 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 1930
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    lines = [[l for l in line] for line in puzzle_input.splitlines()]
+    # make a dict. name:Plot
+    field = {}
+    for i in range(0, len(lines)):
+        for j in range(0, len(lines[0])):
+            if lines[i][j] not in field:
+                field[lines[i][j]] = Plot()
+            field[lines[i][j]].add((i,j))
+    return field
+
+def adj(loc):
+    vectors = [(0,1),(0,-1),(1,0),(-1,0)]
+    return [(loc[0]+v[0],loc[1] + v[1]) for v in vectors]
+
+class Plot():
+    def __init__(self):
+        self._locs = set()
+
+    def add(self, loc):
+        self._locs.add(loc)
+
+    def area(self):
+        return len(self._locs)
+
+    def perimeter(self):
+        for loc in self._locs:
+            for adj in adj(loc):
+                if adj in self._locs: 
+                    pass
+        return sum([1 for adj in adj(loc) for loc in self._locs if adj not in self._locs])
+
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    ret = 0
+    for name, plot in parsed.items():
+        print(f'fields growing {name} in plots {plot._locs} with area {plot.area()} and perimeter {plot.perimeter()}')
+        ret += plot.area() * plot.perimeter()
+    return ret
 
 def part2(parsed):
     return 0
