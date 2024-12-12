@@ -36,8 +36,7 @@ def parse(puzzle_input):
 
 def travel_plot(lines,bounds, name, start):
     visited = {start}
-    plot = Plot(name)
-    plot.add(start)
+    plotted = {start}
     to_search = [start]
     while to_search:
         next = to_search.pop()
@@ -46,8 +45,9 @@ def travel_plot(lines,bounds, name, start):
                 if 0 <= adj[0] < bounds[0] and 0 <= adj[1] < bounds[1]:
                     visited.add(adj)
                     if lines[adj[0]][adj[1]] == name:
-                        plot.add(adj)
+                        plotted.add(adj)
                         to_search.append(adj)
+    plot = Plot(name, plotted)
     return plot
 
 def adjacent(loc):
@@ -55,31 +55,41 @@ def adjacent(loc):
     return [(loc[0]+v[0],loc[1] + v[1]) for v in vectors]
 
 class Plot():
-    def __init__(self,name):
+    def __init__(self,name,locs):
         self.name = name
-        self._locs = set()
-
-    def add(self, loc):
-        self._locs.add(loc)
-
-    def area(self):
-        return len(self._locs)
-
-    def perimeter(self):
-        return sum([sum([1 for adj in adjacent(loc)if adj not in self._locs]) for loc in self._locs])
+        self._locs = locs
+        self._area = len(self._locs)
+        self._perimeter = sum(
+            [sum(
+                [1 for adj in adjacent(loc)
+                 if adj not in self._locs])
+                 for loc in self._locs])
+        self._sides = self.find_sides()
     
-    def sides(self):
-        pass
+    def find_sides(self):
+        a = self._perimeter
 
     @property
     def locs(self):
         return self._locs
+    
+    @property
+    def area(self):
+        return self._area
+    
+    @property
+    def perimeter(self):
+        return self._perimeter
+    
+    @property
+    def sides(self):
+        return self._sides
 
 def part1(parsed):
     # print(parsed)
     ret = 0
     for plot in parsed:
-        ret += plot.area() * plot.perimeter()
+        ret += plot.area * plot.perimeter
     return ret
 
 def part2(parsed):
