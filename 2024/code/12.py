@@ -59,11 +59,11 @@ class Plot():
         self.name = name
         self._locs = locs
         self._area = len(self._locs)
-        self._perimeter = sum(
-            [sum(
-                [1 for adj in adjacent(loc)
-                 if adj not in self._locs])
-                 for loc in self._locs])
+        self._outside = [adj 
+                         for loc in self._locs 
+                         for adj in adjacent(loc) 
+                         if adj not in self._locs]
+        self._perimeter = len(self._outside)
         self._sides = self.walk_sides()
     
     def walk_sides(self):
