@@ -67,35 +67,58 @@ class Plot():
         self._sides = self.walk_sides()
     
     def walk_sides(self):
+        to_visit = set(self._outside)
         num_sides = 0
-        num_fence = 0
-        # start shouldn't be in the center
-        # nor the middle of a side
-        start = min(self._locs)
-        # outside is the direction of fence
-        outside = Direction.N
-        # dir is the direction of travel
-        dir = Direction.W
-        # set a cursor
-        curr = start
-        while curr != start and dir != Direction.N:
-            # if outside becomes inside:
-            if (curr[0]+outside[0],curr[1]+outside[1]) in self._locs:
-                # turn left, increment sides
-                outside = outside.turn_left()
-                dir = dir.turn_left()
-                num_sides += 1
-            # if direction of travel outside:
-            step = (curr[0]+dir[0],curr[1]+dir[1])
-            if step not in self._locs:
-                # turn right, increment sides
-                outside = outside.turn_right()
-                dir = dir.turn_right()
-                num_sides += 1
-            # else
-            else:
-                # step forward
-                curr = step
+        visited = set()
+        # keep going to find interior fences
+        while len(to_visit.difference(visited)) != 0:
+            num_sides +=1
+            # inside is the direction of fence
+            inside = Direction.S
+            # dir is the direction of travel
+            dir = Direction.E
+            # stop_dir is direction when stopping
+            stop_dir = Direction.N
+            # start should be the farthest north and west
+            # square outside the plot
+            start = min(to_visit.difference(visited))
+            # last is kitty corner, south and west
+            # keep track of outside visited:
+            last = (start[0]+Direction.S.value[0]+Direction.W.value[0], 
+                    start[1]+Direction.S.value[1]+Direction.W.value[1])
+            # if start.South is not inside, turn the whole car around
+            if (start[0]+inside.value[0], start[1]+inside.value[1]) not in self._locs:
+                inside = Direction.W
+                dir = Direction.S
+                stop_dir = Direction.W
+                last = start
+            visited.add(start)
+            # set a cursor
+            curr = start
+            # make one loop
+            while not (curr == last and dir == stop_dir):
+                # if direction of travel inside:
+                if (curr[0] + dir.value[0], curr[1] + dir.value[1]) in self._locs:
+                    # turn left, increment sides
+                    inside = inside.turn_left()
+                    dir = dir.turn_left()
+                    num_sides += 1
+                    continue
+                # forward step
+                step = (curr[0]+dir.value[0],curr[1]+dir.value[1])
+                kitty = (step[0]+inside.value[0], step[1]+inside.value[1])
+                # if kitty-corner outside:
+                if kitty not in self._locs:
+                    # turn right, increment sides
+                    inside = inside.turn_right()
+                    dir = dir.turn_right()
+                    num_sides += 1
+                    curr = kitty
+                # else
+                else:
+                    # step forward
+                    curr = step
+                visited.add(curr)
         return num_sides
 
     @property
@@ -142,7 +165,10 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    return 0
+    ret = 0
+    for plot in parsed:
+        ret += plot.area * plot.sides
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
