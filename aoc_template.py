@@ -1,7 +1,9 @@
 DAY = 1
+YEAR = 2025
 
-SAMPLE_PATH = f'sample/{DAY}.txt'
-DATA_PATH = f'data/{DAY}.txt'
+START = f'/home/abi/Documents/programming/Advent of Code/{YEAR}'
+SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
+DATA_PATH = f'{START}/data/{DAY}.txt'
 
 ONLY_ARGS = []
 ONLY_SAMPLE = [SAMPLE_PATH]
