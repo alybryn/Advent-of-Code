@@ -13,6 +13,7 @@ RUN = ONLY_DATA
 
 # --------------------------------
 import pathlib
+import numpy as np
 import re
 import sys
 
@@ -37,25 +38,22 @@ class ClawMachine():
         self._button_a = button_a
         self._button_b = button_b
 
+    def solve(self):
+        # a_x*a + b_x*b = prize_x
+        # a_y*a + b_y*b = prize_y
+        a = np.array([[self._button_a[0], self._button_b[0]], [self._button_a[1], self._button_b[1]]])
+        b = np.array([self._prize[0],self._prize[1]])
+        return np.linalg.solve(a,b)
+
     def higher_prize(self):
         self._prize = (self._prize[0]+10000000000000, self._prize[1]+10000000000000)
 
     def push_buttons(self, a, b):
         return (self._button_a[0]*a + self._button_b[0]*b,
                 self._button_a[1]*a + self._button_b[1]*b)
-    
-    def push_a_get_b(self,a):
-        b_x = self._prize[0]-(self._button_a[0]*a) // self._button_b[0]
-        b_y = self._prize[1]-(self._button_a[1]*a) // self._button_b[1]
-        if b_x == b_y:
-            return b_x
-        return False
 
     def is_prize(self,a,b):
         return self._prize == self.push_buttons(a,b)
-
-    def overshot(self,a,b):
-        return self._prize < self.push_buttons(a,b)
 
     def __repr__(self):
         # Button A: X+94, Y+34
@@ -67,40 +65,18 @@ Button B: X+{self._button_b[0]}, Y+{self._button_b[1]}
 Prize: X={self._prize[0]}, Y={self._prize[1]}
 '''
 
-def get_prize_looping(machine):
-    for a in range(0,101):
-        for b in range(0,101):
-            if machine.is_prize(a,b):
-                return b + a*3
+def get_prize(machine):
+    a,b = [int(x) for x in machine.solve()]
+    if machine.is_prize(a,b):
+        return b + a*3
     return False
-
-def get_bigger_prize(machine):
-    machine.higher_prize()
-    a = 0
-    while not machine.overshot(a,0):
-        b = 0
-        while not machine.overshot(a,b):
-            if machine.is_prize(a,b):
-                return b + a*3
-            b+=1
-        a += 1
-    return False
-
-def get_bigger_prize_smarter(machine):
-    machine.higher_prize()
-    a = 0
-    while not machine.overshot(a,0):
-        b = machine.push_a_get_b(a)
-        if b:
-            if machine.is_prize(a,b):
-                return b + a*3
-        a += 1
+    return int(b + a*3) if a.is_integer() or b.is_integer() else False
 
 def part1(parsed):
     # print(parsed)
     ret = 0
     for machine in parsed:
-        tokens = get_prize_looping(machine)
+        tokens = get_prize(machine)
         if tokens:
             ret += tokens
     return ret
@@ -108,7 +84,8 @@ def part1(parsed):
 def part2(parsed):
     ret = 0
     for machine in parsed:
-        tokens = get_bigger_prize_smarter(machine)
+        machine.higher_prize()
+        tokens = get_prize(machine)
         if tokens:
             ret += tokens
     return ret
