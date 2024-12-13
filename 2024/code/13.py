@@ -70,23 +70,6 @@ def get_prize_looping(machine):
                 return b + a*3
     return False
 
-
-
-# def get_prize(machine, ptr=(0,0),a=0,b=0):
-#     if machine.is_prize(ptr):
-#         return (a*3)+b
-#     if machine.overshot(ptr) or a>100 or b>100:
-#         return None
-#     a_move = machine.push_button_a(ptr)
-#     b_move = machine.push_button_b(ptr)
-#     a_cost = get_prize(machine,a_move,a+1,b)
-#     b_cost = get_prize(machine,b_move,a,b+1)
-#     if a_cost and b_cost:
-#         return min(a_cost,b_cost)
-#     if a_cost:
-#         return a_cost
-#     return b_cost
-
 def part1(parsed):
     print(parsed)
     ret = 0
