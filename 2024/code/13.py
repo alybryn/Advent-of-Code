@@ -63,14 +63,12 @@ Prize: X={self._prize[0]}, Y={self._prize[1]}
 def get_prize_looping(machine):
     for a in range(0,101):
         for b in range(0,101):
-            ptr = (0,0)
-            ptr = machine.push_button_a(a,ptr)
-            ptr = machine.push_button_b(b,ptr)
-            if machine.is_prize(ptr):
+            if machine.is_prize(a,b):
                 return b + a*3
     return False
 
 def get_bigger_prize(machine):
+    machine.higher_prize()
     a = 0
     while not machine.overshot(a,0):
         b = 0
@@ -96,7 +94,7 @@ def part2(parsed):
         tokens = get_bigger_prize(machine)
         if tokens:
             ret += tokens
-    return 0
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
