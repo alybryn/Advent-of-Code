@@ -13,14 +13,36 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 import pathlib
+import re
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 480
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
+    machines = [lines for lines in puzzle_input.split('\n\n')]
+    # Button A: X+94, Y+34
+    # Button B: X+22, Y+67
+    # Prize: X=8400, Y=5400
     return [line for line in puzzle_input.split()]
+
+class ClawMachine():
+    # prize : (x,y)
+    # button a : (+x,+y)
+    # button b : (+x,+y)
+    def __init__(self, prize, button_a, button_b):
+        self._prize = prize
+        self._button_a = button_a
+        self._button_b = button_b
+
+    # a button costs 3, b button costs 1
+    def get_prize(self):
+        ret = 0
+        # try to push b
+
+        # try to push a
+
 
 def part1(parsed):
     print(parsed)
