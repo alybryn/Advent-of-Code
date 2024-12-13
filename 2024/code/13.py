@@ -71,11 +71,10 @@ Prize: X={self._prize[0]}, Y={self._prize[1]}
 '''
 
 def get_prize(machine):
-    a,b = [int(x) for x in machine.solve()]
+    a,b = [int(np.around(x)) for x in machine.solve()]
     if machine.is_prize(a,b):
         return b + a*3
     return False
-    return int(b + a*3) if a.is_integer() or b.is_integer() else False
 
 def part1(parsed):
     # print(parsed)
