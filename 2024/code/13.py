@@ -18,42 +18,47 @@ import re
 import sys
 
 SAMPLE_ANSWER_1 = 480
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 875318608908
 
 def parse(puzzle_input):
     # parse the inpu
     ret = []
     machines = [lines for lines in puzzle_input.split('\n\n')]
     for machine in machines:
-        a_x,a_y,b_x,b_y,p_x,p_y = [int(x) for x in re.findall(r'\d+',machine)]
-        ret.append(ClawMachine((p_x,p_y),(a_x,a_y),(b_x,b_y)))
+        read = [int(x) for x in re.findall(r'\d+',machine)]
+        ret.append(ClawMachine(*read))
     return ret
 
 class ClawMachine():
     # prize : (x,y)
     # button a : (+x,+y)
     # button b : (+x,+y)
-    def __init__(self, prize, button_a, button_b):
-        self._prize = prize
-        self._button_a = button_a
-        self._button_b = button_b
+    def __init__(self,a_x,a_y,b_x,b_y,p_x,p_y):
+        self._ax = a_x
+        self._ay = a_y
+        self._bx = b_x
+        self._by = b_y
+        self._px = p_x
+        self._py = p_y
 
     def solve(self):
         # a_x*a + b_x*b = prize_x
         # a_y*a + b_y*b = prize_y
-        a = np.array([[self._button_a[0], self._button_b[0]], [self._button_a[1], self._button_b[1]]])
-        b = np.array([self._prize[0],self._prize[1]])
+        a = np.array([[self._ax, self._bx], [self._ay, self._by]])
+        b = np.array([self._px, self._py])
         return np.linalg.solve(a,b)
 
     def higher_prize(self):
-        self._prize = (self._prize[0]+10000000000000, self._prize[1]+10000000000000)
+        inc = 10000000000000
+        self._px = self._px + inc
+        self._py = self._py + inc
 
     def push_buttons(self, a, b):
-        return (self._button_a[0]*a + self._button_b[0]*b,
-                self._button_a[1]*a + self._button_b[1]*b)
+        return (self._ax*a + self._bx*b,
+                self._ay*a + self._by*b)
 
     def is_prize(self,a,b):
-        return self._prize == self.push_buttons(a,b)
+        return (self._px,self._py) == self.push_buttons(a,b)
 
     def __repr__(self):
         # Button A: X+94, Y+34
