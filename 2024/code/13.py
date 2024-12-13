@@ -38,7 +38,7 @@ class ClawMachine():
         self._button_b = button_b
 
     def higher_prize(self):
-        self._prize = (self._prize[0]+10000000000000, self._prize+10000000000000)
+        self._prize = (self._prize[0]+10000000000000, self._prize[1]+10000000000000)
 
     def push_buttons(self, a, b):
         return (self._button_a[0]*a + self._button_b[0]*b,
