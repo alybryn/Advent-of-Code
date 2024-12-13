@@ -20,12 +20,16 @@ SAMPLE_ANSWER_1 = 480
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
-    # parse the input
+    # parse the inpu
+    ret = []
     machines = [lines for lines in puzzle_input.split('\n\n')]
     # Button A: X+94, Y+34
     # Button B: X+22, Y+67
     # Prize: X=8400, Y=5400
-    return [line for line in puzzle_input.split()]
+    for machine in machines:
+        a_x,a_y,b_x,b_y,p_x,p_y = re.findall('\d+',machine)
+        ret.append(ClawMachine((p_x,p_y),(a_x,a_y),(b_x,b_y)))
+    return ret
 
 class ClawMachine():
     # prize : (x,y)
@@ -37,16 +41,49 @@ class ClawMachine():
         self._button_b = button_b
 
     # a button costs 3, b button costs 1
-    def get_prize(self):
-        ret = 0
+    def get_prize(self, ptr=(0,0),spent=0):
+        pass
+        if ptr == self._prize:
+            return tokens
         # try to push b
 
         # try to push a
 
+    def push_button_a(self, ptr):
+        return (ptr[0]+self._button_a[0],ptr[1]+self._button_a[1])
+
+    def push_button_b(self, ptr):
+        return (ptr[0]+self._button_b[0],ptr[1]+self._button_b[1])
+
+    def is_prize(self,ptr):
+        return ptr == self._prize
+
+    def overshot(self,ptr):
+        return ptr[0] > self._prize[0] or ptr[1] > self._prize[1]
+
+def get_prize(machine, ptr=(0,0),a=0,b=0):
+    if machine.is_prize(ptr):
+        return (a*3)+b
+    if machine.overshot(ptr) or a>100 or b>100:
+        return None
+    a_move = machine.push_a_button(ptr)
+    b_move = machine.push_b_button(ptr)
+    a_cost = get_prize(machine,a_move,a+1,b)
+    b_cost = get_prize(machine,b_move,a,b+1)
+    if a_cost and b_cost:
+        return min(a_cost,b_cost)
+    if a_cost:
+        return a_cost
+    return b_cost
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    ret = 0
+    for machine in parsed:
+        tokens = get_prize(machine)
+        if tokens:
+            ret += tokens
+    return ret
 
 def part2(parsed):
     return 0
