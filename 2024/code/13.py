@@ -43,6 +43,13 @@ class ClawMachine():
     def push_buttons(self, a, b):
         return (self._button_a[0]*a + self._button_b[0]*b,
                 self._button_a[1]*a + self._button_b[1]*b)
+    
+    def push_a_get_b(self,a):
+        b_x = self._prize[0]-(self._button_a[0]*a) // self._button_b[0]
+        b_y = self._prize[1]-(self._button_a[1]*a) // self._button_b[1]
+        if b_x == b_y:
+            return b_x
+        return False
 
     def is_prize(self,a,b):
         return self._prize == self.push_buttons(a,b)
@@ -79,6 +86,16 @@ def get_bigger_prize(machine):
         a += 1
     return False
 
+def get_bigger_prize_smarter(machine):
+    machine.higher_prize()
+    a = 0
+    while not machine.overshot(a,0):
+        b = machine.push_a_get_b(a)
+        if b:
+            if machine.is_prize(a,b):
+                return b + a*3
+        a += 1
+
 def part1(parsed):
     # print(parsed)
     ret = 0
@@ -91,7 +108,7 @@ def part1(parsed):
 def part2(parsed):
     ret = 0
     for machine in parsed:
-        tokens = get_bigger_prize(machine)
+        tokens = get_bigger_prize_smarter(machine)
         if tokens:
             ret += tokens
     return ret
