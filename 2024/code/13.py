@@ -37,26 +37,18 @@ class ClawMachine():
         self._button_a = button_a
         self._button_b = button_b
 
-    # a button costs 3, b button costs 1
-    # def get_prize(self, ptr=(0,0),spent=0):
-    #     pass
-    #     if ptr == self._prize:
-    #         return spent
-        # try to push b
+    def higher_prize(self):
+        self._prize = (self._prize[0]+10000000000000, self._prize+10000000000000)
 
-        # try to push a
+    def push_buttons(self, a, b):
+        return (self._button_a[0]*a + self._button_b[0]*b,
+                self._button_a[1]*a + self._button_b[1]*b)
 
-    # def push_button_a(self, ptr):
-    #     return (ptr[0]+self._button_a[0],ptr[1]+self._button_a[1])
+    def is_prize(self,a,b):
+        return self._prize == self.push_buttons(a,b)
 
-    # def push_button_b(self, ptr):
-    #     return (ptr[0]+self._button_b[0],ptr[1]+self._button_b[1])
-
-    def push_button_a(self,times,ptr):
-        return (ptr[0] + self._button_a[0]*times,ptr[1] + self._button_a[1]*times)
-
-    def push_button_b(self,times,ptr):
-        return (ptr[0] + self._button_b[0]*times, ptr[1] + self._button_b[1]*times)
+    def overshot(self,a,b):
+        return self._prize < self.push_buttons(a,b)
 
     def __repr__(self):
         # Button A: X+94, Y+34
