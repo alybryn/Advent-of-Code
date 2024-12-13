@@ -23,9 +23,6 @@ def parse(puzzle_input):
     # parse the inpu
     ret = []
     machines = [lines for lines in puzzle_input.split('\n\n')]
-    # Button A: X+94, Y+34
-    # Button B: X+22, Y+67
-    # Prize: X=8400, Y=5400
     for machine in machines:
         a_x,a_y,b_x,b_y,p_x,p_y = [int(x) for x in re.findall(r'\d+',machine)]
         ret.append(ClawMachine((p_x,p_y),(a_x,a_y),(b_x,b_y)))
@@ -61,11 +58,15 @@ class ClawMachine():
     def push_button_b(self,times,ptr):
         return (ptr[0] + self._button_b[0]*times, ptr[1] + self._button_b[1]*times)
 
-    def is_prize(self,ptr):
-        return ptr == self._prize
-
-    def overshot(self,ptr):
-        return ptr[0] > self._prize[0] or ptr[1] > self._prize[1]
+    def __repr__(self):
+        # Button A: X+94, Y+34
+        # Button B: X+22, Y+67
+        # Prize: X=8400, Y=5400
+        return f'''
+Button A: X+{self._button_a[0]}, Y+{self._button_a[1]}
+Button B: X+{self._button_b[0]}, Y+{self._button_b[1]}
+Prize: X={self._prize[0]}, Y={self._prize[1]}
+'''
 
 def get_prize_looping(machine):
     for a in range(0,101):
