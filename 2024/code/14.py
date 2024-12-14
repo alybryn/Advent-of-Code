@@ -76,7 +76,16 @@ def part1(parsed):
     return safety
 
 def part2(parsed):
-    return 0
+    step = 1
+    t = 0
+    # print starting position
+    ans = 'Y'
+    while ans == 'Y':
+        t += step
+        # print robot positions
+        ans = input('Continue? Y/n: ')
+        ans = ans if ans == 'n' else 'Y'
+    return t
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
