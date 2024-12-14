@@ -46,14 +46,19 @@ class Robot():
     def __repr__(self):
         return f'ROBOT[p={self._px},{self._py} v={self._vx},{self._vy}]'
 
-def quardrant_count(robot, bounds, time):
-    loc = robot.where(bounds, time)
-    print(loc)
-    if loc[0] < bounds[0]//2:
-        if loc[1]< bounds[1]//2:
-            return 'nw'
-        # Todo
-    # todo
+def quadrant_count(robot, bounds, time):
+    loc = robot.where(time)
+    half_bounds = (bounds[0]//2,bounds[1]//2)
+    east_west = loc[0] < half_bounds[0],loc[0] > half_bounds[0]
+    north_south = loc[1] < half_bounds[1],loc[1] > half_bounds[1]
+    if north_south[0] and east_west[0]:
+        return 'nw'
+    if north_south[0] and east_west[1]:
+        return 'ne'
+    if north_south[1] and east_west[0]:
+        return 'sw'
+    if north_south[1] and east_west[1]:
+        return 'se'
 
 def part1(parsed):
     bounds = (11,7) if RUN == ONLY_SAMPLE else (101,103)
