@@ -1,6 +1,6 @@
 DAY = 14
 
-START = f'/home/abi/Documents/programming/Advent of Code/2024'
+START = f'/workspaces/Advent of Code/2024'
 SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
 DATA_PATH = f'{START}/data/{DAY}.txt'
 
