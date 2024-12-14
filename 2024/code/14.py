@@ -22,11 +22,15 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     lines = puzzle_input.splitlines()
+    robots = []
     for line in lines:
         _, p, v = line.split('=')
         p, _ = p.split (' ')
         px, py = p.split(',')
         vx, vy = v.split(',')
+        inputs = [int(i) for i in [px,py,vx,vy]]
+        robots.append(Robot(*inputs))
+    return robots
 
 class Robot():
     def __init__(self,px,py,vx,vy):
@@ -36,8 +40,11 @@ class Robot():
         self._vy = vy
 
     def where(self,bounds,time):
-        return ((self._px+(self._vx*time))%bounds[0],
-        (self._py+(self._vy*time)%bounds[1]))
+        return (((self._px+(self._vx*time)))%bounds[0],
+        ((self._py+(self._vy*time))%bounds[1]))
+    
+    def __repr__(self):
+        return f'ROBOT[p={self._px},{self._py} v={self._vx},{self._vy}]'
 
 def quardrant_count(robot, bounds, time):
     loc = robot.where(bounds, time)
