@@ -28,15 +28,36 @@ def parse(puzzle_input):
         px, py = p.split(',')
         vx, vy = v.split(',')
 
-def robots_move(robots, bounds, time):
-    pass
+class Robot():
+    def __init__(self,px,py,vx,vy):
+        self._px = px
+        self._py = py
+        self._vx = vx
+        self._vy = vy
 
-def quardrant_count(robots, bounds):
-    pass
+    def where(self,bounds,time):
+        return ((self._px+(self._vx*time))%bounds[0],
+        (self._py+(self._vy*time)%bounds[1]))
+
+def quardrant_count(robot, bounds, time):
+    loc = robot.where(bounds, time)
+    print(loc)
+    if loc[0] < bounds[0]//2:
+        if loc[1]< bounds[1]//2:
+            return 'nw'
+        # Todo
+    # todo
 
 def part1(parsed):
+    bounds = (11,7) if RUN == ONLY_SAMPLE else (101,103)
+    time = 100
     print(parsed)
-    return parsed
+    ret = {'nw':0,'ne':0,'sw':0,'se':0}
+    for robot in parsed:
+        q = quardrant_count(robot, bounds, time)
+        if q in ret:
+            ret[q] += 1
+    return ret
 
 def part2(parsed):
     return 0
