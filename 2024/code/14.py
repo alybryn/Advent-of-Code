@@ -61,6 +61,18 @@ def quadrant_count(robot, time):
         return 'sw'
     if north_south[1] and east_west[1]:
         return 'se'
+    
+def draw_robots(robots,time):
+    pos = [r.where(time) for r in robots]
+    ret = ''
+    for j in range(0, BOUNDS[1]):
+        for i in range(0, BOUNDS[0]):
+            if (i,j) in pos:
+                ret += '*'
+            else:
+                ret += ' '
+        ret += '\n'
+    return ret
 
 def part1(parsed):
     time = 100
