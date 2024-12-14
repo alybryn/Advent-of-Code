@@ -16,7 +16,7 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 12
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
