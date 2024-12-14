@@ -9,7 +9,7 @@ ONLY_SAMPLE = [SAMPLE_PATH]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
-RUN = ONLY_SAMPLE
+RUN = ONLY_DATA
 
 # --------------------------------
 
@@ -18,6 +18,8 @@ import sys
 
 SAMPLE_ANSWER_1 = 12
 SAMPLE_ANSWER_2 = None
+
+BOUNDS = (11,7) if RUN == ONLY_SAMPLE else (101,103)
 
 def parse(puzzle_input):
     # parse the input
@@ -39,16 +41,16 @@ class Robot():
         self._vx = vx
         self._vy = vy
 
-    def where(self,bounds,time):
-        return (((self._px+(self._vx*time)))%bounds[0],
-        ((self._py+(self._vy*time))%bounds[1]))
+    def where(self,time):
+        return (((self._px+(self._vx*time)))%BOUNDS[0],
+        ((self._py+(self._vy*time))%BOUNDS[1]))
     
     def __repr__(self):
         return f'ROBOT[p={self._px},{self._py} v={self._vx},{self._vy}]'
 
-def quadrant_count(robot, bounds, time):
+def quadrant_count(robot, time):
     loc = robot.where(time)
-    half_bounds = (bounds[0]//2,bounds[1]//2)
+    half_bounds = (BOUNDS[0]//2,BOUNDS[1]//2)
     east_west = loc[0] < half_bounds[0],loc[0] > half_bounds[0]
     north_south = loc[1] < half_bounds[1],loc[1] > half_bounds[1]
     if north_south[0] and east_west[0]:
@@ -61,15 +63,17 @@ def quadrant_count(robot, bounds, time):
         return 'se'
 
 def part1(parsed):
-    bounds = (11,7) if RUN == ONLY_SAMPLE else (101,103)
     time = 100
-    print(parsed)
+    # print(parsed)
     ret = {'nw':0,'ne':0,'sw':0,'se':0}
     for robot in parsed:
-        q = quardrant_count(robot, bounds, time)
+        q = quadrant_count(robot, time)
         if q in ret:
             ret[q] += 1
-    return ret
+    safety = 1
+    for c in ret.values():
+        safety = safety * c
+    return safety
 
 def part2(parsed):
     return 0
