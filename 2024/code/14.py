@@ -88,16 +88,28 @@ def part1(parsed):
     return safety
 
 def part2(parsed):
-    step = 1
-    t = 0
+    stepv = BOUNDS[0]
+    steph = BOUNDS[1]
+    th = 43
+    tv = 68
+    f = open('trees.txt','w')
     # print starting position
-    ans = 'Y'
-    while ans == 'Y':
-        t += step
-        # print robot positions
-        ans = input('Continue? Y/n: ')
-        ans = ans if ans == 'n' else 'Y'
-    return t
+    f.write(f'th = {th}:\n{draw_robots(parsed,th)}')
+    f.write(f'tv = {tv}:\n{draw_robots(parsed,tv)}')
+    while tv < 10000:
+        th += steph
+        tv += stepv
+        f.write(f'th = {th}:\n{draw_robots(parsed,th)}')
+        f.write(f'tv = {tv}:\n{draw_robots(parsed,tv)}')
+    # ans = 'Y'
+    # while ans == 'Y':
+    #     t += step
+    #     # print robot positions
+    #     print(draw_robots(parsed,t))
+    #     ans = input('Continue? Y/n: ')
+    #     ans = ans if ans == 'n' else 'Y'
+    f.close()
+    return tv,th
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
