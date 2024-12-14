@@ -21,7 +21,18 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    lines = puzzle_input.splitlines()
+    for line in lines:
+        _, p, v = line.split('=')
+        p, _ = p.split (' ')
+        px, py = p.split(',')
+        vx, vy = v.split(',')
+
+def robots_move(robots, bounds, time):
+    pass
+
+def quardrant_count(robots, bounds):
+    pass
 
 def part1(parsed):
     print(parsed)
