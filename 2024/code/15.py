@@ -139,9 +139,13 @@ class Warehouse_2():
                 self._boxes.add(coord_add(moving_box,instruction))
             # move the robot
             self._robot = proposed_loc
+            return
         else:
             # preserve proposed_loc for robot
             move_these = []
+            if self.block_hits_wall(proposed_loc):
+                # can't move
+                return
             if proposed_loc in self._boxes:
                 move_these.append(proposed_loc)
             else:
@@ -154,10 +158,11 @@ class Warehouse_2():
                 move_these += affected
                 new_affected = []
                 for l in affected:
+                    if self.block_hits_wall(l):
+                        # can't move
+                        return
                     new_affected += self.get_affected_boxes(l,instruction)
                 affected = new_affected
-            
-            # probably check abuttments with walls as we go...
 
     # given the boxes loc of a box, return the boxes loc of affected boxes
     def get_affected_boxes(self, loc, instruction):
@@ -173,6 +178,8 @@ class Warehouse_2():
                 return [left_box, right_box]
             return [left_box]
 
+    def block_hits_wall(self, loc,instruction):
+        return loc in self._walls or box_right(loc) in self. _walls
 
     @property
     def gps_sum(self):
@@ -203,6 +210,9 @@ def coord_add(coord1, coord2):
 
 def box_left(coord):
     return coord_add(coord, (-1,0))
+
+def box_right(coord):
+    return coord_add(coord, (1,0))
 
 def part1(parsed):
     # print(parsed)
