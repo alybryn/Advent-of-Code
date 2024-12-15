@@ -49,6 +49,7 @@ class Warehouse_1():
         self._boxes = state[BOX]
         self._walls = state[WALL]
         self._robot = state[ROBOT].pop()
+        state[ROBOT].add(self._robot)
         self._bounds = bounds
 
     def move_robot(self, instruction):
@@ -100,10 +101,11 @@ class Warehouse_1():
 
 class Warehouse_2():
     def __init__(self, state, bounds):
-        self._boxes = state[BOX]
-        self._walls = state[WALL]
+        self._walls = set().union([(i*2,j)for i,j in state[WALL]]+[(i*2+1,j)for i,j in state[WALL]])
+        self._boxes = set().union((i*2,j) for i,j in state[BOX])
         self._robot = state[ROBOT].pop()
-        self._bounds = bounds
+        self._robot = (self._robot[0]*2, self._robot[1])
+        self._bounds = (bounds[0],bounds[1]*2)
 
     def move_robot(self, instruction):
         proposed_loc = coord_add(self._robot, instruction)
