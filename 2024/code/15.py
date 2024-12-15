@@ -121,16 +121,16 @@ class Warehouse_2():
         if instruction in [Direction['<'],Direction['>']]:
             # HALF BOX MOVEMENTS
             # track the first box
-            move_to = proposed_loc
+            move_these = proposed_loc
             # collect box coords
             move_these = []
             # move pointer until free space or wall
-            while move_to in self._boxes or box_left(move_to) in self._boxes:
-                if move_to in self._boxes:
-                    move_these.append(move_to)
-                move_to = coord_add(move_to,instruction)
+            while move_these in self._boxes or box_left(move_these) in self._boxes:
+                if move_these in self._boxes:
+                    move_these.append(move_these)
+                move_these = coord_add(move_these,instruction)
             # make a decision
-            if move_to in self._walls:
+            if move_these in self._walls:
                 # can't move
                 return
             # move the boxes
@@ -140,7 +140,39 @@ class Warehouse_2():
             # move the robot
             self._robot = proposed_loc
         else:
-            pass
+            # preserve proposed_loc for robot
+            move_these = []
+            if proposed_loc in self._boxes:
+                move_these.append(proposed_loc)
+            else:
+                move_these.append(box_left(proposed_loc))
+            # while one of the leading boxes affects another box
+            affected = []
+            for l in move_these:
+                affected += self.get_affected_boxes(l,instruction)
+            while len(affected) > 0:
+                move_these += affected
+                new_affected = []
+                for l in affected:
+                    new_affected += self.get_affected_boxes(l,instruction)
+                affected = new_affected
+            
+            # probably check abuttments with walls as we go...
+
+    # given the boxes loc of a box, return the boxes loc of affected boxes
+    def get_affected_boxes(self, loc, instruction):
+        affected = coord_add(loc, instruction)
+        # case box right on box, no others affected
+        if affected in self._boxes:
+            return [affected]
+        # case box left on box right, must check box right for box loc
+        left_box = box_left(affected)
+        if left_box in self._boxes:
+            right_box = coord_add(box_left(loc),instruction)
+            if right_box in self._boxes:
+                return [left_box, right_box]
+            return [left_box]
+
 
     @property
     def gps_sum(self):
@@ -183,6 +215,9 @@ def part2(parsed):
     _, warehouse, moves = parsed
     for move in moves:
         warehouse.move_robot(move)
+        if move in [(1,0),(-1,0)]:
+            print(move)
+            print(warehouse)
     return warehouse.gps_sum
 
 def solve(puzzle_input):
