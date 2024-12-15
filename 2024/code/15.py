@@ -52,6 +52,11 @@ class State():
         self._robot = state[ROBOT]
         self._bounds = bounds
 
+    def reset(self):
+        self._boxes = self._reset[BOX]
+        self._walls = self._reset[WALL]
+        self._robot = self._reset[ROBOT]
+
     def move(self, instruction):
         pass
 
