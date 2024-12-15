@@ -161,6 +161,9 @@ class Warehouse_2():
 def coord_add(coord1, coord2):
     return (coord1[0]+coord2[0], coord1[1]+coord2[1])
 
+def box_left(coord):
+    return coord_add(coord, (-1,0))
+
 def part1(parsed):
     # print(parsed)
     warehouse, _, moves = parsed
