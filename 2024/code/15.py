@@ -46,16 +46,64 @@ def parse(puzzle_input):
 
 class Warehouse_1():
     def __init__(self, state, bounds):
-        self._reset = state
         self._boxes = state[BOX]
         self._walls = state[WALL]
         self._robot = state[ROBOT].pop()
         self._bounds = bounds
 
-    def reset(self):
-        self._boxes = self._reset[BOX]
-        self._walls = self._reset[WALL]
-        self._robot = self._reset[ROBOT]
+    def move(self, instruction):
+        proposed_loc = coord_add(self._robot, instruction)
+        if proposed_loc not in self._boxes and proposed_loc not in self._walls:
+            # way is clear
+            self._robot = proposed_loc
+        if proposed_loc in self._walls:
+            # can't move
+            return
+        elif proposed_loc in self._boxes:
+            # track the first box
+            move_to = proposed_loc
+            # move pointer until free space or wall
+            while move_to in self._boxes:
+                move_to = coord_add(move_to,instruction)
+            # make a decision
+            if move_to in self._walls:
+                # can't move
+                return
+            # move the boxes... which just means moving one box...
+            # remove box at to_move, add box at proposed_loc
+            self._boxes.remove(proposed_loc)
+            self._boxes.add(move_to)
+            # move the robot
+            self._robot = proposed_loc
+
+    @property
+    def gps_sum(self):
+        ret = 0
+        for box in self._boxes:
+            ret += box[0] + box[1]*100
+        return ret
+
+    def __repr__(self):
+        ret = ''
+        for j in range(0,self._bounds[0]):
+            for i in range(0, self._bounds[1]):
+                if (i,j) in self._boxes:
+                    ret += 'O'
+                elif (i,j) in self._walls:
+                    ret += '#'
+                elif (i,j) == self._robot:
+                    ret += '@'
+                else:
+                    ret += '.'
+            ret += '\n'
+        return ret
+
+class Warehouse_2():
+    def __init__(self, state, bounds):
+        self._boxes = state[BOX]
+        self._walls = state[WALL]
+        self._robot = state[ROBOT].pop()
+        self._bounds = bounds
 
     def move(self, instruction):
         proposed_loc = coord_add(self._robot, instruction)
