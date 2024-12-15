@@ -42,7 +42,7 @@ def parse(puzzle_input):
                 temp = state_dict[state[j][i]]
                 temp.add((i,j))
                 state_dict[state[j][i]] = temp
-    return Warehouse_1(state_dict,(len(state),len(state[0]))), moves
+    return Warehouse_1(state_dict,(len(state),len(state[0]))), Warehouse_2(state_dict,(len(state),len(state[0]))), moves
 
 class Warehouse_1():
     def __init__(self, state, bounds):
@@ -51,7 +51,7 @@ class Warehouse_1():
         self._robot = state[ROBOT].pop()
         self._bounds = bounds
 
-    def move(self, instruction):
+    def move_robot(self, instruction):
         proposed_loc = coord_add(self._robot, instruction)
         if proposed_loc not in self._boxes and proposed_loc not in self._walls:
             # way is clear
@@ -105,7 +105,7 @@ class Warehouse_2():
         self._robot = state[ROBOT].pop()
         self._bounds = bounds
 
-    def move(self, instruction):
+    def move_robot(self, instruction):
         proposed_loc = coord_add(self._robot, instruction)
         if proposed_loc not in self._boxes and proposed_loc not in self._walls:
             # way is clear
@@ -157,12 +157,13 @@ def coord_add(coord1, coord2):
 
 def part1(parsed):
     # print(parsed)
-    state, moves = parsed
+    warehouse, _, moves = parsed
     for move in moves:
-        state.move(move)
-    return state.gps_sum
+        warehouse.move_robot(move)
+    return warehouse.gps_sum
 
 def part2(parsed):
+    _, warehouse, moves = parsed
     return 0
 
 def solve(puzzle_input):
