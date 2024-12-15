@@ -58,7 +58,29 @@ class State():
         self._robot = self._reset[ROBOT]
 
     def move(self, instruction):
-        pass
+        proposed_loc = coord_add(self._robot, instruction)
+        if proposed_loc not in self._boxes and proposed_loc not in self._walls:
+            # way is clear
+            self._robot = proposed_loc
+        if proposed_loc in self._walls:
+            # can't move
+            return
+        elif proposed_loc in self._boxes:
+            # track the first box
+            move_to = proposed_loc
+            # move pointer until free space or wall
+            while move_to in self._boxes:
+                move_to = coord_add(move_to,instruction)
+            # make a decision
+            if move_to in self._walls:
+                # can't move
+                return
+            # move the boxes... which just means moving one box...
+            # remove box at to_move, add box at proposed_loc
+            self._boxes.remove(proposed_loc)
+            self._boxes.add(move_to)
+            # move the robot
+            self._robot = proposed_loc
 
     def __repr__(self):
         ret = ''
