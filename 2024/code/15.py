@@ -57,6 +57,7 @@ class Warehouse_1():
         if proposed_loc not in self._boxes and proposed_loc not in self._walls:
             # way is clear
             self._robot = proposed_loc
+            return
         if proposed_loc in self._walls:
             # can't move
             return
@@ -109,9 +110,10 @@ class Warehouse_2():
 
     def move_robot(self, instruction):
         proposed_loc = coord_add(self._robot, instruction)
-        if proposed_loc not in self._boxes and proposed_loc not in self._walls:
+        if proposed_loc not in self._boxes and box_left(proposed_loc) not in self._boxes and proposed_loc not in self._walls:
             # way is clear
             self._robot = proposed_loc
+            return
         if proposed_loc in self._walls:
             # can't move
             return
