@@ -82,6 +82,13 @@ class State():
             # move the robot
             self._robot = proposed_loc
 
+    @property
+    def gps_sum(self):
+        ret = 0
+        for box in self._boxes:
+            ret += box[0] + box[1]*100
+        return ret
+
     def __repr__(self):
         ret = ''
         for j in range(0,self._bounds[0]):
@@ -105,7 +112,7 @@ def part1(parsed):
     state, moves = parsed
     for move in moves:
         state.move(move)
-    return state
+    return state.gps_sum
 
 def part2(parsed):
     return 0
