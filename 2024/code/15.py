@@ -143,7 +143,7 @@ class Warehouse_2():
         ret = ''
         for j in range(0,self._bounds[0]):
             for i in range(0, self._bounds[1]):
-                if (i,j) in self._boxes:
+                if (i,j) in self._boxes or (i-1, j) in self._boxes:
                     ret += 'O'
                 elif (i,j) in self._walls:
                     ret += '#'
