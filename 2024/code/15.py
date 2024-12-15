@@ -118,7 +118,7 @@ class Warehouse_2():
             # can't move
             return
         # proposed_loc in self._boxes or box_left(proposed_loc)
-        if instruction in [(-1,0),(1,0)]:
+        if instruction in [Direction['<'],Direction['>']]:
             # HALF BOX MOVEMENTS
             # track the first box
             move_to = proposed_loc
