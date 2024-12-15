@@ -175,7 +175,7 @@ def part2(parsed):
     _, warehouse, moves = parsed
     for move in moves:
         warehouse.move_robot(move)
-    return 0
+    return warehouse.gps_sum
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
