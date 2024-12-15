@@ -42,9 +42,9 @@ def parse(puzzle_input):
                 temp = state_dict[state[j][i]]
                 temp.add((i,j))
                 state_dict[state[j][i]] = temp
-    return State(state_dict,(len(state),len(state[0]))), moves
+    return Warehouse_1(state_dict,(len(state),len(state[0]))), moves
 
-class State():
+class Warehouse_1():
     def __init__(self, state, bounds):
         self._reset = state
         self._boxes = state[BOX]
