@@ -1,6 +1,6 @@
 DAY = 15
 
-START = f'/workspace/Advent of Code/2024'
+START = f'/workspaces/Advent of Code/2024'
 SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
 SAMPLE_PATH_A = f'{START}/sample/{DAY}a.txt'
 DATA_PATH = f'{START}/data/{DAY}.txt'
@@ -24,27 +24,31 @@ ROBOT = '@'
 WALL = '#'
 BOX = 'O'
 
-UP = '^'
-DOWN = 'v'
-LEFT = '<'
-RIGHT = '>'
+Direction = {'^': ( 0,-1),
+             'v': ( 0, 1),
+             '<': (-1, 0),
+             '>': ( 1, 0)}
 
 def parse(puzzle_input):
     # parse the input
     state, moves = puzzle_input.split('\n\n')
-    state_dict = {WALL:set(), BOX:set(), ROBOT:(0,0)}
-    moves = moves.replace('\n', '')
+    state_dict = {WALL:set(), BOX:set(), ROBOT:set()}
+    # moves = moves.replace('\n', '')
+    moves = [Direction[move] for move in moves if move in Direction]
     state = [s for s in state.splitlines()]
     for i in range(0, len(state)):
         for j in range(0,len(state[0])):
-            if state[i][j] in state:
-                state_dict[state[i][j]].add((i,j))
+            if state[i][j] in state_dict:
+                temp = state_dict[state[i][j]]
+                temp.add((i,j))
+                state_dict[state[i][j]] = temp
     return State(state_dict,(len(state),len(state[0]))), moves
 
 class State():
     def __init__(self, state, bounds):
+        self._reset = state
         self._boxes = state[BOX]
-        self._walls = state[BOX]
+        self._walls = state[WALL]
         self._robot = state[ROBOT]
         self._bounds = bounds
 
@@ -64,6 +68,7 @@ class State():
                 else:
                     ret += '.'
             ret += '\n'
+        return ret
 
 def part1(parsed):
     print(parsed)
