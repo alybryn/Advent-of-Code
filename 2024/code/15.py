@@ -36,12 +36,12 @@ def parse(puzzle_input):
     # moves = moves.replace('\n', '')
     moves = [Direction[move] for move in moves if move in Direction]
     state = [s for s in state.splitlines()]
-    for i in range(0, len(state)):
-        for j in range(0,len(state[0])):
-            if state[i][j] in state_dict:
-                temp = state_dict[state[i][j]]
+    for j in range(0, len(state)):
+        for i in range(0,len(state[0])):
+            if state[j][i] in state_dict:
+                temp = state_dict[state[j][i]]
                 temp.add((i,j))
-                state_dict[state[i][j]] = temp
+                state_dict[state[j][i]] = temp
     return State(state_dict,(len(state),len(state[0]))), moves
 
 class State():
@@ -62,8 +62,8 @@ class State():
 
     def __repr__(self):
         ret = ''
-        for j in range(0,self._bounds[1]):
-            for i in range(0, self._bounds[0]):
+        for j in range(0,self._bounds[0]):
+            for i in range(0, self._bounds[1]):
                 if (i,j) in self._boxes:
                     ret += 'O'
                 elif (i,j) in self._walls:
