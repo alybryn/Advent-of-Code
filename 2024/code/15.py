@@ -49,7 +49,7 @@ class State():
         self._reset = state
         self._boxes = state[BOX]
         self._walls = state[WALL]
-        self._robot = state[ROBOT]
+        self._robot = state[ROBOT].pop()
         self._bounds = bounds
 
     def reset(self):
@@ -68,15 +68,18 @@ class State():
                     ret += 'O'
                 elif (i,j) in self._walls:
                     ret += '#'
-                elif (i,j) in self._robot:
+                elif (i,j) == self._robot:
                     ret += '@'
                 else:
                     ret += '.'
             ret += '\n'
         return ret
 
+def coord_add(coord1, coord2):
+    return (coord1[0]+coord2[0], coord1[1]+coord2[1])
+
 def part1(parsed):
-    print(parsed)
+    # print(parsed)
     state, moves = parsed
     for move in moves:
         state.move(move)
