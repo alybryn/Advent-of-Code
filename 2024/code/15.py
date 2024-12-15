@@ -117,22 +117,30 @@ class Warehouse_2():
         if proposed_loc in self._walls:
             # can't move
             return
-        elif proposed_loc in self._boxes:
+        # proposed_loc in self._boxes or box_left(proposed_loc)
+        if instruction in [(-1,0),(1,0)]:
+            # HALF BOX MOVEMENTS
             # track the first box
             move_to = proposed_loc
+            # collect box coords
+            move_these = []
             # move pointer until free space or wall
-            while move_to in self._boxes:
+            while move_to in self._boxes or box_left(move_to) in self._boxes:
+                if move_to in self._boxes:
+                    move_these.append(move_to)
                 move_to = coord_add(move_to,instruction)
             # make a decision
             if move_to in self._walls:
                 # can't move
                 return
-            # move the boxes... which just means moving one box...
-            # remove box at to_move, add box at proposed_loc
-            self._boxes.remove(proposed_loc)
-            self._boxes.add(move_to)
+            # move the boxes
+            for moving_box in move_these:
+                self._boxes.remove(moving_box)
+                self._boxes.add(coord_add(moving_box,instruction))
             # move the robot
             self._robot = proposed_loc
+        else:
+            pass
 
     @property
     def gps_sum(self):
