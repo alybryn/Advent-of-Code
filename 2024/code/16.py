@@ -118,6 +118,8 @@ def part1(parsed):
     return cost
 
 def part2(parsed):
+    # find ALL paths with min_cost
+    # return len(set(path_coord)) (direction agnostic)
     return 0
 
 def solve(puzzle_input):
