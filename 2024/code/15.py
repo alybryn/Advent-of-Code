@@ -240,9 +240,6 @@ def part2(parsed):
     _, warehouse, moves = parsed
     for move in moves:
         warehouse.move_robot(move)
-        if move in [(1,0),(-1,0)]:
-            print(move)
-            print(warehouse)
     return warehouse.gps_sum
 
 def solve(puzzle_input):
