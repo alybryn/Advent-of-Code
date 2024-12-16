@@ -44,6 +44,17 @@ class Direction(Enum):
             Direction.W:Direction.N,
             Direction.S:Direction.W,
             Direction.E:Direction.S}[self]
+    
+class PriorityQueue:
+    def __init__(self):
+        self._elements = []
+
+    def empty(self): return not self._elements
+
+    def put(self, x, cost): heapq.heappush(self._elements, (cost,x))
+
+    def get(self, x): return heapq.heappop(self._elements)[1]
+
 
 def draw_race(walls, path=set()):
     bounds = max(walls)
