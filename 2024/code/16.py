@@ -107,10 +107,12 @@ def draw_race(walls, path=set()):
     return ret
 
 def part1(parsed):
-    print(parsed)
+    # print(parsed)
     bounds = max(parsed)
     s = (1, bounds[1]-1)
-    return bounds
+    e = (bounds[0]-1, 1)
+    cost = dfs(parsed,(s,Direction.E),e)
+    return cost
 
 def part2(parsed):
     return 0
