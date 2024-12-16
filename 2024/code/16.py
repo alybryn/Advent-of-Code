@@ -131,6 +131,20 @@ def neighbors(loc_dir):
 
 def coord_add(loc,vec): return (loc[0]+vec[0],loc[1]+vec[1])
 
+# start is a loc, end is loc_dir
+# use recursion bc came_from[loc_dir] is a list
+def find_paths(came_from, start, end):
+    current = end
+    if current[0] == start:
+        # only return the loc
+        # as set
+        return {current[0]}
+    ret = {current[0]}
+    for c in set(came_from[current]):
+        ret.update(find_paths(came_from,start, c))
+        ret.update({c[0]})
+    return ret
+
 def draw_race(walls, path=set()):
     bounds = max(walls)
     ret = ''
