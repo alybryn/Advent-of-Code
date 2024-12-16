@@ -179,7 +179,11 @@ class Warehouse_2():
             return [left_box]
 
     def block_hits_wall(self, loc,instruction):
-        return loc in self._walls or box_right(loc) in self. _walls
+        # first find the real box location:
+        if loc not in self._boxes:
+            loc = box_left(loc)
+        new_loc = coord_add(loc,instruction)
+        return new_loc in self._walls or box_right(new_loc) in self. _walls
 
     @property
     def gps_sum(self):
