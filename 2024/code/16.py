@@ -111,8 +111,7 @@ def draw_race(walls, path=set()):
     ret = ''
     for j in range(0,bounds[1]+1):
         for i in range(0,bounds[0]+1):
-            if (i,j) in path: print('dingdong')
-            ret += '#' if (i,j) in walls else '@' if (i,j) in path else '.'
+            ret += '#' if (i,j) in walls else 'O' if (i,j) in path else '.'
         ret += '\n'
     return ret
 
