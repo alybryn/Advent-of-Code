@@ -158,9 +158,9 @@ def part1(parsed):
     return parsed[1]
 
 def part2(parsed):
-    # find ALL paths with min_cost
-    # return len(set(path_coord)) (direction agnostic)
-    return 0
+    paths,_,walls = parsed
+    # print(draw_race(walls, paths))
+    return len(paths)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
