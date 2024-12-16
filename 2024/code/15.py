@@ -134,8 +134,10 @@ class Warehouse_2():
                 # can't move
                 return
             # move the boxes
+            move_these = set(move_these)
             for moving_box in move_these:
                 self._boxes.remove(moving_box)
+            for moving_box in move_these:
                 self._boxes.add(coord_add(moving_box,instruction))
             # move the robot
             self._robot = proposed_loc
@@ -163,6 +165,12 @@ class Warehouse_2():
                         return
                     new_affected += self.get_affected_boxes(l,instruction)
                 affected = new_affected
+            move_these = set(move_these)
+            for moving_box in move_these:
+                self._boxes.remove(moving_box)
+            for moving_box in move_these:
+                self._boxes.add(coord_add(moving_box,instruction))
+            self._robot = proposed_loc
 
     # given the boxes loc of a box, return the boxes loc of affected boxes
     def get_affected_boxes(self, loc, instruction):
