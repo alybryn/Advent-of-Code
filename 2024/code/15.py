@@ -121,16 +121,16 @@ class Warehouse_2():
         if instruction in [Direction['<'],Direction['>']]:
             # HALF BOX MOVEMENTS
             # track the first box
-            move_these = proposed_loc
+            ptr = proposed_loc
             # collect box coords
             move_these = []
             # move pointer until free space or wall
-            while move_these in self._boxes or box_left(move_these) in self._boxes:
-                if move_these in self._boxes:
-                    move_these.append(move_these)
-                move_these = coord_add(move_these,instruction)
+            while ptr in self._boxes or box_left(ptr) in self._boxes:
+                if ptr in self._boxes:
+                    move_these.append(ptr)
+                ptr = coord_add(ptr,instruction)
             # make a decision
-            if move_these in self._walls:
+            if ptr in self._walls:
                 # can't move
                 return
             # move the boxes
