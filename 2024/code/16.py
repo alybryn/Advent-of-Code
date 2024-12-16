@@ -77,31 +77,48 @@ class PriorityQueue:
 def dfs(walls, start, end):
     frontier = PriorityQueue()
     frontier.put(start,0)
-    # dict[Loc, Optional[Loc]]
+    # dict[Loc_Dir, Optional[Loc_Dir]]
     came_from = {}
-    # dict[Loc, float]
+    # dict[Loc_Dir, float]
     cost_so_far = {}
     came_from[start] = None
     cost_so_far[start] = 0
+
+    # update when a minimum is found
+    # end when no paths cost less
+    min_cost = None
 
     while not frontier.empty():
         current = frontier.get()
 
         # only check loc, not dir
         if current[0] == end:
-            return cost_so_far[current]
+            if not min_cost:
+                min_cost = cost_so_far[current]
+            continue
 
         for next,cost in neighbors(current):
+            if min_cost and cost > min_cost:
+                # we're done, shut it down
+                frontier = PriorityQueue()
+                break
             # check not in a wall
             if next[0] in walls:
                 continue
             new_cost = cost_so_far[current] + cost
+            # if we haven't been here, or we're getting here cheaper
             if next not in cost_so_far or new_cost < cost_so_far[next]:
                 cost_so_far[next] = new_cost
                 frontier.put(next,new_cost)
-                came_from[next] = current
+                came_from[next] = [current]
+            # if we're getting here for equal cost
+            elif cost_so_far[next] == new_cost:
+                # cost is same, no update
+                frontier.put(next,new_cost)
+                came_from[next].append(current)
     
-    return came_from, cost_so_far
+    good_endings = [e for e in came_from if e[0] == end and cost_so_far[e] == min_cost]
+    return came_from, min_cost, good_endings
 
 # returns ((location, direction), cost)
 def neighbors(loc_dir):
