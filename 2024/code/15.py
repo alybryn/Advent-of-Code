@@ -145,22 +145,20 @@ class Warehouse_2():
         else:
             # preserve proposed_loc for robot
             move_these = []
-            if self.block_hits_wall(proposed_loc):
+            if self.block_hits_wall(proposed_loc,instruction):
                 # can't move
                 return
-            if proposed_loc in self._boxes:
-                move_these.append(proposed_loc)
-            else:
-                move_these.append(box_left(proposed_loc))
             # while one of the leading boxes affects another box
             affected = []
-            for l in move_these:
-                affected += self.get_affected_boxes(l,instruction)
+            if proposed_loc in self._boxes:
+                affected.append(proposed_loc)
+            else:
+                affected.append(box_left(proposed_loc))
             while len(affected) > 0:
                 move_these += affected
                 new_affected = []
                 for l in affected:
-                    if self.block_hits_wall(l):
+                    if self.block_hits_wall(l, instruction):
                         # can't move
                         return
                     new_affected += self.get_affected_boxes(l,instruction)
