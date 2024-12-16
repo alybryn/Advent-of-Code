@@ -24,7 +24,15 @@ SAMPLE_ANSWER_2 = 45, 64
 
 def parse(puzzle_input):
     # parse the input
-    return set([(j,i) for i, line in enumerate(puzzle_input.splitlines()) for j,l in enumerate(line) if l == '#'])
+    parsed = set([(j,i) for i, line in enumerate(puzzle_input.splitlines()) for j,l in enumerate(line) if l == '#'])
+    bounds = max(parsed)
+    start = (1, bounds[1]-1)
+    end = (bounds[0]-1, 1)
+    came_from, min_cost, good_endings = dfs(parsed,(start,Direction.E),end)
+    paths = set()
+    for e in good_endings:
+        paths.update(find_paths(came_from, start, e))
+    return paths,min_cost,parsed
 
 class Direction(Enum):
     N = ( 0,-1)
@@ -116,12 +124,7 @@ def draw_race(walls, path=set()):
     return ret
 
 def part1(parsed):
-    # print(parsed)
-    bounds = max(parsed)
-    s = (1, bounds[1]-1)
-    e = (bounds[0]-1, 1)
-    cost = dfs(parsed,(s,Direction.E),e)
-    return cost
+    return parsed[1]
 
 def part2(parsed):
     # find ALL paths with min_cost
