@@ -56,6 +56,16 @@ class PriorityQueue:
 
     def get(self): return heapq.heappop(self._elements)[1]
 
+# returns ((location, direction), cost)
+def neighbors(loc_dir):
+    loc,dir = loc_dir
+    step_cost = 1
+    turn_cost = 1000
+    return [((coord_add(loc,dir.value),dir),step_cost),
+            ((loc,dir.turn_left()),turn_cost),
+            ((loc,dir.turn_right()),turn_cost)]
+
+def coord_add(loc,vec): return (loc[0]+vec[0],loc[1]+vec[1])
 
 def draw_race(walls, path=set()):
     bounds = max(walls)
