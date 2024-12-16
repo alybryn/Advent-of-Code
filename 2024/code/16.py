@@ -31,14 +31,19 @@ class Direction(Enum):
     S = ( 0, 1)
     W = (-1, 0)
 
-    def turn(self):
-        return {Direction.N:(Direction.W,Direction.E),
-        Direction.W:(Direction.S,Direction.N),
-        Direction.S:(Direction.E,Direction.W),
-        Direction.E:(Direction.N,Direction.S)}
-
-def dfs(walls, ptr, facing):
-    pass
+    def turn_left(self):
+        return {
+            Direction.N:Direction.W,
+            Direction.W:Direction.S,
+            Direction.S:Direction.E,
+            Direction.E:Direction.N}[self]
+    
+    def turn_right(self):
+        return {
+            Direction.N:Direction.E,
+            Direction.W:Direction.N,
+            Direction.S:Direction.W,
+            Direction.E:Direction.S}[self]
 
 def draw_race(walls, path=set()):
     bounds = max(walls)
