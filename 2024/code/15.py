@@ -174,17 +174,20 @@ class Warehouse_2():
 
     # given the boxes loc of a box, return the boxes loc of affected boxes
     def get_affected_boxes(self, loc, instruction):
-        affected = coord_add(loc, instruction)
+        direct_down = coord_add(loc, instruction)
         # case box right on box, no others affected
-        if affected in self._boxes:
-            return [affected]
+        if direct_down in self._boxes:
+            return [direct_down]
         # case box left on box right, must check box right for box loc
-        left_box = box_left(affected)
+        left_box = box_left(direct_down)
+        right_box = coord_add(box_right(loc),instruction)
         if left_box in self._boxes:
-            right_box = coord_add(box_left(loc),instruction)
             if right_box in self._boxes:
                 return [left_box, right_box]
             return [left_box]
+        if right_box in self._boxes:
+            return [right_box]
+        return []
 
     def block_hits_wall(self, loc,instruction):
         # first find the real box location:
