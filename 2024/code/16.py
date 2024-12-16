@@ -46,6 +46,9 @@ class Direction(Enum):
             Direction.S:Direction.W,
             Direction.E:Direction.S}[self]
     
+    def __lt__(self, other):
+        return self.value < other.value
+    
 class PriorityQueue:
     def __init__(self):
         self._elements = []
