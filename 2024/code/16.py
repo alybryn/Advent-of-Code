@@ -14,6 +14,7 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
+import heapq
 from enum import Enum
 import pathlib
 import sys
