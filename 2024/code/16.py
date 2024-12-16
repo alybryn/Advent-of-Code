@@ -23,7 +23,7 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return set([(i,j) for i, line in enumerate(puzzle_input.splitlines()) for j,l in enumerate(line()) if l == '#'])
+    return set([(j,i) for i, line in enumerate(puzzle_input.splitlines()) for j,l in enumerate(line) if l == '#'])
 
 class Direction(Enum):
     N = ( 0,-1)
@@ -39,6 +39,16 @@ class Direction(Enum):
 
 def dfs(walls, ptr, facing):
     pass
+
+def draw_race(walls, path=set()):
+    bounds = max(walls)
+    ret = ''
+    for j in range(0,bounds[1]+1):
+        for i in range(0,bounds[0]+1):
+            if (i,j) in path: print('dingdong')
+            ret += '#' if (i,j) in walls else '@' if (i,j) in path else '.'
+        ret += '\n'
+    return ret
 
 def part1(parsed):
     print(parsed)
