@@ -54,7 +54,7 @@ class PriorityQueue:
 
     def put(self, x, cost): heapq.heappush(self._elements, (cost,x))
 
-    def get(self, x): return heapq.heappop(self._elements)[1]
+    def get(self): return heapq.heappop(self._elements)[1]
 
 
 def draw_race(walls, path=set()):
