@@ -58,7 +58,7 @@ class Computer:
             case 7: return self.cdv
             case _: print(f'unknown opcode: {opcode}')
 
-    def interpret_combo(self, operand):
+    def _interpret_combo(self, operand):
         match operand:
             case 0: return 0
             case 1: return 1
