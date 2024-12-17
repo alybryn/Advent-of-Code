@@ -39,6 +39,16 @@ class Computer:
         self._ptr = 0
     
     def run(self):
+        ret = []
+        while self._ptr < len(self. _instructions):
+            remember = self._ptr
+            optional = self._operate(self._instructions[self._ptr],self._instructions[self._ptr+1])
+            if self._ptr == remember:
+                self._ptr += 2
+            if optional:
+                ret.append(optional)
+        print(','.join(map(str,ret)))
+
     def diagostic(self, register, assertion):
         match register:
             case 'a':
@@ -48,14 +58,19 @@ class Computer:
             case 'c':
                 assert self._register_c == assertion
 
+    def _operate(self, opcode, operand):
+        return self._interpret_instruction(opcode)(operand)
+
+    def _interpret_instruction(self, opcode):
         match opcode:
-            case 0: return self.adv
-            case 1: return self.bxl
-            case 3: return self.jnz
-            case 4: return self.bxc
-            case 5: return self.out
-            case 6: return self.bdv
-            case 7: return self.cdv
+            case 0: return self._adv
+            case 1: return self._bxl
+            case 2: return self._bst
+            case 3: return self._jnz
+            case 4: return self._bxc
+            case 5: return self._out
+            case 6: return self._bdv
+            case 7: return self._cdv
             case _: print(f'unknown opcode: {opcode}')
 
     def _interpret_combo(self, operand):
