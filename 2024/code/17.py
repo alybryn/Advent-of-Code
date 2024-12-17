@@ -177,6 +177,11 @@ def diagnostic5():
         comp.run()
         comp.diagostic('b',44354)
 
+def hunch(comp):
+    for a in [0,10,100,1000,10000,100000,1000000]:
+        comp.reset(a)
+        print(f'a: {a}\n{comp.run()}')
+
 def part1(parsed):
     parsed, _ = parsed
     # print(parsed)
