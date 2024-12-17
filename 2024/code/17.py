@@ -177,7 +177,8 @@ def diagnostic5():
         comp.diagostic('b',44354)
 
 def part1(parsed):
-    print(parsed)
+    parsed, _ = parsed
+    # print(parsed)
     run_diagnostic()
     output = parsed.run()
     return output
