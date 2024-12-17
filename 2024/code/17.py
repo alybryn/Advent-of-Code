@@ -69,39 +69,44 @@ class Computer:
             case 6: return self._register_c
             case _: print(f'unknown combo operand: {operand}')
 
-    # A division by 2^operand
-    # combo operand, truncate
-    # -> A
-    def adv(self, combo):
-        pass
+    # The adv instruction (opcode 0) performs division. The numerator is the value in the A register. The denominator is found by raising 2 to the power of the instruction's combo operand. (So, an operand of 2 would divide A by 4 (2^2); an operand of 5 would divide A by 2^B.) The result of the division operation is truncated to an integer and then written to the A register.
+    def _adv(self, combo):
+        # call dv
+        # put return in register a
+        self._register_a = self._dv(combo)
 
     # The bxl instruction (opcode 1) calculates the bitwise XOR of register B and the instruction's literal operand, then stores the result in register B.
-    def bxl(self, lit):
-        pass
+    def _bxl(self, literal):
+        self._register_b = self._register_b ^ literal
 
     # The bst instruction (opcode 2) calculates the value of its combo operand modulo 8 (thereby keeping only its lowest 3 bits), then writes that value to the B register.
-    def bst(self, combo):
-        pass
+    def _bst(self, combo):
+        self._register_b = self._interpret_combo(combo)%8
 
     # The jnz instruction (opcode 3) does nothing if the A register is 0. However, if the A register is not zero, it jumps by setting the instruction pointer to the value of its literal operand; if this instruction jumps, the instruction pointer is not increased by 2 after this instruction.
-    def jnz(self, lit):
-        pass
+    def _jnz(self, literal):
+        if self._register_a != 0:
+            self._ptr = literal
 
     # The bxc instruction (opcode 4) calculates the bitwise XOR of register B and register C, then stores the result in register B. (For legacy reasons, this instruction reads an operand but ignores it.)
-    def bxc(self,_):
-        pass
+    def _bxc(self,_):
+        self._register_b = self._register_b ^ self._register_c
 
     # The out instruction (opcode 5) calculates the value of its combo operand modulo 8, then outputs that value. (If a program outputs multiple values, they are separated by commas.)
-    def out(self, combo):
-        pass
+    def _out(self, combo):
+        return self._interpret_combo(combo)%8
 
     # The bdv instruction (opcode 6) works exactly like the adv instruction except that the result is stored in the B register. (The numerator is still read from the A register.)
-    def bdv(self, combo):
-        pass
+    def _bdv(self, combo):
+        self._register_b = self._dv(combo)
 
-    # the cdv instruction (opcode 7) works exactly like the adv instruction except that the result is stored in the C register. (The numerator is still read from the A register.)"""
-    def cdv(self, combo):
-        pass
+    # the cdv instruction (opcode 7) works exactly like the adv instruction except that the result is stored in the C register. (The numerator is still read from the A register.)
+    def _cdv(self, combo):
+        self._register_c = self._dv(combo)
+
+    # do all the division operations in one place
+    def _dv(self, combo):
+        return self._register_a // pow(2,self._interpret_combo(combo))
 
     def __repr__(self):
         ret = f'Register A: {self._register_a}\n'
