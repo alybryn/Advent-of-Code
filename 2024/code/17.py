@@ -26,8 +26,7 @@ def parse(puzzle_input):
     # parse the input
     registers,instructions = puzzle_input.split('\n\nProgram: ')
     a,b,c = map(int,re.findall(r'\d+',registers))
-    instructions = [int(i) for i in instructions.split(',')]
-    return Computer(a,b,c,instructions)
+    return Computer(a,b,c,[int(i) for i in instructions.split(',')]), instructions
 
 class Computer:
     def __init__(self, a, b, c, instructions):
