@@ -31,6 +31,8 @@ def parse(puzzle_input):
 
 class Computer:
     def __init__(self, a, b, c, instructions):
+        self._start_b = b
+        self._start_c = c
         self._register_a = a
         self._register_b = b
         self._register_c = c
@@ -47,6 +49,11 @@ class Computer:
             if optional != None:
                 ret.append(optional)
         print(','.join(map(str,ret)))
+
+    def reset(self, new_a):
+        self._register_b = self._start_b
+        self._register_c = self._start_c
+        self._register_a = new_a
 
     def diagostic(self, register, assertion):
         match register:
