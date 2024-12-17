@@ -39,12 +39,15 @@ class Computer:
         self._ptr = 0
     
     def run(self):
-        while ptr < len(self. _instructions):
-            op = self.interpret_instruction(self._instructions[ptr])
-            op(self._instructions[ptr+1])
-            ptr += 2
+    def diagostic(self, register, assertion):
+        match register:
+            case 'a':
+                assert self._register_a == assertion
+            case 'b':
+                assert self._register_b == assertion
+            case 'c':
+                assert self._register_c == assertion
 
-    def interpret_instruction(self, opcode):
         match opcode:
             case 0: return self.adv
             case 1: return self.bxl
@@ -107,8 +110,44 @@ class Computer:
         ret += ','.join(self._instructions)
         return ret
 
+def diagnostic1():
+        # If register C contains 9, the program 2,6 would set register B to 1.
+        comp = Computer(a=0,b=0,c=9,instructions=[2,6])
+        comp.run()
+        comp.diagostic('b',1)
+        
+def diagnostic2():
+        # If register A contains 10, the program 5,0,5,1,5,4 would output 0,1,2.
+        comp = Computer(a=10,b=0,c=0,instructions=[5,0,5,1,5,4])
+        print('Expected output is 0,1,2')
+        comp.run()
+
+def diagnostic3():
+        # If register A contains 2024, the program 0,1,5,4,3,0 would output 4,2,5,6,7,7,7,7,3,1,0 and leave 0 in register A.
+        comp = Computer(a=2024,b=0,c=0,instructions=[0,1,5,4,3,0])
+        print('Espected output is 4,2,5,6,7,7,7,7,3,1,0')
+        comp.run()
+        comp.diagostic('a',0)
+
+def diagnostic4():
+        # If register B contains 29, the program 1,7 would set register B to 26.
+        comp = Computer(a=0,b=29,c=0,instructions=[1,7])
+        comp.run()
+        comp.diagostic('b',26)
+
+def diagnostic5():
+        # If register B contains 2024 and register C contains 43690, the program 4,0 would set register B to 44354.
+        comp = Computer(a=0,b=2024,c=43690,instructions=[4,0])
+        comp.run()
+        comp.diagostic('b',44354)
+
 def part1(parsed):
     print(parsed)
+    diagnostic1()
+    diagnostic2()
+    diagnostic3()
+    diagnostic4()
+    diagnostic5()
     output = parsed.run()
     return output
 
