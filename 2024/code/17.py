@@ -20,6 +20,8 @@ import sys
 SAMPLE_ANSWER_1 = 4,6,3,5,6,3,5,2,1,0
 SAMPLE_ANSWER_2 = None
 
+DIAGNOSTIC = False
+
 def parse(puzzle_input):
     # parse the input
     registers,instructions = puzzle_input.split('\n\nProgram: ')
@@ -124,11 +126,21 @@ class Computer:
         return self._register_a // pow(2,self._interpret_combo(combo))
 
     def __repr__(self):
-        ret = f'Register A: {self._register_a}\n'
+        ret = '---------------\n'
+        ret += f'Register A: {self._register_a}\n'
         ret += f'Register B: {self._register_b}\n'
         ret += f'Register C: {self._register_c}\n\n'
         ret += ','.join(map(str,self._instructions))
+        ret += '\n---------------'
         return ret
+
+def run_diagnostic():
+    if DIAGNOSTIC:
+        diagnostic1()
+        diagnostic2()
+        diagnostic3()
+        diagnostic4()
+        diagnostic5()
 
 def diagnostic1():
         # If register C contains 9, the program 2,6 would set register B to 1.
@@ -139,13 +151,13 @@ def diagnostic1():
 def diagnostic2():
         # If register A contains 10, the program 5,0,5,1,5,4 would output 0,1,2.
         comp = Computer(a=10,b=0,c=0,instructions=[5,0,5,1,5,4])
-        print('Expected output is 0,1,2')
+        print('Expected output is\n0,1,2')
         comp.run()
 
 def diagnostic3():
         # If register A contains 2024, the program 0,1,5,4,3,0 would output 4,2,5,6,7,7,7,7,3,1,0 and leave 0 in register A.
         comp = Computer(a=2024,b=0,c=0,instructions=[0,1,5,4,3,0])
-        print('Espected output is 4,2,5,6,7,7,7,7,3,1,0')
+        print('Expected output is\n4,2,5,6,7,7,7,7,3,1,0')
         comp.run()
         comp.diagostic('a',0)
 
@@ -163,11 +175,7 @@ def diagnostic5():
 
 def part1(parsed):
     print(parsed)
-    diagnostic1()
-    diagnostic2()
-    diagnostic3()
-    diagnostic4()
-    diagnostic5()
+    run_diagnostic()
     output = parsed.run()
     return output
 
