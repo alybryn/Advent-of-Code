@@ -47,7 +47,7 @@ class Computer:
             optional = self._operate(self._instructions[self._ptr],self._instructions[self._ptr+1])
             if self._ptr == remember:
                 self._ptr += 2
-            if optional:
+            if optional != None:
                 ret.append(optional)
         print(','.join(map(str,ret)))
 
