@@ -9,7 +9,7 @@ ONLY_SAMPLE = [SAMPLE_PATH]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
-RUN = ONLY_SAMPLE
+RUN = ONLY_DATA
 
 # --------------------------------
 
@@ -52,6 +52,7 @@ class Computer:
     def reset(self, new_a):
         self._register_b = self._start_b
         self._register_c = self._start_c
+        self._ptr = 0
         self._register_a = new_a
 
     def diagostic(self, register, assertion):
@@ -187,9 +188,11 @@ def part2(parsed):
     comp, instructions = parsed
     a = 0
     comp.reset(a)
-    while comp.run() != instructions:
+    output = comp.run()
+    while output != instructions:
         a += 1
         comp.reset(a)
+        output = comp.run()
     return a
 
 def solve(puzzle_input):
