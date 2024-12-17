@@ -17,8 +17,8 @@ import pathlib
 import re
 import sys
 
-SAMPLE_ANSWER_1 = 4,6,3,5,6,3,5,2,1,0
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 4,6,3,5,6,3,5,2,1,0 # sample changed for part 2
+SAMPLE_ANSWER_2 = 117440
 
 DIAGNOSTIC = False
 
@@ -47,7 +47,7 @@ class Computer:
                 self._ptr += 2
             if optional != None:
                 ret.append(optional)
-        print(','.join(map(str,ret)))
+        return ','.join(map(str,ret))
 
     def reset(self, new_a):
         self._register_b = self._start_b
@@ -184,7 +184,9 @@ def part1(parsed):
     return output
 
 def part2(parsed):
-    return 0
+    comp, instructions = parsed
+    a = 0
+    return a
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
