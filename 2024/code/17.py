@@ -178,7 +178,7 @@ def diagnostic5():
         comp.diagostic('b',44354)
 
 def hunch(comp):
-    for a in [0,10,100,1000,10000,100000,1000000]:
+    for a in [2412754303175530]:
         comp.reset(a)
         print(f'a: {a}\n{comp.run()}')
 
@@ -191,13 +191,29 @@ def part1(parsed):
 
 def part2(parsed):
     comp, instructions = parsed
-    a = pow(10, len(instructions))
-    comp.reset(a)
-    output = comp.run()
-    while output != instructions:
-        a += 1
-        comp.reset(a)
-        output = comp.run()
+    # print('HUNCH:')
+    # hunch(comp)
+    slic = 0
+    inc = 1
+    search_space = [
+        range(190384609485300,190384609485900, inc),
+        range(190384609508300,190384609508900, inc),
+        range(190384611081200,190384611081800, inc),
+        range(190384613178300,190384613178900, inc),
+        range(190384617372600,190384617373000, inc),
+        ]
+    min_a = 190384066710600
+    print(instructions[slic:])
+    # hunch(comp)
+    for r in search_space:
+        for a in r:
+            comp.reset(a)
+            output = comp.run()
+            if output[slic:] == instructions[slic:]:
+                print(f'a: {a}')
+    print(output)
+    print(len(output))
+    print(len(instructions))
     return a
 
 def solve(puzzle_input):
