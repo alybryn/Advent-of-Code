@@ -191,7 +191,7 @@ def part1(parsed):
 
 def part2(parsed):
     comp, instructions = parsed
-    a = 0
+    a = pow(10, len(instructions))
     comp.reset(a)
     output = comp.run()
     while output != instructions:
