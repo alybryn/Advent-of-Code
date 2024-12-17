@@ -25,7 +25,7 @@ DIAGNOSTIC = False
 def parse(puzzle_input):
     # parse the input
     registers,instructions = puzzle_input.split('\n\nProgram: ')
-    a,b,c = re.findall(r'\d+',registers)
+    a,b,c = map(int,re.findall(r'\d+',registers))
     instructions = [int(i) for i in instructions.split(',')]
     opcodes = [code for i,code in enumerate(instructions) if i%2==0]
     operands = [op for i, op in enumerate(instructions) if i%2==1]
