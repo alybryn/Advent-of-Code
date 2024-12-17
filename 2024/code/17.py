@@ -186,6 +186,10 @@ def part1(parsed):
 def part2(parsed):
     comp, instructions = parsed
     a = 0
+    comp.reset(a)
+    while comp.run() != instructions:
+        a += 1
+        comp.reset(a)
     return a
 
 def solve(puzzle_input):
