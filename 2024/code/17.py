@@ -112,7 +112,7 @@ class Computer:
         ret = f'Register A: {self._register_a}\n'
         ret += f'Register B: {self._register_b}\n'
         ret += f'Register C: {self._register_c}\n\n'
-        ret += ','.join(self._instructions)
+        ret += ','.join(map(str,self._instructions))
         return ret
 
 def diagnostic1():
