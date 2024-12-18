@@ -88,8 +88,10 @@ def draw_it(walls, path):
     return ret
 
 def part1(parsed):
-    print(parsed)
-    path = bfs(parsed, (0,0),PROBLEM_SPACE)
+    start = (0,0)
+    end = PROBLEM_SPACE
+    path = bfs(parsed, start,end)
+    path = count_path(path, start, end)
     return len(path)
 
 def part2(parsed):
