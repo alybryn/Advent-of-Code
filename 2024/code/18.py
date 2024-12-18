@@ -67,7 +67,6 @@ def count_path(graph,start, end):
     while current != start:
         path.add(current)
         current = graph[current]
-    path.add(current)
     return path
 
 def draw_it(walls, path):
