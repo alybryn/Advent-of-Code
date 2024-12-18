@@ -70,6 +70,23 @@ def count_path(graph,start, end):
     path.add(current)
     return path
 
+def draw_it(walls, path):
+    ret = ''
+    for j in range(0,PROBLEM_SPACE[1]+1):
+        for i in range(0,PROBLEM_SPACE[0]+1):
+            if (i,j) in walls:
+                ret += '#'
+                if (i,j) in path:
+                    print('path in corruption')
+            elif (i,j) in path:
+                ret += 'O'
+            elif (i,j) == (0,0):
+                ret += 'S'
+            else:
+                ret += '.'
+        ret += '\n'
+    return ret
+
 def part1(parsed):
     print(parsed)
     path = bfs(parsed, (0,0),PROBLEM_SPACE)
