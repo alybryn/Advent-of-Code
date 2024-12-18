@@ -17,7 +17,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 22
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 6,1
 
 PROBLEM_SPACE, SLICE = ((6,6),12) if RUN == ONLY_SAMPLE else ((70,70),1028)
 
@@ -28,7 +28,7 @@ def parse(puzzle_input):
     for line in lines:
         i,j = line
         ret.append((int(i),int(j)))
-    return set(ret[:SLICE])
+    return ret
     
 class Queue:
     def __init__(self):
@@ -92,9 +92,10 @@ def draw_it(walls, path):
     return ret
 
 def part1(parsed):
+    walls = set(parsed[:SLICE])
     start = (0,0)
     end = PROBLEM_SPACE
-    path = bfs(parsed, start,end)
+    path = bfs(walls, start,end)
     path = count_path(path, start, end)
     return len(path)
 
