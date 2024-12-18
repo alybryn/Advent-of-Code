@@ -7,7 +7,6 @@ DATA_PATH = f'{START}/data/{DAY}.txt'
 ONLY_ARGS = []
 ONLY_SAMPLE = [SAMPLE_PATH]
 ONLY_DATA = [DATA_PATH]
-ALL = [SAMPLE_PATH, DATA_PATH]
 
 RUN = ONLY_SAMPLE
 
@@ -16,8 +15,10 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 22
 SAMPLE_ANSWER_2 = None
+
+PROBLEM_SPACE = (6,6) if ONLY_SAMPLE else (70,70)
 
 def parse(puzzle_input):
     # parse the input
@@ -48,4 +49,4 @@ if __name__ == "__main__":
     for path in RUN:
         run(path)
     for path in sys.argv[1:]:
-        run(path)
+        print('this program is not taking command line arguments.')
