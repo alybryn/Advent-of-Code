@@ -19,7 +19,7 @@ import sys
 SAMPLE_ANSWER_1 = 22
 SAMPLE_ANSWER_2 = None
 
-PROBLEM_SPACE = (6,6) if ONLY_SAMPLE else (70,70)
+PROBLEM_SPACE, SLICE = ((6,6),12) if RUN == ONLY_SAMPLE else ((70,70),1028)
 
 def parse(puzzle_input):
     # parse the input
