@@ -23,8 +23,13 @@ PROBLEM_SPACE, SLICE = ((6,6),12) if RUN == ONLY_SAMPLE else ((70,70),1028)
 
 def parse(puzzle_input):
     # parse the input
-    return set([(int(i),int(j)) for line in puzzle_input.splitlines()[:1024] for i,j in line.split(',')])
-
+    lines = [line.split(',') for line in puzzle_input.splitlines()]
+    ret = []
+    for line in lines:
+        i,j = line
+        ret.append((int(i),int(j)))
+    return set(ret[:SLICE])
+    
 class Queue:
     def __init__(self):
         self._elements = deque()
