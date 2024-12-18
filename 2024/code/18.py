@@ -12,6 +12,7 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
+from collections import deque
 import pathlib
 import sys
 
@@ -22,11 +23,15 @@ PROBLEM_SPACE = (6,6) if ONLY_SAMPLE else (70,70)
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return set([(int(i),int(j)) for line in puzzle_input.splitlines()[:1024] for i,j in line.split(',')])
+
+class PriorityQueue:
+    def __init__(self):
+        pass
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    return 0
 
 def part2(parsed):
     return 0
