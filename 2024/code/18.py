@@ -95,12 +95,19 @@ def part1(parsed):
     walls = set(parsed[:SLICE])
     start = (0,0)
     end = PROBLEM_SPACE
-    path = bfs(walls, start,end)
-    path = count_path(path, start, end)
+    graph = bfs(walls, start,end)
+    path = count_path(graph, start, end)
     return len(path)
 
 def part2(parsed):
-    return 0
+    bytes_falling = parsed
+    start = (0,0)
+    end = PROBLEM_SPACE
+    for i in range(SLICE,len(bytes_falling)):
+        graph = bfs(set(bytes_falling[:i]),start, end)
+        path = count_path(graph,start,end)
+        if not path:
+            return bytes_falling[i-1]
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
