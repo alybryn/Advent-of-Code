@@ -25,13 +25,55 @@ def parse(puzzle_input):
     # parse the input
     return set([(int(i),int(j)) for line in puzzle_input.splitlines()[:1024] for i,j in line.split(',')])
 
-class PriorityQueue:
+class Queue:
     def __init__(self):
-        pass
+        self._elements = deque()
+
+    def empty(self): return not self._elements
+
+    def put(self,x):
+        self._elements.append(x)
+
+    def get(self):
+        return self._elements.popleft()
+
+def bfs(corrupted, start, end):
+    frontier = Queue()
+    frontier.put(start)
+    came_from = {}
+    came_from[start] = None
+
+    while not frontier.empty():
+        current = frontier.get()
+        if current == end:
+            break
+        for next in neighbors(current):
+            if next in corrupted:
+                continue
+            if next not in came_from:
+                frontier.put(next)
+                came_from[next] = current
+    
+    return came_from
+
+def neighbors(coord):
+    x = lambda a: 0 <= a[0] <= PROBLEM_SPACE[0] and 0 <= a[1] <= PROBLEM_SPACE[1]
+    return filter(x,[(coord[0]+i[0],coord[1]+i[1]) for i in [(-1,0),(1,0),(0,-1),(0,1)]])
+
+def count_path(graph,start, end):
+    if end not in graph: return set()
+    current = end
+    path = set()
+    while current != start:
+        path.add(current)
+        current = graph[current]
+    path.add(current)
+    return path
 
 def part1(parsed):
     print(parsed)
-    return 0
+    path = bfs(parsed, (0,0),PROBLEM_SPACE)
+    return len(path)
 
 def part2(parsed):
     return 0
