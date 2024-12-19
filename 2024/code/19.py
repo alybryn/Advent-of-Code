@@ -18,14 +18,17 @@ import re
 import sys
 
 SAMPLE_ANSWER_1 = 6
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 16
 
 def parse(puzzle_input):
     # parse the input
     towels, patterns = puzzle_input.split("\n\n")
     towels = [t for t in towels.split(", ")]
     designs = patterns.splitlines()
-    return towels, designs
+    ret = []
+    for design in designs:
+        ret.append(is_design_possible(towels, design))
+    return ret
 
 
 DP = {'':1}
@@ -51,16 +54,10 @@ def remove_one_towel(towels, design):
 
 def part1(parsed):
     # print(parsed)
-    towels, designs = parsed
-    c = 0
-    for design in designs:
-        print(design)
-        if is_design_possible(towels, design):
-            c += 1
-    return c
+    return sum([1 for p in parsed if p != 0])
 
 def part2(parsed):
-    return 0
+    return sum(parsed)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
