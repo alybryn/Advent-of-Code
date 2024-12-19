@@ -57,6 +57,7 @@ def part1(parsed):
     return sum([1 for p in parsed if p != 0])
 
 def part2(parsed):
+    print(parsed)
     return sum(parsed)
 
 def solve(puzzle_input):
