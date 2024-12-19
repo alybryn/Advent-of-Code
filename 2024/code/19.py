@@ -1,6 +1,6 @@
 DAY = 19
 
-START = f'/home/abi/Documents/programming/Advent of Code/2024'
+START = f'/workspaces/Advent of Code/2024'
 SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
 DATA_PATH = f'{START}/data/{DAY}.txt'
 
@@ -13,19 +13,54 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
+from collections import deque
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 6
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    towels, patterns = puzzle_input.split("\n\n")
+    towels = set([t for t in towels.split(",")])
+    patterns = patterns.splitlines()
+    return towels, patterns
+
+class Queue:
+    def __init__(self):
+        self._elements = deque()
+
+    def empty(self): return not self._elements
+
+    def put(self, x): self._elements.append(x)
+
+    def get(self): return self._elements.popleft()
+
+def is_design_possible(towels, design):
+    frontier = Queue()
+    # find any initial matches
+    for start in get_towels(towels, design):
+        frontier.put(start)
+    while not frontier.empty():
+        current=frontier.get()
+        if current == design:
+            return True
+        for next in get_towels(towels, design-current):
+            frontier.put(next)
+    return False
+
+def get_towels(towels, design):
+    return [t for t in towels if design.startswith(t)]
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    towels, designs = parsed
+    c = 0
+    for design in designs:
+        if is_design_possible(towels, design)
+        c += 1
+    return c
 
 def part2(parsed):
     return 0
