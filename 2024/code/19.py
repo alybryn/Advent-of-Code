@@ -23,9 +23,9 @@ def parse(puzzle_input):
     # parse the input
     towels, patterns = puzzle_input.split("\n\n")
     towels = [t for t in towels.split(", ")]
-    designs = patterns.splitlines()
+    
     ret = []
-    for design in designs:
+    for design in patterns.splitlines():
         ret.append(is_design_possible(towels, design))
     return ret
 
