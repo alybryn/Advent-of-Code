@@ -13,7 +13,6 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
-from collections import deque
 import pathlib
 import sys
 
@@ -30,16 +29,6 @@ def parse(puzzle_input):
             max_len = len(t)
     patterns = patterns.splitlines()
     return towels, patterns, max_len
-
-class Queue:
-    def __init__(self):
-        self._elements = deque()
-
-    def empty(self): return not self._elements
-
-    def put(self, x): self._elements.append(x)
-
-    def get(self): return self._elements.popleft()
 
 DP = {'':1}
 def is_design_possible(towels, design, max_len):
