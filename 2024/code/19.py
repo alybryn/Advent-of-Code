@@ -14,7 +14,6 @@ RUN = ONLY_SAMPLE
 # --------------------------------
 
 import pathlib
-import re
 import sys
 
 SAMPLE_ANSWER_1 = 6
