@@ -24,8 +24,12 @@ def parse(puzzle_input):
     # parse the input
     towels, patterns = puzzle_input.split("\n\n")
     towels = set([t for t in towels.split(", ")])
+    max_len =0
+    for t in towels:
+        if len(t) > max_len:
+            max_len = len(t)
     patterns = patterns.splitlines()
-    return towels, patterns
+    return towels, patterns, max_len
 
 class Queue:
     def __init__(self):
@@ -37,28 +41,33 @@ class Queue:
 
     def get(self): return self._elements.popleft()
 
-def is_design_possible(towels, design):
+def is_design_possible(towels, design, max_len):
     frontier = Queue()
     # find any initial matches
-    for start in get_towels(towels, design):
-        frontier.put(start)
+    for start in get_towels(towels, design[:max_len]):
+        frontier.put(design.removeprefix(start))
     while not frontier.empty():
         current=frontier.get()
-        if current == design:
+        if current == '':
             return True
-        for next in get_towels(towels, design.removeprefix(current)):
-            frontier.put(current + next)
+        for next in get_towels(towels, current[:max_len]):
+            frontier.put(current.removeprefix(next))
     return False
 
 def get_towels(towels, design):
-    return [t for t in towels if design.startswith(t)]
+    ret = []
+    for sl in range(0,len(design)):
+        if design[:sl] in towels:
+            ret.append(design[:sl])
+    return ret
 
 def part1(parsed):
     # print(parsed)
-    towels, designs = parsed
+    towels, designs, max_len = parsed
     c = 0
     for design in designs:
-        if is_design_possible(towels, design):
+        print(design)
+        if is_design_possible(towels, design, max_len):
             c += 1
     return c
 
