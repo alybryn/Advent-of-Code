@@ -13,7 +13,6 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
-from collections import namedtuple
 import pathlib
 import re
 import sys
@@ -24,21 +23,19 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     towels, patterns = puzzle_input.split("\n\n")
-    towels = [Towel(t,re.compile(f'^{t}')) for t in towels.split(", ")]
+    towels = [t for t in towels.split(", ")]
     designs = patterns.splitlines()
     return towels, designs
 
-Towel = namedtuple('Towel', ['string','pattern'])
 
 DP = {'':1}
 def is_design_possible(towels, design):
     if design not in DP:
         c = 0
-        new_designs = remove_one_towel(towels,design)
-        if new_designs:
-            for n_d in new_designs:
-                if is_design_possible(towels,n_d):
-                    c += 1
+        for new_design in remove_one_towel(towels,design):
+            p = is_design_possible(towels, new_design)
+            if p:
+                c = p+1
         DP[design] = c
     return DP[design]
 
@@ -47,8 +44,8 @@ def remove_one_towel(towels, design):
     if design not in GT:
         ret = []
         for towel in towels:
-                if re.match(towel.pattern,design):
-                    ret.append(design.removeprefix(towel.string))
+                if re.match(towel,design):
+                    ret.append(design.removeprefix(towel))
         GT[design] = ret
     return GT[design]
 
