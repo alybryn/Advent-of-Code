@@ -23,7 +23,7 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     towels, patterns = puzzle_input.split("\n\n")
-    towels = set([t for t in towels.split(",")])
+    towels = set([t for t in towels.split(", ")])
     patterns = patterns.splitlines()
     return towels, patterns
 
@@ -46,20 +46,20 @@ def is_design_possible(towels, design):
         current=frontier.get()
         if current == design:
             return True
-        for next in get_towels(towels, design-current):
-            frontier.put(next)
+        for next in get_towels(towels, design.removeprefix(current)):
+            frontier.put(current + next)
     return False
 
 def get_towels(towels, design):
     return [t for t in towels if design.startswith(t)]
 
 def part1(parsed):
-    print(parsed)
+    # print(parsed)
     towels, designs = parsed
     c = 0
     for design in designs:
-        if is_design_possible(towels, design)
-        c += 1
+        if is_design_possible(towels, design):
+            c += 1
     return c
 
 def part2(parsed):
