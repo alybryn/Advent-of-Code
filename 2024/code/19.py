@@ -18,7 +18,7 @@ import re
 import sys
 
 SAMPLE_ANSWER_1 = 6
-SAMPLE_ANSWER_2 = 16
+SAMPLE_ANSWER_2 = 16 #[2,1,4,6,0,1,2,0]
 
 def parse(puzzle_input):
     # parse the input
@@ -30,27 +30,17 @@ def parse(puzzle_input):
         ret.append(is_design_possible(towels, design))
     return ret
 
-
-DP = {'':1}
+DP = {}
 def is_design_possible(towels, design):
     if design not in DP:
         c = 0
-        for new_design in remove_one_towel(towels,design):
-            p = is_design_possible(towels, new_design)
-            if p:
-                c = p+1
+        if design == '':
+            c = 1
+        for towel in towels:
+            if re.match(towel,design):
+                c += is_design_possible(towels, design.removeprefix(towel))
         DP[design] = c
     return DP[design]
-
-GT = {}
-def remove_one_towel(towels, design):
-    if design not in GT:
-        ret = []
-        for towel in towels:
-                if re.match(towel,design):
-                    ret.append(design.removeprefix(towel))
-        GT[design] = ret
-    return GT[design]
 
 def part1(parsed):
     # print(parsed)
