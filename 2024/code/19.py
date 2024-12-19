@@ -41,25 +41,27 @@ class Queue:
 
     def get(self): return self._elements.popleft()
 
+DP = {'':1}
 def is_design_possible(towels, design, max_len):
-    frontier = Queue()
-    # find any initial matches
-    for start in get_towels(towels, design[:max_len]):
-        frontier.put(design.removeprefix(start))
-    while not frontier.empty():
-        current=frontier.get()
-        if current == '':
-            return True
-        for next in get_towels(towels, current[:max_len]):
-            frontier.put(current.removeprefix(next))
-    return False
+    if design not in DP:
+        c = 0
+        matches = get_towels(towels,design[:max_len])
+        if matches:
+            for match in matches:
+                if is_design_possible(towels,design.removeprefix(match),max_len):
+                    c += 1
+        DP[design] = c
+    return DP[design]
 
+GT = {}
 def get_towels(towels, design):
-    ret = []
-    for sl in range(0,len(design)):
-        if design[:sl] in towels:
-            ret.append(design[:sl])
-    return ret
+    if design not in GT:
+        ret = []
+        for sl in range(0,len(design)+1):
+            if design[:sl] in towels:
+                ret.append(design[:sl])
+        GT[design] = ret
+    return GT[design]
 
 def part1(parsed):
     # print(parsed)
