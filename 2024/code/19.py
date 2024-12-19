@@ -37,7 +37,7 @@ def is_design_possible(towels, design):
         if design == '':
             c = 1
         for towel in towels:
-            if re.match(towel,design):
+            if design.startswith(towel):
                 c += is_design_possible(towels, design.removeprefix(towel))
         DP[design] = c
     return DP[design]
