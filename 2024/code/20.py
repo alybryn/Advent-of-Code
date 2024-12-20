@@ -35,6 +35,7 @@ BOUNDS = None
 def parse(puzzle_input):
     # parse the input
     puzzle_input = [[l for l in line] for line in puzzle_input.splitlines()]
+    global BOUNDS
     BOUNDS = (len(puzzle_input[0]), len(puzzle_input))
     track = set()
     start = None
