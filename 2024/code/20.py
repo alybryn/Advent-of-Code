@@ -9,7 +9,7 @@ ONLY_SAMPLE = [SAMPLE_PATH]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
-RUN = ONLY_SAMPLE
+RUN = ONLY_DATA
 
 # --------------------------------
 
@@ -109,7 +109,7 @@ def time_saved(track, start,end):
 
 def part1(parsed):
     # print(parsed)
-    time_saving_goal = 10
+    time_saving_goal = 100
     c = 0
     for track in parsed.keys():
         for neighbor in neighbors(track, cheating=True):
