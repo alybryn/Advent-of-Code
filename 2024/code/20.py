@@ -114,19 +114,17 @@ def part1(parsed):
     for track in parsed.keys():
         for neighbor in neighbors(track, cheating=True):
             if neighbor in parsed:
-                if time_saved(parsed[track], parsed[neighbor]) >= time_saving_goal:
-                    print(f'Cutting from {track} ({parsed[track]}) to {neighbor} ({parsed[neighbor]}) saves {time_saved(parsed[track], parsed[neighbor])} picoseconds')
+                if time_saved(parsed,track,neighbor) >= time_saving_goal:
                     c +=1
     return c
 
 def part2(parsed):
-    time_saving_goal = 76
+    time_saving_goal = 100
     c = 0
     for track in parsed.keys():
         for neighbor in new_cheating_neighbors(track,20):
             if neighbor in parsed:
-                if parsed[neighbor] - parsed[track] > time_saving_goal:
-                    # print(f'Cutting from {track} to {neighbor} saves {parsed[neighbor] - parsed[track]} picoseconds')
+                if time_saved(parsed,track,neighbor) >= time_saving_goal:
                     c += 1
     return c
 
