@@ -59,9 +59,10 @@ def get_step_count(track, start, end):
     curr = start
     ret[start] = 0
     while curr != end:
-        for neighbor in neighbors(current):
+        for neighbor in neighbors(curr):
             if neighbor not in ret and neighbor in track:
                 ret[neighbor] = ret[curr] + 1
+                curr = neighbor
     return ret
 
 def neighbors(loc, cheating=False):
