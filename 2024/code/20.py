@@ -109,7 +109,7 @@ def part1(parsed):
     for track in parsed.keys():
         for neighbor in neighbors(track, cheating=True):
             if neighbor in parsed:
-                if parsed[neighbor] - parsed[track] >= time_saving_goal:
+                if parsed[neighbor] - parsed[track] > time_saving_goal:
                     c +=1
     return c
 
