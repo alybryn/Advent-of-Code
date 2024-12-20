@@ -70,6 +70,23 @@ def neighbors(loc, cheating=False):
     # minus = -2 if cheating else -1
     return [(loc[0]+v[0],loc[1]+v[1]) for v in [(step,0),(0-step,0),(0,step),(0,0-step)]]
 
+def new_cheating_neighbors(loc, dist):
+    ret = set()
+    for x in range(0,dist+1):
+        for y in range(x,dist+1):
+            if x + y > dist:
+                continue
+            ret.add((loc[0]+x,loc[1]+y))
+            ret.add((loc[0]+x,loc[1]-y))
+            ret.add((loc[0]-x,loc[1]+y))
+            ret.add((loc[0]-x,loc[1]-y))
+            if x != y:
+                ret.add((loc[0]+y,loc[1]+x))
+                ret.add((loc[0]+y,loc[1]-x))
+                ret.add((loc[0]-y,loc[1]+x))
+                ret.add((loc[0]-y,loc[1]-x))
+    return ret
+
 def draw_it(track,start=None,end=None):
     ret = ''
     for j in range(0,BOUNDS[1]):
