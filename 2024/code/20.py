@@ -70,7 +70,13 @@ def neighbors(loc, cheating=False):
 def part1(parsed):
     print(parsed)
     time_saving_goal = 4
-    return parsed
+    c = 0
+    for track in parsed.keys():
+        for neighbor in neighbors(track, cheating=True):
+            if neighbor in parsed:
+                if parsed[neighbor] - parsed[track] >= time_saving_goal:
+                    c +=1
+    return c
 
 def part2(parsed):
     return 0
