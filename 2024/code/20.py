@@ -102,8 +102,10 @@ def draw_it(track,start=None,end=None):
         ret += '\n'
     return ret
 
-def time_saved(step_count_at_cheat_start, step_count_at_cheat_end):
-    return step_count_at_cheat_end - step_count_at_cheat_start - 2
+def time_saved(track, start,end):
+    dist = abs(end[0]-start[0]) + abs(end[1]-start[1])
+    saved = track[end] - track[start]
+    return saved - dist
 
 def part1(parsed):
     # print(parsed)
