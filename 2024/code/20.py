@@ -86,8 +86,8 @@ def draw_it(track,start=None,end=None):
     return ret
 
 def part1(parsed):
-    print(parsed)
-    time_saving_goal = 4
+    # print(parsed)
+    time_saving_goal = 100
     c = 0
     for track in parsed.keys():
         for neighbor in neighbors(track, cheating=True):
