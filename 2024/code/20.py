@@ -42,14 +42,15 @@ def parse(puzzle_input):
     end = None
     for j in range(0,BOUNDS[0]):
         for i in range(0,BOUNDS[1]):
-            if puzzle_input[i][j] == 'S':
+            if puzzle_input[j][i] == 'S':
                 start = (i,j)
-            elif puzzle_input[i][j] == 'E':
+            elif puzzle_input[j][i] == 'E':
                 end = (i,j)
-            elif puzzle_input[i][j] == '.':
+            elif puzzle_input[j][i] == '.':
                 track.add((i,j))
     track.add(start)
     track.add(end)
+    # print(draw_it(track,start,end))
     steps = get_step_count(track, start, end)
     return steps
 
@@ -66,7 +67,21 @@ def get_step_count(track, start, end):
 def neighbors(loc, cheating=False):
     step = 2 if cheating else 1
     # minus = -2 if cheating else -1
-    return [(loc[0]+v[0],loc[1]+v[1]) for v in [(step,0)(0-step,0)(0,step)(0,0-step)]]
+
+def draw_it(track,start=None,end=None):
+    ret = ''
+    for j in range(0,BOUNDS[1]):
+        for i in range(0,BOUNDS[1]):
+            if (i,j) == start:
+                ret += 'S'
+            elif (i,j) == end:
+                ret += 'E'
+            elif (i,j) in track:
+                ret += '.'
+            else:
+                ret += '#'
+        ret += '\n'
+    return ret
 
 def part1(parsed):
     print(parsed)
