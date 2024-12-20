@@ -67,6 +67,7 @@ def get_step_count(track, start, end):
 def neighbors(loc, cheating=False):
     step = 2 if cheating else 1
     # minus = -2 if cheating else -1
+    return [(loc[0]+v[0],loc[1]+v[1]) for v in [(step,0),(0-step,0),(0,step),(0,0-step)]]
 
 def draw_it(track,start=None,end=None):
     ret = ''
