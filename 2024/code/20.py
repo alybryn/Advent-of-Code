@@ -17,14 +17,59 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = None
+"""There are 14 cheats that save 2 picoseconds.
+There are 14 : 4 picoseconds.
+There are 2 : 6 picoseconds.
+There are 4 : 8 picoseconds.
+There are 2 : 10 picoseconds.
+There are 3  12 picoseconds.
+There is one : 20 picoseconds.
+There is one : 36 picoseconds.
+There is one : 38 picoseconds.
+There is one : 40 picoseconds.
+There is one : 64 picoseconds."""
 SAMPLE_ANSWER_2 = None
+
+BOUNDS = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    puzzle_input = [[l for l in line] for line in puzzle_input.splitlines()]
+    BOUNDS = (len(puzzle_input[0]), len(puzzle_input))
+    track = set()
+    start = None
+    end = None
+    for j in range(0,BOUNDS[0]):
+        for i in range(0,BOUNDS[1]):
+            if puzzle_input[i][j] == 'S':
+                start = (i,j)
+            elif puzzle_input[i][j] == 'E':
+                end = (i,j)
+            elif puzzle_input[i][j] == '.':
+                track.add((i,j))
+    track.add(start)
+    track.add(end)
+    steps = get_step_count(track, start, end)
+    return steps
+
+def get_step_count(track, start, end):
+    ret = {}
+    curr = start
+    ret[start] = 0
+    while curr != end:
+        for neighbor in neighbors(current):
+            if neighbor not in ret and neighbor in track:
+                ret[neighbor] = ret[curr] + 1
+    return ret
+
+def neighbors(loc, cheating=False):
+    step = 2 if cheating else 1
+    # minus = -2 if cheating else -1
+    return [(loc[0]+v[0],loc[1]+v[1]) for v in [(step,0)(0-step,0)(0,step)(0,0-step)]]
 
 def part1(parsed):
     print(parsed)
+    time_saving_goal = 4
     return parsed
 
 def part2(parsed):
