@@ -16,12 +16,26 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 126384
 SAMPLE_ANSWER_2 = None
+
+NumbericPadNeighbors = {
+    '7':['8','4'],'8':['7','5','9'],'9':['8','6'],
+    '4':['7','5','1'],'5':['4','8','6','2'],'6':['5','9','3'],
+    '1':['4','2'],'2':['1','5','3','0'],'3':['2','6','A'],
+    '0':['2','A'],'A':['0','3']}
+
+DirectionalPadNeighbors = {
+    '^':['A','v'],'A':['^','>'],
+    '<':['v'],'v':['<','^','>'],'>':['A','v']
+}
 
 def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
+
+def numberic_shortest(code):
+    start = 
 
 def part1(parsed):
     print(parsed)
