@@ -13,6 +13,7 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
+from collections import deque
 import pathlib
 import sys
 
@@ -20,15 +21,25 @@ SAMPLE_ANSWER_1 = 126384
 SAMPLE_ANSWER_2 = None
 
 NumbericPadNeighbors = {
-    '7':['8','4'],'8':['7','5','9'],'9':['8','6'],
-    '4':['7','5','1'],'5':['4','8','6','2'],'6':['5','9','3'],
-    '1':['4','2'],'2':['1','5','3','0'],'3':['2','6','A'],
-    '0':['2','A'],'A':['0','3']}
+    '7':[('8','>'),('4','v')],'8':[('7','<'),('5','v'),('9','>')],'9':[('8','<'),('6','v')],
+    '4':[('7','^'),('5','>'),('1','v')],'5':[('4','<'),('8','^'),('6','>'),('2','v')],'6':[('5','<'),('9','^'),('3','v')],
+    '1':[('4','^'),('2','>')],'2':[('1','<'),('5','^'),('3','>'),('0','v')],'3':[('2','<'),('6','^'),('A','v')],
+    '0':[('2','^'),('A','>')],'A':[('0','<'),('3','^')]}
 
 DirectionalPadNeighbors = {
-    '^':['A','v'],'A':['^','>'],
-    '<':['v'],'v':['<','^','>'],'>':['A','v']
+    '^':[('A','>'),('v','v')],'A':[('^','<'),('>','v')],
+    '<':[('v','>')],'v':[('<','<'),('^','^'),('>','>')],'>':[('A','^'),('v','<')]
 }
+
+class Queue:
+    def __init__(self):
+        self._elements = deque()
+
+    def empty(self): return self._elements
+
+    def put(self, x): self._elements.append(x)
+
+    def get(self): return self._elements.popleft()
 
 def parse(puzzle_input):
     # parse the input
@@ -41,8 +52,10 @@ def complexity(code):
     my_buttons = shortest_buttons(dir_robot_1, DirectionalPadNeighbors)
     return len(my_buttons) * num
 
+# it is at this point i realized my neighbors dict needs to store tuples.
 def shortest_buttons(code, neighbors):
     curr = 'A'
+    # use a bfs to find a code...
 
 def part1(parsed):
     print(parsed)
