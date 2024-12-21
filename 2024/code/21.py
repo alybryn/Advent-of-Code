@@ -32,14 +32,24 @@ DirectionalPadNeighbors = {
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [line for line in puzzle_input.splitlines()]
 
-def numberic_shortest(code):
-    start = 
+def complexity(code):
+    num = int(code[:-1])
+    num_robot = shortest_buttons(code, NumbericPadNeighbors)
+    dir_robot_1 = shortest_buttons(num_robot, DirectionalPadNeighbors)
+    my_buttons = shortest_buttons(dir_robot_1, DirectionalPadNeighbors)
+    return len(my_buttons) * num
+
+def shortest_buttons(code, neighbors):
+    curr = 'A'
 
 def part1(parsed):
     print(parsed)
-    return parsed
+    ret = 0
+    for code in parsed:
+        ret += complexity(code)
+    return ret
 
 def part2(parsed):
     return 0
