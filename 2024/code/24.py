@@ -16,15 +16,25 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 2024
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    wires, gates = puzzle_input.split('\n\n')
+    wires_dict = {}
+    for wire in wires:
+        w_name, w_value = wire.split(': ')
+        wire_dict[w_name] = w_state
+    gate_dict = {}
+    for gate in gates:
+        in1, op, in2, _, out = gate.split(' ')
+        gate_dict[out] = Gate(in1, op, in2)
+    return wire_dict, gate_dict
 
 def part1(parsed):
     print(parsed)
+    wires,gates = parsed
     return parsed
 
 def part2(parsed):
