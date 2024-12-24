@@ -1,6 +1,6 @@
 DAY = 24
 
-START = f'workspaces/Advent of Code/2024'
+START = f'/workspaces/Advent-of-Code/2024'
 SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
 DATA_PATH = f'{START}/data/{DAY}.txt'
 
@@ -20,29 +20,34 @@ import sys
 SAMPLE_ANSWER_1 = 2024
 SAMPLE_ANSWER_2 = None
 
+WIRES = {}
+GATES = {}
+
 def parse(puzzle_input):
     # parse the input
     wires, gates = puzzle_input.split('\n\n')
-    wires_dict = {}
-    for wire in wires:
-        w_name, w_value = wire.split(': ')
-        wire_dict[w_name] = w_state
-    gate_dict = {}
-    for gate in gates:
+    global WIRES
+    for wire in wires.splitlines():
+        w_name, w_state = wire.split(': ')
+        WIRES[w_name] = w_state
+    global GATES
+    for gate in gates.splitlines():
         in1, op, in2, _, out = gate.split(' ')
-        gate_dict[out] = Gate(in1, op, in2)
-    return wire_dict, gate_dict
+        GATES[out] = Gate(in1, op, in2)
+    return
 
 Gate = namedtuple('Gate', ['in1', 'op', 'in2'])
 
-def wire_value(wire,wires,gates):
-    if wire not in wires:
-        wires[wire] = gate_value(wire,wires,gates)
-    return wires[wire]
+def wire_value(wire):
+    global WIRES
+    if wire not in WIRES:
+        WIRES[wire] = gate_value(wire)
+    return WIRES[wire]
 
-def gate_value(gate,wires,gates):
-    assert gate in gates
-    in1, op, in2 = gates[gate]
+def gate_value(gate):
+    if gate not in GATES:
+        return 0
+    in1, op, in2 = GATES[gate]
     match op:
         case 'AND': return wire_value(in1) and wire_value(in2)
         case 'OR': return wire_value(in1) or wire_value(in2)
@@ -50,17 +55,18 @@ def gate_value(gate,wires,gates):
             return (not wire_value(in1) and wire_value(in2)) or (wire_value(in1) and not wire_value(in2))
 
 def list_to_decimal(bits):
-    ret=0
+    print(bits)
+    ret = 0
     for i in range(0,len(bits)):
         ret += pow(2,i) * bits[i]
+    return ret
 
 def part1(parsed):
     print(parsed)
-    wires,gates = parsed
     bits = []
     for z in range(0,46):
         z = 'z' + str(z) if z > 9 else 'z0' + str(z)
-        bits.append(wire_value(z))
+        bits.append(1) if wire_value(z) else bits.append(0)
     return list_to_decimal(bits)
 
 def part2(parsed):
