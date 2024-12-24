@@ -49,10 +49,19 @@ def gate_value(gate,wires,gates):
         case 'XOR':
             return (not wire_value(in1) and wire_value(in2)) or (wire_value(in1) and not wire_value(in2))
 
+def list_to_decimal(bits):
+    ret=0
+    for i in range(0,len(bits)):
+        ret += pow(2,i) * bits[i]
+
 def part1(parsed):
     print(parsed)
     wires,gates = parsed
-    return parsed
+    bits = []
+    for z in range(0,46):
+        z = 'z' + str(z) if z > 9 else 'z0' + str(z)
+        bits.append(wire_value(z))
+    return list_to_decimal(bits)
 
 def part2(parsed):
     return 0
