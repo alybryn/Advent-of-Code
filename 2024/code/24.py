@@ -13,6 +13,7 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
+from collections import namedtuple
 import pathlib
 import sys
 
@@ -31,6 +32,8 @@ def parse(puzzle_input):
         in1, op, in2, _, out = gate.split(' ')
         gate_dict[out] = Gate(in1, op, in2)
     return wire_dict, gate_dict
+
+Gate = namedtuple('Gate', ['in1', 'op', 'in2'])
 
 def part1(parsed):
     print(parsed)
