@@ -35,6 +35,20 @@ def parse(puzzle_input):
 
 Gate = namedtuple('Gate', ['in1', 'op', 'in2'])
 
+def wire_value(wire,wires,gates):
+    if wire not in wires:
+        wires[wire] = gate_value(wire,wires,gates)
+    return wires[wire]
+
+def gate_value(gate,wires,gates):
+    assert gate in gates
+    in1, op, in2 = gates[gate]
+    match op:
+        case 'AND': return wire_value(in1) and wire_value(in2)
+        case 'OR': return wire_value(in1) or wire_value(in2)
+        case 'XOR':
+            return (not wire_value(in1) and wire_value(in2)) or (wire_value(in1) and not wire_value(in2))
+
 def part1(parsed):
     print(parsed)
     wires,gates = parsed
