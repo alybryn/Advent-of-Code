@@ -1,6 +1,6 @@
 DAY = 25
 
-START = f'workspaces/Advent of Code/2024'
+START = f'/workspaces/Advent-of-Code/2024'
 SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
 DATA_PATH = f'{START}/data/{DAY}.txt'
 
@@ -21,7 +21,19 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    keys_and_locks = puzzle_input.split('\n\n')
+    keys = [shape_of(k[6:35].splitlines()) for k in keys_and_locks if k.startswith('.....')]
+    locks = [shape_of(l[6:35].splitlines()) for l in keys_and_locks if l.startswith('#####')]
+
+    return keys, locks
+
+def shape_of(searching):
+    ret = [0,0,0,0,0]
+    for i in range(0,5):
+        for j in range(0,5):
+            if searching[i][j] == '#':
+                ret[j] += 1
+    return ret
 
 def part1(parsed):
     print(parsed)
