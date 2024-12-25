@@ -2,10 +2,11 @@ DAY = 24
 
 START = f'/workspaces/Advent-of-Code/2024'
 SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
+SAMPLE_PATH_A = f'{START}/sample/{DAY}a.txt'
 DATA_PATH = f'{START}/data/{DAY}.txt'
 
 ONLY_ARGS = []
-ONLY_SAMPLE = [SAMPLE_PATH]
+ONLY_SAMPLE = [SAMPLE_PATH, SAMPLE_PATH_A]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
@@ -20,16 +21,17 @@ import sys
 SAMPLE_ANSWER_1 = 2024
 SAMPLE_ANSWER_2 = None
 
+INITIAL_WIRES = {}
 WIRES = {}
 GATES = {}
 
 def parse(puzzle_input):
     # parse the input
     wires, gates = puzzle_input.split('\n\n')
-    global WIRES
+    global INITIAL_WIRES
     for wire in wires.splitlines():
         w_name, w_state = wire.split(': ')
-        WIRES[w_name] = w_state
+        INITIAL_WIRES[w_name] = True if int(w_state) else False
     global GATES
     for gate in gates.splitlines():
         in1, op, in2, _, out = gate.split(' ')
@@ -40,19 +42,33 @@ Gate = namedtuple('Gate', ['in1', 'op', 'in2'])
 
 def wire_value(wire):
     global WIRES
+    if wire not in INITIAL_WIRES and wire not in GATES:
+        return False
     if wire not in WIRES:
-        WIRES[wire] = gate_value(wire)
+        if wire in GATES:
+            WIRES[wire] = gate_value(wire)
+        if wire in INITIAL_WIRES:
+            return INITIAL_WIRES[wire]
     return WIRES[wire]
 
 def gate_value(gate):
-    if gate not in GATES:
-        return 0
     in1, op, in2 = GATES[gate]
     match op:
-        case 'AND': return wire_value(in1) and wire_value(in2)
-        case 'OR': return wire_value(in1) or wire_value(in2)
+        case 'AND':
+            ret = wire_value(in1) and wire_value(in2)
+            print(f'{in1} and {in2} = {ret}')
+            return ret
+        case 'OR': 
+            ret = wire_value(in1) or wire_value(in2)
+            print(f'{in1} or {in2} = {ret}')
+            return ret
         case 'XOR':
-            return (not wire_value(in1) and wire_value(in2)) or (wire_value(in1) and not wire_value(in2))
+            ret =  xor(wire_value(in1),wire_value(in2))
+            print(f'{in1} xor {in2} = {ret}')
+            return ret
+
+def xor(a,b):
+    return (a and not b) or (b and not a)
 
 def list_to_decimal(bits):
     print(bits)
@@ -62,11 +78,17 @@ def list_to_decimal(bits):
     return ret
 
 def part1(parsed):
-    print(parsed)
+    print(INITIAL_WIRES)
     bits = []
-    for z in range(0,46):
+    for z in range(0,13):
         z = 'z' + str(z) if z > 9 else 'z0' + str(z)
+        if z in ['z02','z03']: print(z)
         bits.append(1) if wire_value(z) else bits.append(0)
+    """
+    for name, state in WIRES.items():
+        value, is_set = state
+        print(f'{name}: was set?:{is_set}. Value: {value}')
+    """
     return list_to_decimal(bits)
 
 def part2(parsed):
