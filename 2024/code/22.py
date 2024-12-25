@@ -1,6 +1,6 @@
 DAY = 22
 
-START = f'workspaces/Advent of Code/2024'
+START = f'/workspaces/Advent-of-Code/2024'
 SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
 DATA_PATH = f'{START}/data/{DAY}.txt'
 
@@ -16,18 +16,39 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 37327623
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [int(line) for line in puzzle_input.splitlines()]
+
+def mix(num, sec_num):
+    return num ^ sec_num
+
+def prune(num):
+    return num % 16777216
+
+def the_process(num):
+    num = prune(mix(num * 64, num))
+    num = prune(mix(num // 32, num))
+    num = prune(mix(num * 2048, num))
+    return num
+
+def two_thousandth(num):
+    ret = num
+    for _ in range(0,2000):
+        ret = the_process(ret)
+    return ret
+
+def price(num): return num%10
 
 def part1(parsed):
-    print(parsed)
-    return parsed
+    # print(parsed)
+    return sum([two_thousandth(p) for p in parsed])
 
 def part2(parsed):
+    print([(p,price(p)) for p in parsed])
     return 0
 
 def solve(puzzle_input):
