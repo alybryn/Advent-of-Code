@@ -9,7 +9,7 @@ ONLY_SAMPLE = [SAMPLE_PATH]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
-RUN = ONLY_SAMPLE
+RUN = ALL
 
 # --------------------------------
 
@@ -35,9 +35,20 @@ def shape_of(searching):
                 ret[j] += 1
     return ret
 
+def are_compatable(lock,key):
+    for l,k in zip(lock,key):
+        if k+l >5: return False
+    return True
+
 def part1(parsed):
     print(parsed)
-    return parsed
+    keys, locks = parsed
+    c = 0
+    for lock in locks:
+        for key in keys:
+            if are_compatable(lock, key):
+                c += 1
+    return c
 
 def part2(parsed):
     return 0
