@@ -41,6 +41,10 @@ def two_thousandth(num):
         ret = the_process(ret)
     return ret
 
+# better plan: save all prices in dictionary 
+# indexed by previous price changes, 
+# pool keys and iterate to find max
+
 class PriceList:
     def __init__(self):
         self._elements = (None,None,None,None,None)
@@ -56,19 +60,23 @@ class PriceList:
 
 def price(num): return num%10
 
+def valid(a,b,c,d):
+    return -9+a < 10 and -9+a+b < 10 and -9+a+b+c < 10 and -9+a+b+c+d < 10 and 9+a > -10 and 9+a+b > -10 and 9+a+b+c > -10 and 9 +a+b+c+d > -10
+
 def part1(parsed):
     # print(parsed)
     return sum([two_thousandth(p) for p in parsed])
 
 def part2(parsed):
-    print([(p,price(p)) for p in parsed])
     max_banana = 0
     for a in range(-9,10):
         for b in range(-9,10):
             for c in range(-9,10):
                 for d in range(-9,10):
+                    if not valid(a,b,c,d):
+                        continue
                     seek_change = [a,b,c,d]
-                    b = 0
+                    sell_at = 0
                     change = PriceList()
                     for seed in parsed:
                         num = seed
@@ -79,11 +87,11 @@ def part2(parsed):
                             num = the_process(num)
                         for _ in range(i, 2000):
                             if change.change_log() == seek_change:
-                                b += price(num)
+                                sell_at += price(num)
                                 break
                             num = the_process(num)
                             change.add(price(num))
-                    max_banana = max(b, max_banana)
+                    max_banana = max(sell_at, max_banana)
     return max_banana
 
 def solve(puzzle_input):
