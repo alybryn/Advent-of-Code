@@ -53,7 +53,7 @@ class PriceList:
         a,b,c,d,_ = self._elements
         self._elements = (x,a,b,c,d)
 
-    def change_log(self):
+    def log(self):
         if self._elements[4]:
             a,b,c,d,e = self._elements
             return[a-b,b-c,c-d,d-e]
@@ -68,31 +68,24 @@ def part1(parsed):
     return sum([two_thousandth(p) for p in parsed])
 
 def part2(parsed):
+    price_change_dict = {}
+    for seed in parsed:
+        num = seed
+        change = PriceList()
+        seed_dict = {}
+        for _ in range(0,2000):
+            num = the_process(num)
+            change.add(price(num))
+            log = change.log()
+            if log:
+                if log not in price_change_dict:
+                    seed_dict[log]=price(num)
+        price_change_dict[seed] = seed_dict
+    pooled_changes = set([change for changes in price_change_dict.values() for change in changes.values()])
     max_banana = 0
-    for a in range(-9,10):
-        for b in range(-9,10):
-            for c in range(-9,10):
-                for d in range(-9,10):
-                    if not valid(a,b,c,d):
-                        continue
-                    seek_change = [a,b,c,d]
-                    sell_at = 0
-                    change = PriceList()
-                    for seed in parsed:
-                        num = seed
-                        i = 0
-                        while not change.change_log():
-                            change.add(price(num))
-                            i += 1
-                            num = the_process(num)
-                        for _ in range(i, 2000):
-                            if change.change_log() == seek_change:
-                                sell_at += price(num)
-                                break
-                            num = the_process(num)
-                            change.add(price(num))
-                    max_banana = max(sell_at, max_banana)
-    return max_banana
+    for change in pooled_changes:
+        for seed_dict in price_change_dict.values():
+            pass
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
