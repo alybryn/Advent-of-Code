@@ -21,7 +21,21 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    ret = {}
+    for line in puzzle_input.splitlines():
+        a,b = line.split('-')
+        ret = add_mutual_dict(ret,a,b)
+    return ret
+
+def add_mutual_dict(d,a,b):
+    if a not in d:
+        d[a] = set()
+    if b not in d:
+        d[b] = set()
+    d[a].add(b)
+    d[b].add(a)
+    return d
+
 
 def part1(parsed):
     print(parsed)
