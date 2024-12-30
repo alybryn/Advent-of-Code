@@ -36,6 +36,15 @@ def add_mutual_dict(d,a,b):
     d[b].add(a)
     return d
 
+def count_networks(connections):
+    ret = set()
+    for computer,neighbors in connections.items():
+        # find a third
+        for neighbor in neighbors:
+            for neighbors_neighbors in connections[neighbor]:
+                # looking for a join, i think
+                pass
+    return ret
 
 def part1(parsed):
     print(parsed)
