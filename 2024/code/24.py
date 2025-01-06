@@ -28,11 +28,13 @@ GATES = {}
 def parse(puzzle_input):
     # parse the input
     wires, gates = puzzle_input.split('\n\n')
-    global INITIAL_WIRES
+    global INITIAL_WIRES,WIRES,GATES
+    INITIAL_WIRES = {}
+    WIRES = {}
+    GATES = {}
     for wire in wires.splitlines():
         w_name, w_state = wire.split(': ')
         INITIAL_WIRES[w_name] = True if int(w_state) else False
-    global GATES
     for gate in gates.splitlines():
         in1, op, in2, _, out = gate.split(' ')
         GATES[out] = Gate(in1, op, in2)
