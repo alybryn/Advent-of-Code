@@ -27,7 +27,7 @@ def parse(puzzle_input):
         if a not in ret:
             ret[a] = set()
         ret[a].add(b)
-    return ret
+    return ret, find_all_networks(ret)
 
 def find_all_networks(connections):
     ret = set()
@@ -54,8 +54,10 @@ def print_password(network):
     return ','.join(network)
 
 def part1(parsed):
-    print(parsed)
-    return parsed
+    # print(parsed)
+    _, nets = parsed
+    filtered = [n for n in nets if sum([1 for y in n if y.startswith('t')])]
+    return len(filtered)
 
 def part2(parsed):
     return 0
