@@ -18,7 +18,7 @@ from collections import namedtuple
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = 2024
+SAMPLE_ANSWER_1 = 4, 2024
 SAMPLE_ANSWER_2 = None
 
 INITIAL_WIRES = {}
