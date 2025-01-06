@@ -79,6 +79,39 @@ def list_to_decimal(bits):
         ret += pow(2,i) * bits[i]
     return ret
 
+class WireMachine:
+    def __init__(self,initial_wires, gates):
+        self._initial_wires = initial_wires
+        self._gates = gates
+        self._in_size = int(max(self._initial_wires.keys())[1:])
+        self._out_size = self._in_size + 1
+
+    def wire_value(self,name):
+        pass
+
+    def gate_value(self,name):
+        pass
+
+    def addition(self):
+        return self.x_value() + self.y_value()
+
+    def x_value(self):
+        bits = [x for x in self._initial_wires.keys() if x.startswith('x')]
+        bits.sort()
+        return list_to_decimal(bits)
+    
+    def y_value(self):
+        bits = [y for y in self._initial_wires.keys() if y.startswith('y')]
+        bits.sort()
+        return list_to_decimal(bits)
+    
+    def z_value(self):
+        bits = []
+        for z in range(0,self._out_size):
+            z = 'z' + str(z) if z > 9 else 'z0' + str(z)
+            bits.append(1) if self.wire_value(z) else bits.append(0)
+        return list_to_decimal(bits)
+
 def part1(parsed):
     print(INITIAL_WIRES)
     bits = []
