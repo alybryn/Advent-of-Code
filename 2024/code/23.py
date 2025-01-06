@@ -39,6 +39,14 @@ def find_all_networks(connections):
                 pass
     return ret
 
+def print_network(network):
+    l = list(network)
+    l.sort()
+    print('\n'.join([print_password(n) for n in l]))
+
+def print_password(network):
+    return ','.join(network)
+
 def part1(parsed):
     print(parsed)
     return parsed
