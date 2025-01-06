@@ -82,7 +82,7 @@ def list_to_decimal(bits):
 def part1(parsed):
     print(INITIAL_WIRES)
     bits = []
-    for z in range(0,13):
+    for z in range(0,99):
         z = 'z' + str(z) if z > 9 else 'z0' + str(z)
         if z in ['z02','z03']: print(z)
         bits.append(1) if wire_value(z) else bits.append(0)
