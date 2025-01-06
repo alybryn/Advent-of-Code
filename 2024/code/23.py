@@ -37,6 +37,12 @@ def find_all_networks(connections):
                 network = [computer,neighbor,third]
                 network.sort()
                 ret.add(tuple(network))
+            for n in connections[neighbor]:
+                for deeper in connections[n]:
+                    if deeper == computer:
+                        network = [computer,neighbor,n]
+                        network.sort()
+                        ret.add(tuple(network))
     return ret
 
 def print_network(network):
