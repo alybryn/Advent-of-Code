@@ -32,11 +32,11 @@ def parse(puzzle_input):
 def find_all_networks(connections):
     ret = set()
     for computer,neighbors in connections.items():
-        # find a third
         for neighbor in neighbors:
-            for neighbors_neighbors in connections[neighbor]:
-                # looking for a join, i think
-                pass
+            for third in connections[neighbor].intersection(neighbors):
+                network = [computer,neighbor,third]
+                network.sort()
+                ret.add(tuple(network))
     return ret
 
 def print_network(network):
