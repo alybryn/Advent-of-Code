@@ -49,7 +49,7 @@ def wire_value(wire):
     if wire not in WIRES:
         if wire in GATES:
             WIRES[wire] = gate_value(wire)
-        if wire in INITIAL_WIRES:
+        elif wire in INITIAL_WIRES:
             return INITIAL_WIRES[wire]
     return WIRES[wire]
 
