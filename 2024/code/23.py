@@ -29,16 +29,7 @@ def parse(puzzle_input):
         ret[a].add(b)
     return ret
 
-def add_mutual_dict(d,a,b):
-    if a not in d:
-        d[a] = set()
-    if b not in d:
-        d[b] = set()
-    d[a].add(b)
-    d[b].add(a)
-    return d
-
-def count_networks(connections):
+def find_all_networks(connections):
     ret = set()
     for computer,neighbors in connections.items():
         # find a third
