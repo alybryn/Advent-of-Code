@@ -24,7 +24,9 @@ def parse(puzzle_input):
     ret = {}
     for line in puzzle_input.splitlines():
         a,b = line.split('-')
-        ret = add_mutual_dict(ret,a,b)
+        if a not in ret:
+            ret[a] = set()
+        ret[a].add(b)
     return ret
 
 def add_mutual_dict(d,a,b):
