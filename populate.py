@@ -28,7 +28,7 @@ if __name__ == "__main__":
         code_dir.mkdir()
 
         # for each day, create a file in each dir
-        for day in range(1, 26):
+        for day in range(1, 13):
             #[].map(.joinpath(f"{day}.txt").touch())
             sample_dir.joinpath(f"{day}.txt").touch()
             
