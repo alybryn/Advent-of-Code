@@ -10,7 +10,7 @@ ONLY_SAMPLE = [SAMPLE_PATH]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
-RUN = ONLY_SAMPLE
+RUN = ONLY_DATA
 
 # --------------------------------
 
@@ -22,7 +22,7 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return zip([line[0] for line in puzzle_input.split()],[int(line[1:]) for line in puzzle_input.split()])
+    return list(map(list, zip([line[0] for line in puzzle_input.split()],[int(line[1:]) for line in puzzle_input.split()])))
 
 def over_rotation_fix(num):
     while num > 99: num -= 100
@@ -42,7 +42,26 @@ def part1(parsed):
     return times_at_zero
 
 def part2(parsed):
-    return 0
+    position = 50
+    times_at_zero = 0
+    for rotation in parsed:
+        dir, distance = rotation
+        # plus direction
+        if dir == 'R':
+            for _ in range(0, distance):
+                position += 1
+                if position == 100:
+                    position = 0
+                    times_at_zero += 1
+        # minus direction
+        else:
+            for _ in range(0, distance):
+                position -= 1
+                if position == -1:
+                    position = 99
+                if position == 0:
+                    times_at_zero += 1
+    return times_at_zero
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
