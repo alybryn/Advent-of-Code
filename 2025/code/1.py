@@ -25,9 +25,14 @@ def parse(puzzle_input):
     return list(map(list, zip([line[0] for line in puzzle_input.split()],[int(line[1:]) for line in puzzle_input.split()])))
 
 def over_rotation_fix(num):
-    while num > 99: num -= 100
-    while num < 0: num += 100
-    return num
+    fixes = 0
+    while num > 99:
+        num -= 100
+        fixes += 1
+    while num < 0:
+        num += 100
+        fixes += 1
+    return (num, fixes)
 
 def part1(parsed):
     position = 50
@@ -35,9 +40,9 @@ def part1(parsed):
     for rotation in parsed:
         dir, distance = rotation
         # plus direction
-        if dir == 'R': position = over_rotation_fix(position + distance)
+        if dir == 'R': position = over_rotation_fix(position + distance)[0]
         # minus direction
-        else: position = over_rotation_fix(position - distance)
+        else: position = over_rotation_fix(position - distance)[0]
         if position == 0: times_at_zero += 1
     return times_at_zero
 
@@ -48,6 +53,7 @@ def part2(parsed):
         dir, distance = rotation
         # plus direction
         if dir == 'R':
+            # correction = over_rotation_fix(position+distance)
             for _ in range(0, distance):
                 position += 1
                 if position == 100:
@@ -55,12 +61,15 @@ def part2(parsed):
                     times_at_zero += 1
         # minus direction
         else:
+            # correction = over_rotation_fix(position-distance)
             for _ in range(0, distance):
                 position -= 1
                 if position == -1:
                     position = 99
                 if position == 0:
                     times_at_zero += 1
+        # position = correction[0]
+        # times_at_zero += correction[1]
     return times_at_zero
 
 def solve(puzzle_input):
