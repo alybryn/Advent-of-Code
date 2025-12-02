@@ -31,12 +31,7 @@ def validate_1(sku):
     return s_sku[:hl] == s_sku[hl:]
 
 def validate_2(sku):
-    s_sku = str(sku)
-    for pl in range(1,len(s_sku)//2 +1):
-        temp = s_sku[:pl]
-        pattern = re.compile(f'^({temp})*$')
-        m = re.match(pattern, s_sku)
-        if m: return sku
+    if re.match(r'^(\d+)\1+$', str(sku)): return sku
     return False
 
 def part1(parsed):
