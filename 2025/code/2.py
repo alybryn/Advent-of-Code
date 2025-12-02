@@ -18,8 +18,8 @@ import pathlib
 import sys
 import re
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 1227775554
+SAMPLE_ANSWER_2 = 4174379265
 
 def parse(puzzle_input):
     # parse the input
