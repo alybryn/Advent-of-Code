@@ -26,8 +26,8 @@ def parse(puzzle_input):
 
 def validate(sku):
     s_sku = str(sku)
-    l = len(s_sku)
-    return s_sku[:l] == s_sku[l:]
+    hl = len(s_sku)//2
+    return s_sku[:hl] == s_sku[hl:]
 
 def part1(parsed):
     print(parsed)
