@@ -24,6 +24,11 @@ def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
 
+def validate(sku):
+    s_sku = str(sku)
+    l = len(s_sku)
+    return s_sku[:l] == s_sku[l:]
+
 def part1(parsed):
     print(parsed)
     return 0
