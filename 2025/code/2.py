@@ -41,7 +41,11 @@ def part1(parsed):
     return sum(ret)
 
 def part2(parsed):
-    return 0
+    ret = []
+    for r in parsed:
+        for i in range(r[0], r[1]+1):
+            if validate_2(i): ret.append(i)
+    return sum(ret)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
