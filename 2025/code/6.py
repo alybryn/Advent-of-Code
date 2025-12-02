@@ -1,7 +1,7 @@
-DAY = 1
+DAY = 6
 YEAR = 2025
 
-START = f'/home/abi/Documents/programming/Advent of Code/{YEAR}'
+START = f'/workspaces/Advent of Code/{YEAR}'
 SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
 DATA_PATH = f'{START}/data/{DAY}.txt'
 
