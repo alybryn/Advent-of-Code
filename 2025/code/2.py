@@ -22,7 +22,7 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [id_range.split("-") for id_range in puzzle_input.split(",")]
+    return [[int(i) for i in id_range.split("-")] for id_range in puzzle_input.split(",")]
 
 def validate(sku):
     s_sku = str(sku)
