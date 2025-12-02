@@ -24,16 +24,20 @@ def parse(puzzle_input):
     # parse the input
     return [[int(i) for i in id_range.split("-")] for id_range in puzzle_input.split(",")]
 
-def validate(sku):
+def validate_1(sku):
     s_sku = str(sku)
     hl = len(s_sku)//2
     return s_sku[:hl] == s_sku[hl:]
+
+def validate_2(sku):
+    s_sku = str(sku)
+    return False
 
 def part1(parsed):
     ret = []
     for r in parsed:
         for i in range(r[0], r[1]+1):
-            if validate(i): ret.append(i)
+            if validate_1(i): ret.append(i)
     return sum(ret)
 
 def part2(parsed):
