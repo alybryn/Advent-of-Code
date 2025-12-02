@@ -34,7 +34,7 @@ def validate_2(sku):
     s_sku = str(sku)
     for pl in range(1,len(s_sku)//2 +1):
         temp = s_sku[:pl]
-        pattern = re.compile(f'^{temp}*$')
+        pattern = re.compile(f'^({temp})*$')
         m = re.match(pattern, s_sku)
         if m: return sku
     return False
