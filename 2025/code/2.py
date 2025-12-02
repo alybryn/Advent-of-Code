@@ -30,12 +30,11 @@ def validate(sku):
     return s_sku[:hl] == s_sku[hl:]
 
 def part1(parsed):
-    print(parsed)
-    ret = 0
+    ret = []
     for r in parsed:
         for i in range(r[0], r[1]+1):
-            if validate(i): ret += 1
-    return ret
+            if validate(i): ret.append(i)
+    return sum(ret)
 
 def part2(parsed):
     return 0
