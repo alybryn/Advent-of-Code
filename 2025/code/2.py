@@ -33,7 +33,7 @@ def part1(parsed):
     print(parsed)
     ret = 0
     for r in parsed:
-        for i in range(r[0], r[1]):
+        for i in range(r[0], r[1]+1):
             if validate(i): ret += 1
     return ret
 
