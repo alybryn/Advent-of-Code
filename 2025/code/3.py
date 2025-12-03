@@ -46,8 +46,19 @@ def part1(parsed):
         ret += int(f'{biggest}{second}')
     return ret
 
+# same thing but twelve digits
 def part2(parsed):
-    return 0
+    ret = 0
+    for bank in parsed:
+        found_offset = 0
+        reserve_offset = -11
+        number = []
+        while reserve_offset < 0:
+            number.append(max_digit(bank[found_offset:reserve_offset]))
+            found_offset += bank[found_offset:reserve_offset].find(str(number[-1])) + 1
+            reserve_offset += 1
+        ret += concatonator(number)
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
