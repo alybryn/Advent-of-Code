@@ -18,7 +18,7 @@ import pathlib
 import sys
 import re
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 357
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
