@@ -34,9 +34,9 @@ def max_digit(s):
 def part1(parsed):
     ret = 0
     for bank in parsed:
-        biggest = max_digit(bank)
+        biggest = max_digit(bank[:-1])
         i = bank.find(str(biggest))
-        second = max_digit(bank[i:])
+        second = max_digit(bank[i+1:])
         ret += int(f'{biggest}{second}')
     return ret
 
