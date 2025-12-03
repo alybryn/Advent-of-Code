@@ -35,7 +35,7 @@ def part1(parsed):
     ret = 0
     for bank in parsed:
         biggest = max_digit(bank)
-        i = re.index(str(biggest), parsed)
+        i = bank.find(str(biggest))
         second = max_digit(bank[i:])
         ret += int(biggest + second)
     return ret
