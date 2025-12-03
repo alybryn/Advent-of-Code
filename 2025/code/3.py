@@ -16,6 +16,7 @@ RUN = ONLY_SAMPLE
 
 import pathlib
 import sys
+import re
 
 SAMPLE_ANSWER_1 = None
 SAMPLE_ANSWER_2 = None
@@ -24,9 +25,30 @@ def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
 
+def max_digit(s):
+    m = 0
+    for i in range(0, len(s)):
+        c = int(s[i])
+        if c > m: m = c
+    return m
+
+def biggest_number(s):
+    for i in range(9,0,-1):
+        ii = re.find(str(i), s)
+        if ii:
+            for j in range(i,0,-1):
+                if re.find(str(j), s[ii:]):
+                    return int(f'{i}{j}')
+
 def part1(parsed):
     print(parsed)
-    return 0
+    ret = 0
+    for bank in parsed:
+        biggest = max_digit(bank)
+        i = re.index(str(biggest), parsed)
+        second = max_digit(bank[i:])
+        ret += int(biggest + second)
+    return ret
 
 def part2(parsed):
     return 0
