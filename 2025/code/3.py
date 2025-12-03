@@ -31,6 +31,12 @@ def max_digit(s):
         if c > m: m = c
     return m
 
+def concatonator(l):
+    s = ''
+    for d in l:
+        s += str(d)
+    return int(s)
+
 def part1(parsed):
     ret = 0
     for bank in parsed:
