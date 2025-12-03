@@ -57,6 +57,8 @@ def part2(parsed):
             number.append(max_digit(bank[found_offset:reserve_offset]))
             found_offset += bank[found_offset:reserve_offset].find(str(number[-1])) + 1
             reserve_offset += 1
+        # find the last digit
+        number.append(max_digit(bank[found_offset:]))
         ret += concatonator(number)
     return ret
 
