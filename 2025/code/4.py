@@ -28,6 +28,24 @@ def adj(i, j):
     mod = [(-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1)]
     return [(i + m[0],j + m[1]) for m in mod]
 
+def remove_paper(map):
+    ret = ''
+    bounds = (len(map),len(map[0]))
+    for i in range(0, bounds[0]):
+        for j in range(0, bounds[1]):
+            if map[i][j] == '@':
+                adjacent_rolls = 0
+                for a  in adj(i, j):
+                    if 0 <= a[0] < bounds[0] and 0 <= a[1] < bounds[1]:
+                        if map[a[0]][a[1]] == '@': adjacent_rolls += 1
+                if adjacent_rolls < 4:
+                    ret += '.'
+                else:
+                    ret += '@'
+            else:
+                ret += '.'
+        ret += '\n'
+    return ret
 def part1(parsed):
     ret = 0
     bounds = (len(parsed), len(parsed[0]))
