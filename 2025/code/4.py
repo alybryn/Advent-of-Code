@@ -22,11 +22,16 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [[c for c in s.split()] for s in puzzle_input.split()]
 
 def part1(parsed):
     print(parsed)
-    return 0
+    pretty = ''
+    for i in range(0, len(parsed):
+        for j in range(0, len(parsed[i]):
+            pretty += parsed[i][j]
+        pretty += '\n'
+    return pretty
 
 def part2(parsed):
     return 0
