@@ -33,6 +33,7 @@ def part1(parsed):
     bounds = (len(parsed), len(parsed[0]))
     for i in range(0, bounds[0]):
         for j in range(0, bounds[1]):
+            if parsed[i][j] == '@':
                 adjacent_rolls = 0
                 for a in adj(i, j):
                     if 0 <= a[0] < bounds[0] and 0 <= a[1] < bounds[1]:
