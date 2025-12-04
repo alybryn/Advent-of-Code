@@ -22,7 +22,7 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [[c for c in s.split()] for s in puzzle_input.split()]
+    return [[c for c in list(s)] for s in puzzle_input.split()]
 
 def adj(i, j):
     mod = [(-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1)]
