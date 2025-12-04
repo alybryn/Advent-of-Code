@@ -24,12 +24,20 @@ def parse(puzzle_input):
     # parse the input
     return [[c for c in s.split()] for s in puzzle_input.split()]
 
+def adj(i, j):
+    mod = [(-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1)]
+    return [(i + m[0],j + m[1]) for m in mod]
+
 def part1(parsed):
     print(parsed)
     pretty = ''
-    for i in range(0, len(parsed):
-        for j in range(0, len(parsed[i]):
+    bounds = (len(parsed), len(parsed[0]))
+    for i in range(0, bounds[0]:
+        for j in range(0, bounds[1]):
             pretty += parsed[i][j]
+            for a in adj(i, j):
+                if 0 <= i < bounds[0] and 0 <= j <= bounds[1]:
+                    print(parsed[i][j])
         pretty += '\n'
     return pretty
 
