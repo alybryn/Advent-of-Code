@@ -29,9 +29,10 @@ def adj(i, j):
     return [(i + m[0],j + m[1]) for m in mod]
 
 def remove_paper(map):
-    ret = ''
+    ret = []
     bounds = (len(map),len(map[0]))
     for i in range(0, bounds[0]):
+        this_row = []
         for j in range(0, bounds[1]):
             if map[i][j] == '@':
                 adjacent_rolls = 0
@@ -39,12 +40,12 @@ def remove_paper(map):
                     if 0 <= a[0] < bounds[0] and 0 <= a[1] < bounds[1]:
                         if map[a[0]][a[1]] == '@': adjacent_rolls += 1
                 if adjacent_rolls < 4:
-                    ret += '.'
+                    this_row.append('x')
                 else:
-                    ret += '@'
+                    this_row.append('@')
             else:
-                ret += '.'
-        ret += '\n'
+                this_row.append('.')
+        ret.append(this_row)
     return ret
 
 def count_rolls(map):
