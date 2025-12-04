@@ -54,7 +54,14 @@ def part1(parsed):
     return count_rolls(parsed) - count_rolls(remove_paper(parsed))
 
 def part2(parsed):
-    return 0
+    prev = parsed
+    curr = remove_paper(prev)
+    ret = count_rolls(prev) - count_rolls(curr)
+    while prev != curr:
+        prev = curr
+        curr = remove_paper(prev)
+        ret += count_rolls(prev) - count_rolls(curr)
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
