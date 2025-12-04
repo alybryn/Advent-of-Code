@@ -32,7 +32,7 @@ def part1(parsed):
     print(parsed)
     pretty = ''
     bounds = (len(parsed), len(parsed[0]))
-    for i in range(0, bounds[0]:
+    for i in range(0, bounds[0]):
         for j in range(0, bounds[1]):
             pretty += parsed[i][j]
             for a in adj(i, j):
