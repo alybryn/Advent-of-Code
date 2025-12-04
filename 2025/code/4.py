@@ -34,12 +34,8 @@ def part1(parsed):
     bounds = (len(parsed), len(parsed[0]))
     for i in range(0, bounds[0]):
         for j in range(0, bounds[1]):
-            pretty += parsed[i][j]
-            for a in adj(i, j):
-                if 0 <= i < bounds[0] and 0 <= j <= bounds[1]:
-                    print(parsed[i][j])
-        pretty += '\n'
-    return pretty
+                for a in adj(i, j):
+                    if 0 <= a[0] < bounds[0] and 0 <= a[1] < bounds[1]:
 
 def part2(parsed):
     return 0
