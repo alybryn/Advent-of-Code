@@ -29,13 +29,16 @@ def adj(i, j):
     return [(i + m[0],j + m[1]) for m in mod]
 
 def part1(parsed):
-    print(parsed)
-    pretty = ''
+    ret = 0
     bounds = (len(parsed), len(parsed[0]))
     for i in range(0, bounds[0]):
         for j in range(0, bounds[1]):
+                adjacent_rolls = 0
                 for a in adj(i, j):
                     if 0 <= a[0] < bounds[0] and 0 <= a[1] < bounds[1]:
+                if adjacent_rolls < 4:
+                    ret += 1
+    return ret
 
 def part2(parsed):
     return 0
