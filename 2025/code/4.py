@@ -37,6 +37,7 @@ def part1(parsed):
                 adjacent_rolls = 0
                 for a in adj(i, j):
                     if 0 <= a[0] < bounds[0] and 0 <= a[1] < bounds[1]:
+                        if parsed[a[0]][a[1]] == '@': adjacent_rolls += 1
                 if adjacent_rolls < 4:
                     ret += 1
     return ret
