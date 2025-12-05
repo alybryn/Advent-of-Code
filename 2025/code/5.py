@@ -27,8 +27,21 @@ def parse(puzzle_input):
     items = [int(i) for i in items.split()]
     return (ranges, items)
 
+def is_contained(small, big):
+    return small[0] >= big[0] and small[1] <= big[1]
+
+def is_touching(r1,r2):
+    return (r1[0] <= r2[0] <= r1[1]) or (r2[0] <= r1[0] <= r2[1])
+
+# assume touching
+def add_ranges(r1,r2):
+    all_points = r1 + r2
+    return [min(all_points), max(all_points)]
+
+def range_size(r):
+    return r[1] - r[0] + 1
+
 def part1(parsed):
-    print(parsed)
     fresh = []
     ranges, items = parsed
     for i in items: 
