@@ -23,7 +23,7 @@ SAMPLE_ANSWER_2 = None
 def parse(puzzle_input):
     # parse the input
     ranges, items = puzzle_input. split('\n\n')
-    ranges = [[r for r in range.split('-')] for range in ranges.split()]
+    ranges = [[int(r) for r in range.split('-')] for range in ranges.split()]
     items = [int(i) for i in items.split()]
     return (ranges, items)
 
