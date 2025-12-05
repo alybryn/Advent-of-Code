@@ -42,7 +42,12 @@ def part1(parsed):
     return len(fresh)
 
 def part2(parsed):
-    return 0
+    ranges, _ = parsed
+    fresh_ids = set()
+    for r in ranges:
+        for i in range(r[0],r[1]+1):
+            fresh_ids.add(i)
+    return len(fresh_ids)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
