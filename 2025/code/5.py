@@ -22,11 +22,24 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    ranges, items = puzzle_input. split('\n\n')
+    ranges = [[r for r in range.split('-')] for range in ranges.split()]
+    items = [int(i) for i in items.split()]
+    return (ranges, items)
 
 def part1(parsed):
     print(parsed)
-    return 0
+    fresh = []
+    ranges, items = parsed
+    for i in items: 
+        spoiled = True
+        for range in ranges:
+            if range[0] <= i <= range[1]:
+                spoiled = False
+                break
+        if not spoiled:
+            fresh.append(i)
+    return len(fresh)
 
 def part2(parsed):
     return 0
