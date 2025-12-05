@@ -56,11 +56,22 @@ def part1(parsed):
 
 def part2(parsed):
     ranges, _ = parsed
-    fresh_ids = set()
-    for r in ranges:
-        for i in range(r[0],r[1]+1):
-            fresh_ids.add(i)
-    return len(fresh_ids)
+    ranges.sort()
+    ret = [ranges.pop()]
+    while len(ranges) != 0:
+        r = ret.pop()
+        r1 = ranges.pop()
+        if not is_touching(r, r1):
+            ret.append(r)
+            ret.append(r1)
+        else:
+            if is_contained(r, r1):
+                ret.append(r1)
+            elif is_contained(r1, r):
+                ret.append(r)
+            else:
+                ret.append(add_ranges(r, r1))
+    return sum([range_size(r) for r in ret])
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
