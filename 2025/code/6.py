@@ -27,12 +27,11 @@ def parse(puzzle_input):
     return [line.split() for line in puzzle_input.splitlines()]
 
 def part1(parsed):
-    print(parsed)
     ret = 0
-    for i in len(parsed[0]):
+    for i in range(0, len(parsed[0])):
         nums = []
         for j in range(0, len(parsed) - 1):
-            nums.append(parsed[j][i])
+            nums.append(int(parsed[j][i]))
         if parsed[-1][i] == '+': ret += sum(nums)
         else: ret += reduce(mul, nums)
     return ret
