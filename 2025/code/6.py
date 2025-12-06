@@ -55,6 +55,8 @@ def part2(parsed):
             operands = []
         else:
             operands.append(int(''.join(nums)))
+    # clear operands buffer, oops
+    ret += do_operation(operands,operators.pop(0))
     return ret
 
 def solve(puzzle_input):
