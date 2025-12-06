@@ -19,8 +19,8 @@ import pathlib
 from functools import reduce
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 4277556
+SAMPLE_ANSWER_2 = 3263827
 
 def parse(puzzle_input):
     # parse the input
