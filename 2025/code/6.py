@@ -39,8 +39,7 @@ def part1(parsed):
         nums = []
         for j in range(0, len(values)):
             nums.append(values[j][i])
-        if operators[i] == '+': ret += sum(nums)
-        else: ret += reduce(mul, nums)
+        ret += do_operation(nums, operators[i])
     return ret
 
 def part2(parsed):
@@ -52,8 +51,7 @@ def part2(parsed):
         for i in range(0, len(values)):
             nums.append(values[i][j])
         if sum([1 for x in nums if x == ' ']) == len(values):
-            if operators.pop(0) == '+': ret += sum(operands)
-            else: ret += reduce(mul, operands)
+            ret += do_operation(operands,operators.pop(0))
             operands = []
         else:
             operands.append(int(''.join(nums)))
