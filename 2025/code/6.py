@@ -22,11 +22,26 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [line.split() for line in puzzle_input.splitlines()]
+
+def product(l):
+    ret = 1
+    for n in l:
+        ret *= n
+    return ret
 
 def part1(parsed):
     print(parsed)
-    return 0
+    ret = 0
+    for i in len(parsed[0]):
+        nums = []
+        for j in range(0, len(parsed) - 1):
+            nums.append(parsed[j][i])
+        if parsed[-1][i] == '+':
+            ret += sum(nums)
+        else:
+            ret += product(nums)
+    return ret
 
 def part2(parsed):
     return 0
