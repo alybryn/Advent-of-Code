@@ -41,7 +41,7 @@ def part1(parsed):
 
 def part2(parsed):
     values, operators = parsed
-    ret = []
+    ret = 0
     operands = []
     for j in range(0, len(values[0])):
         nums = []
