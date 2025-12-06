@@ -40,7 +40,20 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    return 0
+    values, operators = parsed
+    ret = []
+    operands = []
+    for j in range(0, len(values[0])):
+        nums = []
+        for i in range(0, len(values)):
+            nums.append(values[i][j])
+        if sum([1 for x in nums if x == ' ']) == len(values):
+            if operators.pop(0) == '+': ret += sum(operands)
+            else: ret += reduce(mul, operands)
+            operands = []
+        else:
+            operands.append(int(''.join(nums)))
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
