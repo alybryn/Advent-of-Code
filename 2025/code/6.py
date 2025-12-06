@@ -27,6 +27,10 @@ def parse(puzzle_input):
     ret =  [line for line in puzzle_input.splitlines()]
     return ret[0:-1], [o for o in ret[-1].split()]
 
+def do_operation(operands, operator):
+    if operator == '+': return sum(operands)
+    else: return reduce(mul,operands)
+
 def part1(parsed):
     values, operators = parsed
     values = [[int(i) for i in line.split()] for line in values]
