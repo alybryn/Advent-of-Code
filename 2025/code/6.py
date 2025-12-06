@@ -14,7 +14,9 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
+from operator import mul
 import pathlib
+from functools import reduce
 import sys
 
 SAMPLE_ANSWER_1 = None
@@ -24,12 +26,6 @@ def parse(puzzle_input):
     # parse the input
     return [line.split() for line in puzzle_input.splitlines()]
 
-def product(l):
-    ret = 1
-    for n in l:
-        ret *= n
-    return ret
-
 def part1(parsed):
     print(parsed)
     ret = 0
@@ -37,10 +33,8 @@ def part1(parsed):
         nums = []
         for j in range(0, len(parsed) - 1):
             nums.append(parsed[j][i])
-        if parsed[-1][i] == '+':
-            ret += sum(nums)
-        else:
-            ret += product(nums)
+        if parsed[-1][i] == '+': ret += sum(nums)
+        else: ret += reduce(mul, nums)
     return ret
 
 def part2(parsed):
