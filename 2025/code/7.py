@@ -58,20 +58,18 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    ret = 1
     start= parsed[0].index('S')
-    beams = [start]
+    beams = {start:1}
     for l in parsed[1:]:
-        new_beams = []
-        for b in beams:
+        new_beams = {}
+        for b,n in beams.items():
             if l[b] == '^':
-                new_beams.append(b-1)
-                new_beams.append(b+1)
-                ret += 1
+                new_beams.update({b-1:new_beams.get(b-1,0)+n})
+                new_beams.update({b+1:new_beams.get(b+1,0)+n})
             else:
-                new_beams.append(b)
+                new_beams.update({b:new_beams.get(b,0)+n})
         beams = new_beams
-    return ret
+    return sum(beams)
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
