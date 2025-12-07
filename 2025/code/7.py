@@ -24,23 +24,6 @@ def parse(puzzle_input):
     # parse the input
     return [[l for l in line] for line in puzzle_input.splitlines()]
 
-# def get_splitter_locs(map):
-#     ret = []
-#     for i in range(0, len(map[0])):
-#         for j in range(0, len(map)):
-#             if map[i][j] == '^':
-#                 ret.append((i,j))
-#     return ret
-
-def print_lvl(map, beams):
-    p = ''
-    for i in range(0, len(map)):
-        if i in beams:
-            p += '|'
-        else:
-            p += map[i]
-    print(p)
-
 def part1(parsed):
     ret = 0
     start= parsed[0].index('S')
