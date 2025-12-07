@@ -17,20 +17,20 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_1 = 21
+SAMPLE_ANSWER_2 = 40
 
 def parse(puzzle_input):
     # parse the input
     return [[l for l in line] for line in puzzle_input.splitlines()]
 
-def get_splitter_locs(map):
-    ret = []
-    for i in range(0, len(map[0])):
-        for j in range(0, len(map)):
-            if map[i][j] == '^':
-                ret.append((i,j))
-    return ret
+# def get_splitter_locs(map):
+#     ret = []
+#     for i in range(0, len(map[0])):
+#         for j in range(0, len(map)):
+#             if map[i][j] == '^':
+#                 ret.append((i,j))
+#     return ret
 
 def print_lvl(map, beams):
     p = ''
@@ -42,11 +42,9 @@ def print_lvl(map, beams):
     print(p)
 
 def part1(parsed):
-    print(parsed)
     ret = 0
     start= parsed[0].index('S')
     beams = {start}
-    assert(type(beams) == type(set()))
     for l in parsed[1:]:
         new_beams = set()
         for b in beams:
@@ -56,7 +54,7 @@ def part1(parsed):
                 ret += 1
             else:
                 new_beams.add(b)
-        print_lvl(l, new_beams)
+        # print_lvl(l, new_beams)
         beams = new_beams
     return ret
 
