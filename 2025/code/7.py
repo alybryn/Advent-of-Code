@@ -54,12 +54,24 @@ def part1(parsed):
                 ret += 1
             else:
                 new_beams.add(b)
-        # print_lvl(l, new_beams)
         beams = new_beams
     return ret
 
 def part2(parsed):
-    return 0
+    ret = 1
+    start= parsed[0].index('S')
+    beams = [start]
+    for l in parsed[1:]:
+        new_beams = []
+        for b in beams:
+            if l[b] == '^':
+                new_beams.append(b-1)
+                new_beams.append(b+1)
+                ret += 1
+            else:
+                new_beams.append(b)
+        beams = new_beams
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
