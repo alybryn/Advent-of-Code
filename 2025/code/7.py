@@ -55,7 +55,7 @@ def part1(parsed):
                 new_beams.add(b+1)
                 ret += 1
             else:
-                new_beams.append(b)
+                new_beams.add(b)
         print_lvl(l, new_beams)
         beams = new_beams
     return ret
