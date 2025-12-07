@@ -69,7 +69,7 @@ def part2(parsed):
             else:
                 new_beams.update({b:new_beams.get(b,0)+n})
         beams = new_beams
-    return sum(beams)
+    return sum(beams.values())
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
