@@ -23,10 +23,14 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [[int(l) for l in line.split(',')] for line in puzzle_input.split()]
+    return [to_tuple([int(l) for l in line.split(',')]) for line in puzzle_input.split()]
 
 def sld(b1, b2):
     return sqrt((b1[0]-b2[0])**2+(b1[1]-b2[1])**2+(b1[2]-b2[2])**2)
+
+def to_tuple(three_item_list):
+    assert(len(three_item_list)==3)
+    return (three_item_list[0],three_item_list[1],three_item_list[2])
 
 def part1(parsed):
     print(parsed)
