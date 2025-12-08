@@ -35,9 +35,7 @@ def to_tuple(three_item_list):
 def part1(parsed):
     print(parsed)
     # for each junction box, find the distance to all other junction boxes
-    # store in dict {distance:[(b1,b2)]}
-    for box in parsed:
-        pass
+    # store in dict {distance:(b1,b2)}
     # build circuits
     return 0
 
