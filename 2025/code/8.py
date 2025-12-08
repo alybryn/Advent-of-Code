@@ -54,6 +54,12 @@ def part1(parsed):
         for c in circuits:
             if c1 in c: c1 = c
             if c2 in c: c2 = c
+        
+        # continue if boxes already connected
+        # apparently this doesn't save cables
+        if c1 == c2:
+            continue
+        
 
 def part2(parsed):
     return 0
