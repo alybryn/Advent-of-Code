@@ -85,6 +85,14 @@ def part2(parsed):
     # keep going through distances until all boxes in single circuit
     # build circuits
     circuits = []
+    while not saturated(circuits,num_boxes):
+        # pop the shortest connection
+        m = distances.pop(min(distances))
+        # locate each box's circuit, if extant
+        # default is a single box circuit
+        c1 = m[0]
+        c2 = m[1]
+        extention_cable(c1,c2,circuits)
     return len(distances), num_boxes
 
 def solve(puzzle_input):
