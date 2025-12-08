@@ -32,7 +32,7 @@ def parse(puzzle_input):
         for junction in boxes:
             dist = sld(box,junction)
             distances.update({dist:(box,junction)})
-    return distances
+    return distances, len([line for line in puzzle_input.split()])
 
 def sld(b1, b2):
     return sqrt((b1[0]-b2[0])**2+(b1[1]-b2[1])**2+(b1[2]-b2[2])**2)
