@@ -19,7 +19,7 @@ from math import sqrt
 import sys
 
 SAMPLE_ANSWER_1 = 40
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 25272
 
 def parse(puzzle_input):
     # parse the input
