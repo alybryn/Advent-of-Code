@@ -23,7 +23,16 @@ SAMPLE_ANSWER_2 = 25272
 
 def parse(puzzle_input):
     # parse the input
-    return [to_tuple([int(l) for l in line.split(',')]) for line in puzzle_input.split()]
+    boxes = [to_tuple([int(l) for l in line.split(',')]) for line in puzzle_input.split()]
+    # for each junction box, find the distance to all other junction boxes
+    # store in dict {distance:(b1,b2)}
+    distances = {}
+    while len(boxes) != 0:
+        box = boxes.pop()
+        for junction in boxes:
+            dist = sld(box,junction)
+            distances.update({dist:(box,junction)})
+    return distances
 
 def sld(b1, b2):
     return sqrt((b1[0]-b2[0])**2+(b1[1]-b2[1])**2+(b1[2]-b2[2])**2)
@@ -33,15 +42,7 @@ def to_tuple(three_item_list):
     return (three_item_list[0],three_item_list[1],three_item_list[2])
 
 def part1(parsed):
-    print(parsed)
-    # for each junction box, find the distance to all other junction boxes
-    # store in dict {distance:(b1,b2)}
-    distances = {}
-    while len(parsed) != 0:
-        box = parsed.pop()
-        for junction in parsed:
-            dist = sld(box,junction)
-            distances.update({dist:(box,junction)})
+    distances = parsed.copy()
     # build circuits
     circuits = []
     for _ in range(0,10):
