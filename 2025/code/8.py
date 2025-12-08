@@ -41,6 +41,18 @@ def to_tuple(three_item_list):
     assert(len(three_item_list)==3)
     return (three_item_list[0],three_item_list[1],three_item_list[2])
 
+def extention_cable(c1,c2, circuits):
+    for c in circuits:
+        if c1 in c: c1 = c
+        if c2 in c: c2 = c
+    if c1 != c2:
+        if not isinstance(c1,list): c1 = [c1]
+        else: circuits.remove(c1)
+        if not isinstance(c2,list): c2 = [c2]
+        else: circuits.remove(c2)
+
+        circuits.append(c1 + c2)
+
 def part1(parsed):
     distances = parsed.copy()
     # build circuits
@@ -52,24 +64,7 @@ def part1(parsed):
         # default is a single box circuit
         c1 = m[0]
         c2 = m[1]
-        for c in circuits:
-            if c1 in c: c1 = c
-            if c2 in c: c2 = c
-        
-        # continue if boxes already connected
-        # apparently this doesn't save cables
-        if c1 == c2:
-            continue
-        
-        # make sure c1 and c2 are lists, not just tuples
-        # remove their prior ciruit
-        if not isinstance(c1,list): c1 = [c1]
-        else: circuits.remove(c1)
-        if not isinstance(c2,list): c2 = [c2]
-        else: circuits.remove(c2)
-        
-        # combine boxs' circuits, replace in circuits
-        circuits.append(c1+c2)
+        extention_cable(c1,c2,circuits)
     circuits = [sum([1 for _ in c]) for c in circuits]
     circuits.sort()
     circuits.reverse()
