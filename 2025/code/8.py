@@ -85,7 +85,7 @@ def part2(parsed):
     # keep going through distances until all boxes in single circuit
     # build circuits
     circuits = []
-    while not saturated(circuits,num_boxes):
+    while len(distances)>0:
         # pop the shortest connection
         m = distances.pop(min(distances))
         # locate each box's circuit, if extant
@@ -93,7 +93,8 @@ def part2(parsed):
         c1 = m[0]
         c2 = m[1]
         extention_cable(c1,c2,circuits)
-    return len(distances), num_boxes
+        if saturated(circuits,num_boxes):
+            return m[0][0] * m[1][0]
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
