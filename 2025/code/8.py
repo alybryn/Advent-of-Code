@@ -53,6 +53,12 @@ def extention_cable(c1,c2, circuits):
 
         circuits.append(c1 + c2)
 
+def saturated(circuits,target):
+    if len(circuits) == 1:
+        if len(circuits[0]) == target:
+            return True
+    return False
+
 def part1(parsed):
     distances = parsed[0].copy()
     # build circuits
