@@ -47,6 +47,13 @@ def part1(parsed):
     for _ in range(0,10):
         # pop the shortest connection
         m = distances.pop(min(distances))
+        # locate each box's circuit, if extant
+        # default is a single box circuit
+        c1 = m[0]
+        c2 = m[1]
+        for c in circuits:
+            if c1 in c: c1 = c
+            if c2 in c: c2 = c
 
 def part2(parsed):
     return 0
