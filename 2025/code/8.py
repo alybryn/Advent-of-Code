@@ -60,6 +60,15 @@ def part1(parsed):
         if c1 == c2:
             continue
         
+        # make sure c1 and c2 are lists, not just tuples
+        # remove their prior ciruit
+        if not isinstance(c1,list): c1 = [c1]
+        else: circuits.remove(c1)
+        if not isinstance(c2,list): c2 = [c2]
+        else: circuits.remove(c2)
+        
+        # combine boxs' circuits, replace in circuits
+        circuits.append(c1+c2)
 
 def part2(parsed):
     return 0
