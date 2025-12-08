@@ -36,6 +36,12 @@ def part1(parsed):
     print(parsed)
     # for each junction box, find the distance to all other junction boxes
     # store in dict {distance:(b1,b2)}
+    distances = {}
+    while len(parsed) != 0:
+        box = parsed.pop()
+        for junction in parsed:
+            dist = sld(box,junction)
+            distances.update({dist:(box,junction)})
     # build circuits
     return 0
 
