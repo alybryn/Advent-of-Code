@@ -31,7 +31,9 @@ def sld(b1, b2):
 def part1(parsed):
     print(parsed)
     # for each junction box, find the distance to all other junction boxes
-    # store in dict {(b1,b2):distance}
+    # store in dict {distance:[(b1,b2)]}
+    for box in parsed:
+        pass
     # build circuits
     return 0
 
