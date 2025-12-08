@@ -15,17 +15,24 @@ RUN = ONLY_SAMPLE
 # --------------------------------
 
 import pathlib
+from math import sqrt
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 40
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [[int(l) for l in line.split(',')] for line in puzzle_input.split()]
+
+def sld(b1, b2):
+    return sqrt((b1[0]-b2[0])**2+(b1[1]-b2[1])**2+(b1[2]-b2[2])**2)
 
 def part1(parsed):
     print(parsed)
+    # for each junction box, find the distance to all other junction boxes
+    # store in dict {(b1,b2):distance}
+    # build circuits
     return 0
 
 def part2(parsed):
