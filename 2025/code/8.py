@@ -72,6 +72,10 @@ def part1(parsed):
     circuits = [sum([1 for _ in c]) for c in circuits]
     circuits.sort()
     circuits.reverse()
+    ret = 1
+    for c in circuits[:3]:
+        ret *= c
+    return ret
 
 def part2(parsed):
     return 0
