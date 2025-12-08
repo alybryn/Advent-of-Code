@@ -74,7 +74,12 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    return 0
+    distances = parsed[0]
+    num_boxes = parsed[1]
+    # keep going through distances until all boxes in single circuit
+    # build circuits
+    circuits = []
+    return len(distances), num_boxes
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
