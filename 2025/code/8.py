@@ -43,7 +43,10 @@ def part1(parsed):
             dist = sld(box,junction)
             distances.update({dist:(box,junction)})
     # build circuits
-    return 0
+    circuits = []
+    for _ in range(0,10):
+        # pop the shortest connection
+        m = distances.pop(min(distances))
 
 def part2(parsed):
     return 0
