@@ -54,7 +54,7 @@ def extention_cable(c1,c2, circuits):
         circuits.append(c1 + c2)
 
 def part1(parsed):
-    distances = parsed.copy()
+    distances = parsed[0].copy()
     # build circuits
     circuits = []
     for _ in range(0,10):
