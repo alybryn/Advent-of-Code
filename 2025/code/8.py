@@ -69,6 +69,9 @@ def part1(parsed):
         
         # combine boxs' circuits, replace in circuits
         circuits.append(c1+c2)
+    circuits = [sum([1 for _ in c]) for c in circuits]
+    circuits.sort()
+    circuits.reverse()
 
 def part2(parsed):
     return 0
