@@ -22,7 +22,7 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [to_tuple([l for l in line.split(',')]) for line in puzzle_input.split()]
+    return [to_tuple([int(l) for l in line.split(',')]) for line in puzzle_input.split()]
 
 def to_tuple(two_item_list):
     assert(len(two_item_list)==2)
