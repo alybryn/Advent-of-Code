@@ -23,13 +23,16 @@ SAMPLE_ANSWER_2 = 24
 def parse(puzzle_input):
     # parse the input
     points = [to_tuple([int(l) for l in line.split(',')]) for line in puzzle_input.split()]
+    lines = []
+    for i in range(0, len(points)-1):
+        lines.append(points[i],points[i+1])
+    lines.append(points[-1],points[0])
     boxes = []
-    saved = points.copy()
     while len(points) != 0:
         t1 = points.pop()
         for t2 in points:
             boxes.append((t1,t2))
-    return boxes, saved
+    return boxes, lines
 
 def to_tuple(two_item_list):
     assert(len(two_item_list)==2)
