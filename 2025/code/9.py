@@ -58,7 +58,7 @@ def part1(parsed):
     return big
 
 def part2(parsed):
-    boxes,points = parsed
+    boxes,lines = parsed
     big = 0
     for box in boxes:
         a = area(box[0], box[1])
