@@ -41,6 +41,14 @@ def to_tuple(two_item_list):
 def area(t1, t2):
     return (abs(t1[0] - t2[0]) + 1) * (abs(t1[1] - t2[1]) + 1)
 
+def sides(box):
+    p0,p2 = box
+    x0 = p0[0]
+    x1 = p2[0]
+    y0 = p0[1]
+    y1 = p2[1]
+    return ((x0,y0),(x0,y1),(x1,y1),(x1,y0))
+
 def part1(parsed):
     boxes = parsed[0]
     big = 0
