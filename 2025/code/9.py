@@ -17,16 +17,29 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 50
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    return [to_tuple([l for l in line.split(',')]) for line in puzzle_input.split()]
+
+def to_tuple(two_item_list):
+    assert(len(two_item_list)==2)
+    return (two_item_list[0],two_item_list[1])
+
+def area(t1, t2):
+    return abs(t1[0] - t2[0] + 1) * abs(t1[1] - t2[1] + 1)
 
 def part1(parsed):
     print(parsed)
-    return 0
+    big = 0
+    while len(parsed) != 0:
+        t1 = parsed.pop()
+        for t2 in parsed:
+            a = area(t1, t2)
+            if a > big: big = a
+    return big
 
 def part2(parsed):
     return 0
