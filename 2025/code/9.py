@@ -47,7 +47,12 @@ def part1(parsed):
     return big
 
 def part2(parsed):
-    return 0
+    boxes,points = parsed
+    big = 0
+    for box in boxes:
+        a = area(box[0], box[1])
+        if a > big: big = a
+    return big
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
