@@ -29,7 +29,7 @@ def to_tuple(two_item_list):
     return (two_item_list[0],two_item_list[1])
 
 def area(t1, t2):
-    return abs(t1[0] - t2[0] + 1) * abs(t1[1] - t2[1] + 1)
+    return (abs(t1[0] - t2[0]) + 1) * (abs(t1[1] - t2[1]) + 1)
 
 def part1(parsed):
     print(parsed)
