@@ -44,11 +44,13 @@ def parse(puzzle_input):
 
 class Machine:
     def __init__(self, lights, buttons, joltages):
-        self._lights = [False]*len(lights)
         self._pattern = lights
         self._buttons = buttons
         self._joltages = joltages
-
+    
+    def is_start_state(self, p):
+        return p == self._pattern
+    
     def __repr__(self):
         pattern = ''.join(['#'  if p else '.' for p in self._pattern])
         buttons = ' '.join([f'({','.join([str(b) for b in button])})' for button in self._buttons])
