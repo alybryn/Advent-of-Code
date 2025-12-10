@@ -56,7 +56,7 @@ class Machine:
     def push_all_buttons(self,lights):
         ret = []
         for button in self._buttons:
-            ret.append([not lights[i] if i in button else lights[i] for i in range(len(self.get_num_lights()))])
+            ret.append([not lights[i] if i in button else lights[i] for i in range(self.get_num_lights())])
         return ret
 
     def get_num_lights(self):
