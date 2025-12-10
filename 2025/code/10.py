@@ -25,18 +25,21 @@ def parse(puzzle_input):
     for line in puzzle_input.splitlines():
         # parse the input
         # [.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
-        lights = []
+        light_diagram = []
         buttons = []
         joltages = []
-        for indication in line.split():
-            match indication[0]:
-            case '[':
-                lights = [True for i in indication.split(',') if i == '#' else False]
-            case '(':
-                buttons.append([int(i) for i in indication.split(',')])
-            case '{':
-                joltages = [int(j) for j in indication.split(,)]
-        machines.append(machine(lights, buttons, joltages))
+        for manual_item in line.split():
+            match manual_item[0]:
+                case '[':
+                    manual_item = manual_item.strip('[]')
+                    light_diagram = [i == '#' for i in manual_item]
+                case '(':
+                    manual_item = manual_item.strip('()')
+                    buttons.append([int(i) for i in manual_item.split(',')])
+                case '{':
+                    manual_item = manual_item.strip('{}')
+                    joltages = [int(j) for j in manual_item.split(',')]
+        machines.append(Machine(light_diagram, buttons, joltages))
     return machines
 
 class Machine:
