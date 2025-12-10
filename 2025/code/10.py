@@ -19,7 +19,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 7
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 33
 
 def parse(puzzle_input):
     machines = []
@@ -49,13 +49,12 @@ def push(button, lights):
 
 class Machine:
     def __init__(self, lights, buttons, joltages):
-        self._pattern = lights
+        self._lights = lights
         self._buttons = buttons
         self._joltages = joltages
-        self._button_costs = [sum([joltages[i] for i in button]) for button in buttons]
-    
+        
     def is_start_state(self, p):
-        return p == self._pattern
+        return p == self._lights
     
     # given an incoming lighting diagram
     # return a list of lighting diagrams for pushing each button once
@@ -66,14 +65,13 @@ class Machine:
         return ret
 
     def get_num_lights(self):
-        return len(self._pattern)
+        return len(self._lights)
 
     def __repr__(self):
-        pattern = ''.join(['#'  if p else '.' for p in self._pattern])
+        pattern = ''.join(['#'  if p else '.' for p in self._lights])
         buttons = ' '.join([f'({','.join([str(b) for b in button])})' for button in self._buttons])
         joltages = '{'+f'{','.join([str(j) for j in self._joltages])}'+'}'
-        button_costs = ' '.join([str(cost) for cost in self._button_costs])
-        return f'{pattern} {buttons} {joltages} {button_costs}'
+        return f'{pattern} {buttons} {joltages}'
 
 def part1(parsed):
     ret = 0
