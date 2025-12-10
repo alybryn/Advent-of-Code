@@ -14,6 +14,7 @@ RUN = ONLY_SAMPLE
 
 # --------------------------------
 
+from functools import cache
 import pathlib
 import sys
 
@@ -32,15 +33,19 @@ def parse(puzzle_input):
             match manual_item[0]:
                 case '[':
                     manual_item = manual_item.strip('[]')
-                    light_diagram = [i == '#' for i in manual_item]
+                    light_diagram = tuple([i == '#' for i in manual_item])
                 case '(':
                     manual_item = manual_item.strip('()')
-                    buttons.append([int(i) for i in manual_item.split(',')])
+                    buttons.append(tuple([int(i) for i in manual_item.split(',')]))
                 case '{':
                     manual_item = manual_item.strip('{}')
                     joltages = [int(j) for j in manual_item.split(',')]
         machines.append(Machine(light_diagram, buttons, joltages))
     return machines
+
+@cache
+def push(button, lights):
+    return tuple([not lights[i] if i in button else lights[i] for i in range(len(lights))])
 
 class Machine:
     def __init__(self, lights, buttons, joltages):
@@ -57,7 +62,7 @@ class Machine:
     def push_all_buttons(self,lights):
         ret = []
         for button in self._buttons:
-            ret.append([not lights[i] if i in button else lights[i] for i in range(self.get_num_lights())])
+            ret.append(push(button,lights))
         return ret
 
     def get_num_lights(self):
@@ -73,7 +78,7 @@ class Machine:
 def part1(parsed):
     ret = 0
     for machine in parsed:
-        lights = [[False]*machine.get_num_lights()]
+        lights = [tuple([False]*machine.get_num_lights())]
         presses = 0
         while True not in [machine.is_start_state(l) for l in lights]:
             next_state = []
