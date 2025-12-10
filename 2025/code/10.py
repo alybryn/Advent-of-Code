@@ -50,6 +50,7 @@ def push_light(button, lights, length):
 class Machine:
     def __init__(self, lights, buttons, joltages):
         self._length = len(lights)
+        self._num_buttons = len(buttons)
         self._lights = lights
         self._joltages = joltages
         self._buttons = [tuple([1 if i in button else 0 for i in range(len(lights))]) for button in buttons]
@@ -73,6 +74,9 @@ class Machine:
     
     def get_length(self):
         return self._length
+    
+    def get_num_buttons(self):
+        return self._num_buttons
     
     def __repr__(self):
         pattern = ''.join(['#'  if p else '.' for p in self._lights])
