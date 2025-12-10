@@ -63,6 +63,8 @@ class Machine:
     def is_jolt_state(self, p):
         return p == self._joltages
     
+    def is_over_joltage(self,p):
+        return True in [p[i] > self._joltages[i] for i in range(len(p))]
 
     # given an incoming lighting diagram
     # return a list of lighting diagrams for pushing each button once
@@ -105,10 +107,18 @@ def part1(parsed):
     return ret
 
 def part2(parsed):
-    # prediction: have to minimize the energy use instead of the button presses
-    # energy use is how much joltage used to turn a light on or off
-    print(f'{'\n'.join([str(m) for m in parsed])}')
-    return 0
+    ret = 0
+    for machine in parsed:
+        joltages = [tuple([0]*machine.get_num_jolts())]
+        presses = 0
+        while True not in [machine.is_jolt_state(j) for j in joltages]:
+            next_state = []
+            for j in joltages:
+                next_state += machine.push_all_buttons_joltages(j)
+            presses += 1
+            joltages = [s for s in next_state if not machine.is_over_joltage(s)]
+        ret += presses
+    return ret
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
