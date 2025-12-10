@@ -44,20 +44,15 @@ def parse(puzzle_input):
     return machines
 
 @cache
-def push_light(button, lights):
-    return tuple([not lights[i] if i in button else lights[i] for i in range(len(lights))])
-
-@cache
-def push_jolt(button, joltages, goal):
-    # just don't push a button that would put the joltage over
-    if True in [joltages[i] == goal[i] for i in button]: return None
-    return tuple([joltages[i]+1 if i in button else joltages[i] for i in range(len(joltages))])
+def push_light(button, lights, length):
+    return tuple([not lights[i] if button[i] else lights[i] for i in range(length)])
 
 class Machine:
     def __init__(self, lights, buttons, joltages):
+        self._length = len(lights)
         self._lights = lights
-        self._buttons = buttons
         self._joltages = joltages
+        self._buttons = [tuple([1 if i in button else 0 for i in range(len(lights))]) for button in buttons]
         
     def is_light_state(self, p):
         return p == self._lights
@@ -73,33 +68,22 @@ class Machine:
     def push_all_buttons_lights(self,lights):
         ret = []
         for button in self._buttons:
-            ret.append(push_light(button,lights))
+            ret.append(push_light(button,lights,self._length))
         return ret
     
-    # new feature: won't return a joltage higher than acceptable
-    def push_all_buttons_joltages(self,joltages):
-        ret = []
-        for button in self._buttons:
-            res = push_jolt(button,joltages,self._joltages)
-            if res: ret.append(res)
-        return ret
-
-    def get_num_lights(self):
-        return len(self._lights)
-    
-    def get_num_jolts(self):
-        return len(self._joltages)
+    def get_length(self):
+        return self._length
     
     def __repr__(self):
         pattern = ''.join(['#'  if p else '.' for p in self._lights])
-        buttons = ' '.join([f'({','.join([str(b) for b in button])})' for button in self._buttons])
+        buttons = ' '.join([f'({','.join([str(i) for i in range(self._length) if button[i]])})' for button in self._buttons])
         joltages = '{'+f'{','.join([str(j) for j in self._joltages])}'+'}'
         return f'{pattern} {buttons} {joltages}'
 
 def part1(parsed):
     ret = 0
     for machine in parsed:
-        lights = {tuple([False]*machine.get_num_lights())}
+        lights = {tuple([False]*machine.get_length())}
         presses = 0
         while True not in [machine.is_light_state(l) for l in lights]:
             next_state = set()
