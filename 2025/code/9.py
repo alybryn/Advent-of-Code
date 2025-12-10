@@ -3,10 +3,11 @@ YEAR = 2025
 
 START = f'/workspaces/Advent of Code/{YEAR}'
 SAMPLE_PATH = f'{START}/sample/{DAY}.txt'
+SAMPLE_A_PATH = f'{START}/sample/{DAY}a.txt'
 DATA_PATH = f'{START}/data/{DAY}.txt'
 
 ONLY_ARGS = []
-ONLY_SAMPLE = [SAMPLE_PATH]
+ONLY_SAMPLE = [SAMPLE_PATH,SAMPLE_A_PATH]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
@@ -19,6 +20,8 @@ import sys
 
 SAMPLE_ANSWER_1 = 50
 SAMPLE_ANSWER_2 = 24
+SAMPLE_A_ANSWER_1 = 35
+SAMPLE_A_ANSWER_2 = 15
 
 def parse(puzzle_input):
     # parse the input
