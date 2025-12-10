@@ -69,9 +69,18 @@ class Machine:
         return f'{pattern} {buttons} {joltages}'
 
 def part1(parsed):
+    ret = 0
     for machine in parsed:
         lights = [[False]*machine.get_num_lights()]
-    return 0
+        presses = 0
+        while True not in [machine.is_start_state(l) for l in lights]:
+            next_state = []
+            for l in lights:
+                next_state += machine.push_all_buttons(l)
+            presses += 1
+            lights = next_state
+        ret += presses
+    return ret
 
 def part2(parsed):
     # prediction: have to minimize the energy use instead of the button presses
