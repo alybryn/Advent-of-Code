@@ -44,7 +44,7 @@ def parse(puzzle_input):
     return machines
 
 @cache
-def push(button, lights):
+def push_light(button, lights):
     return tuple([not lights[i] if i in button else lights[i] for i in range(len(lights))])
 
 class Machine:
@@ -53,20 +53,20 @@ class Machine:
         self._buttons = buttons
         self._joltages = joltages
         
-    def is_start_state(self, p):
+    def is_light_state(self, p):
         return p == self._lights
-    
+
     # given an incoming lighting diagram
     # return a list of lighting diagrams for pushing each button once
-    def push_all_buttons(self,lights):
+    def push_all_buttons_lights(self,lights):
         ret = []
         for button in self._buttons:
-            ret.append(push(button,lights))
+            ret.append(push_light(button,lights))
         return ret
 
     def get_num_lights(self):
         return len(self._lights)
-
+    
     def __repr__(self):
         pattern = ''.join(['#'  if p else '.' for p in self._lights])
         buttons = ' '.join([f'({','.join([str(b) for b in button])})' for button in self._buttons])
@@ -78,10 +78,10 @@ def part1(parsed):
     for machine in parsed:
         lights = [tuple([False]*machine.get_num_lights())]
         presses = 0
-        while True not in [machine.is_start_state(l) for l in lights]:
+        while True not in [machine.is_light_state(l) for l in lights]:
             next_state = []
             for l in lights:
-                next_state += machine.push_all_buttons(l)
+                next_state += machine.push_all_buttons_lights(l)
             presses += 1
             lights = next_state
         ret += presses
