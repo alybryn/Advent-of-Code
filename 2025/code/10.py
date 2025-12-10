@@ -50,7 +50,10 @@ class Machine:
         self._joltages = joltages
 
     def __repr__(self):
-        return f'{self._pattern} {self._buttons} {self._joltages}'
+        pattern = ''.join(['#'  if p else '.' for p in self._pattern])
+        buttons = ' '.join([f'({','.join([str(b) for b in button])})' for button in self._buttons])
+        joltages = '{'+f'{','.join([str(j) for j in self._joltages])}'+'}'
+        return f'{pattern} {buttons} {joltages}'
 
 def part1(parsed):
     print(parsed)
