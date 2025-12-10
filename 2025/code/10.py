@@ -47,6 +47,7 @@ class Machine:
         self._pattern = lights
         self._buttons = buttons
         self._joltages = joltages
+        self._button_costs = [sum([joltages[i] for i in button]) for button in buttons]
     
     def is_start_state(self, p):
         return p == self._pattern
@@ -66,7 +67,8 @@ class Machine:
         pattern = ''.join(['#'  if p else '.' for p in self._pattern])
         buttons = ' '.join([f'({','.join([str(b) for b in button])})' for button in self._buttons])
         joltages = '{'+f'{','.join([str(j) for j in self._joltages])}'+'}'
-        return f'{pattern} {buttons} {joltages}'
+        button_costs = ' '.join([str(cost) for cost in self._button_costs])
+        return f'{pattern} {buttons} {joltages} {button_costs}'
 
 def part1(parsed):
     ret = 0
@@ -85,6 +87,7 @@ def part1(parsed):
 def part2(parsed):
     # prediction: have to minimize the energy use instead of the button presses
     # energy use is how much joltage used to turn a light on or off
+    print(f'{'\n'.join([str(m) for m in parsed])}')
     return 0
 
 def solve(puzzle_input):
