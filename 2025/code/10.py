@@ -17,12 +17,33 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 7
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
-    # parse the input
-    return [line for line in puzzle_input.split()]
+    machines = []
+    for line in puzzle_input.split():
+        # parse the input
+        # [.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
+        phase = None
+        while len(puzzle_input) != 0:
+            c = puzzle_input.pop()
+            if c in ['[',']','(',')','{','}']:
+                phase = c
+                continue
+            match phase:
+            case '[':
+                # lights
+                pass
+            case '(':
+                # a button
+                pass
+            case '{':
+                # joltage
+                pass
+            case _:
+                pass
+    return machines
 
 class Machine:
     def __init__(self, lights, buttons, joltages):
