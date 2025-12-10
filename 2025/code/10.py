@@ -47,6 +47,10 @@ def parse(puzzle_input):
 def push_light(button, lights):
     return tuple([not lights[i] if i in button else lights[i] for i in range(len(lights))])
 
+@cache
+def push_jolt(button, joltages):
+    return tuple([joltages[i]+1 if i in button else joltages[i] for i in range(len(joltages))])
+
 class Machine:
     def __init__(self, lights, buttons, joltages):
         self._lights = lights
@@ -55,6 +59,10 @@ class Machine:
         
     def is_light_state(self, p):
         return p == self._lights
+    
+    def is_jolt_state(self, p):
+        return p == self._joltages
+    
 
     # given an incoming lighting diagram
     # return a list of lighting diagrams for pushing each button once
@@ -63,9 +71,18 @@ class Machine:
         for button in self._buttons:
             ret.append(push_light(button,lights))
         return ret
+    
+    def push_all_buttons_joltages(self,joltages):
+        ret = []
+        for button in self._buttons:
+            ret.append(push_jolt(button,joltages))
+        return ret
 
     def get_num_lights(self):
         return len(self._lights)
+    
+    def get_num_jolts(self):
+        return len(self._joltages)
     
     def __repr__(self):
         pattern = ''.join(['#'  if p else '.' for p in self._lights])
