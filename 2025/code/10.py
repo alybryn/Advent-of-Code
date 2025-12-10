@@ -39,7 +39,7 @@ def parse(puzzle_input):
                     buttons.append(tuple([int(i) for i in manual_item.split(',')]))
                 case '{':
                     manual_item = manual_item.strip('{}')
-                    joltages = [int(j) for j in manual_item.split(',')]
+                    joltages = tuple([int(j) for j in manual_item.split(',')])
         machines.append(Machine(light_diagram, buttons, joltages))
     return machines
 
