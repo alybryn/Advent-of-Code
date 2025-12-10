@@ -48,7 +48,9 @@ def push_light(button, lights):
     return tuple([not lights[i] if i in button else lights[i] for i in range(len(lights))])
 
 @cache
-def push_jolt(button, joltages):
+def push_jolt(button, joltages, goal):
+    # just don't push a button that would put the joltage over
+    if True in [joltages[i] == goal[i] for i in button]: return None
     return tuple([joltages[i]+1 if i in button else joltages[i] for i in range(len(joltages))])
 
 class Machine:
@@ -74,10 +76,12 @@ class Machine:
             ret.append(push_light(button,lights))
         return ret
     
+    # new feature: won't return a joltage higher than acceptable
     def push_all_buttons_joltages(self,joltages):
         ret = []
         for button in self._buttons:
-            ret.append(push_jolt(button,joltages))
+            res = push_jolt(button,joltages,self._joltages)
+            if res: ret.append(res)
         return ret
 
     def get_num_lights(self):
@@ -109,14 +113,14 @@ def part1(parsed):
 def part2(parsed):
     ret = 0
     for machine in parsed:
-        joltages = [tuple([0]*machine.get_num_jolts())]
+        joltages = {tuple([0]*machine.get_num_jolts())}
         presses = 0
         while True not in [machine.is_jolt_state(j) for j in joltages]:
-            next_state = []
+            next_state = set()
             for j in joltages:
-                next_state += machine.push_all_buttons_joltages(j)
+                next_state = next_state | set(machine.push_all_buttons_joltages(j))
             presses += 1
-            joltages = [s for s in next_state if not machine.is_over_joltage(s)]
+            joltages = next_state
         ret += presses
     return ret
 
