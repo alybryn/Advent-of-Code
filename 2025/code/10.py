@@ -79,6 +79,16 @@ class Machine:
             state = [state[j]+(presses[i]*self._buttons[i][j])for j in range(self._length)]
         return state
     
+    def press_for_joltage(self):
+        # for (index of) joltage in joltages:
+        for i in self._length:
+            # get buttons that affect that joltage
+            relavent = [button for button in self._buttons if button[i]]
+            # divide joltage between the buttons
+            
+            # check?
+        pass
+    
     def get_length(self):
         return self._length
     
@@ -108,15 +118,16 @@ def part1(parsed):
 def part2(parsed):
     ret = 0
     for machine in parsed:
-        joltages = {tuple([0]*machine.get_num_jolts())}
-        presses = 0
-        while True not in [machine.is_jolt_state(j) for j in joltages]:
-            next_state = set()
-            for j in joltages:
-                next_state = next_state | set(machine.push_all_buttons_joltages(j))
-            presses += 1
-            joltages = next_state
-        ret += presses
+        print(machine.test_press([1]*machine.get_num_buttons()))
+        # joltages = {tuple([0]*machine.get_num_jolts())}
+        # presses = 0
+        # while True not in [machine.is_jolt_state(j) for j in joltages]:
+        #     next_state = set()
+        #     for j in joltages:
+        #         next_state = next_state | set(machine.push_all_buttons_joltages(j))
+        #     presses += 1
+        #     joltages = next_state
+        # ret += presses
     return ret
 
 def solve(puzzle_input):
