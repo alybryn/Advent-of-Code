@@ -69,7 +69,8 @@ class Machine:
         return f'{pattern} {buttons} {joltages}'
 
 def part1(parsed):
-    print(parsed)
+    for machine in parsed:
+        lights = [False]*machine.get_num_lights()
     return 0
 
 def part2(parsed):
