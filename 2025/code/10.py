@@ -95,12 +95,12 @@ class Machine:
 def part1(parsed):
     ret = 0
     for machine in parsed:
-        lights = [tuple([False]*machine.get_num_lights())]
+        lights = {tuple([False]*machine.get_num_lights())}
         presses = 0
         while True not in [machine.is_light_state(l) for l in lights]:
-            next_state = []
+            next_state = set()
             for l in lights:
-                next_state += machine.push_all_buttons_lights(l)
+                next_state = next_state | set(machine.push_all_buttons_lights(l))
             presses += 1
             lights = next_state
         ret += presses
