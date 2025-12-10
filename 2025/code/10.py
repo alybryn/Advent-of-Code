@@ -72,6 +72,13 @@ class Machine:
             ret.append(push_light(button,lights,self._length))
         return ret
     
+    # [press button1, press button2, ...]
+    def test_press(self,presses):
+        state = [0]*self._length
+        for i in range(self._num_buttons):
+            state = [state[j]+(presses[i]*self._buttons[i][j])for j in range(self._length)]
+        return state
+    
     def get_length(self):
         return self._length
     
