@@ -60,6 +60,8 @@ def part1(parsed):
     return 0
 
 def part2(parsed):
+    # prediction: have to minimize the energy use instead of the button presses
+    # energy use is how much joltage used to turn a light on or off
     return 0
 
 def solve(puzzle_input):
