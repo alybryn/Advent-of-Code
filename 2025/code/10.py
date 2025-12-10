@@ -22,34 +22,32 @@ SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     machines = []
-    for line in puzzle_input.split():
+    for line in puzzle_input.splitlines():
         # parse the input
         # [.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
-        phase = None
-        while len(puzzle_input) != 0:
-            c = puzzle_input.pop()
-            if c in ['[',']','(',')','{','}']:
-                phase = c
-                continue
-            match phase:
+        lights = []
+        buttons = []
+        joltages = []
+        for indication in line.split():
+            match indication[0]:
             case '[':
-                # lights
-                pass
+                lights = [True for i in indication.split(',') if i == '#' else False]
             case '(':
-                # a button
-                pass
+                buttons.append([int(i) for i in indication.split(',')])
             case '{':
-                # joltage
-                pass
-            case _:
-                pass
+                joltages = [int(j) for j in indication.split(,)]
+        machines.append(machine(lights, buttons, joltages))
     return machines
 
 class Machine:
     def __init__(self, lights, buttons, joltages):
-        self._lights = lights
+        self._lights = [False]*len(lights)
+        self._pattern = lights
         self._buttons = buttons
         self._joltages = joltages
+
+    def __repr__(self):
+        return f'{self._pattern} {self._buttons} {self._joltages}'
 
 def part1(parsed):
     print(parsed)
