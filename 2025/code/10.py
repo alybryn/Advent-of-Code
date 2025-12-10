@@ -70,7 +70,7 @@ class Machine:
 
 def part1(parsed):
     for machine in parsed:
-        lights = [False]*machine.get_num_lights()
+        lights = [[False]*machine.get_num_lights()]
     return 0
 
 def part2(parsed):
