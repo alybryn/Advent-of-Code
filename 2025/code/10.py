@@ -24,6 +24,12 @@ def parse(puzzle_input):
     # parse the input
     return [line for line in puzzle_input.split()]
 
+class Machine:
+    def __init__(self, lights, buttons, joltages):
+        self._lights = lights
+        self._buttons = buttons
+        self._joltages = joltages
+
 def part1(parsed):
     print(parsed)
     return 0
