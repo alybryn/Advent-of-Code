@@ -51,6 +51,17 @@ class Machine:
     def is_start_state(self, p):
         return p == self._pattern
     
+    # given an incoming lighting diagram
+    # return a list of lighting diagrams for pushing each button once
+    def push_all_buttons(self,lights):
+        ret = []
+        for button in self._buttons:
+            ret.append([not lights[i] if i in button else lights[i] for i in range(len(self.get_num_lights()))])
+        return ret
+
+    def get_num_lights(self):
+        return len(self._pattern)
+
     def __repr__(self):
         pattern = ''.join(['#'  if p else '.' for p in self._pattern])
         buttons = ' '.join([f'({','.join([str(b) for b in button])})' for button in self._buttons])
