@@ -18,7 +18,7 @@ import pathlib
 import sys
 
 SAMPLE_ANSWER_1 = 5
-SAMPLE_ANSWER_2 = None
+SAMPLE_ANSWER_2 = 2
 
 def parse(puzzle_input):
     # parse the input
