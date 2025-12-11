@@ -26,6 +26,8 @@ def parse(puzzle_input):
     for line in puzzle_input.splitlines():
         device, outputs = line.split(':')
         d.update({device:[o for o in outputs.strip().split()]})
+    for r in range(20):
+        print(f'{len([k for k in d if puzzle_input.count(k) > r])} over {r}')
     return d
 
 def flood(map, start, goal):
