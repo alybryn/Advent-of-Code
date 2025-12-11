@@ -32,16 +32,13 @@ def flood(map, start, goal):
     ret = 0
     frontier = []
     frontier.append(start)
-    reached = set()
-    reached.add(start)
     while len(frontier) != 0:
         device = frontier.pop(0)
         for next in map.get(device):
             if next == goal:
                 ret += 1
-            if next not in reached:
+            else:
                 frontier.append(next)
-                reached.add(next)
     return ret
 
 def part1(parsed):
