@@ -39,16 +39,83 @@ def flood(map, start, goal):
         for next in map.get(device):
             if next == goal:
                 ret += 1
+            elif next == 'out':
+                continue
             else:
                 frontier.append(next)
     return ret
 
+def flood_and_prune(map, start, goal,prunable=[]):
+    ret = 0
+    frontier = []
+    reached = set()
+    frontier.append(start)
+    while len(frontier) != 0:
+        device = frontier.pop(0)
+        for next in map.get(device):
+            if next == goal:
+                ret += 1
+            elif next in prunable:
+                continue
+            else:
+                frontier.append(next)
+                reached.add(next)
+    return ret,reached
+
+def flood_with_signal(map,start,visiting):
+    frontier = []
+    reached = {}
+    frontier.append(start)
+    reached.update({start:(1,[])})
+    while len(frontier) != 0:
+        device = frontier.pop(0)
+        for next in map.get(device):
+            temp = reached.get(next,(0,[]))
+            if next == 'out':
+                reached.update({next:(temp[0]+1,temp[1])})
+                continue
+            for visit in visiting:
+                if next == visit:
+                    reached.update({next:(temp[0]+1,temp[1]+[visit])})
+                frontier.append(next)
+                continue
+            reached.update({next:(temp[0]+1,temp[1])})
+            frontier.append(next)
+
+# def dfs(map,start,goal,so_far=[]):
+#     if start == goal:
+#         return [so_far]
+#     ret = []
+#     so_far = so_far + [start]
+#     for next in map.get(start):
+#         ret += dfs(map,next,goal,so_far)
+#     return ret
+
+def shrink_graph(map,goal):pass
+
 def part1(parsed):
-    print(parsed)
     return flood(parsed,'you','out')
 
 def part2(parsed):
+    svr,dac,fft,out = ['svr','dac','fft','out']
+    # dac -/-> fft
+    paths = []
+    # paths from dac --> out
+    # 7957
+    p,pruning = flood_and_prune(parsed,dac,out)
+    paths.append(p)
+    print(paths)
     return 0
+    # paths from fft --> dac
+    p,pruning = flood_and_prune(parsed,fft,dac,pruning)
+    paths.append(p)
+    print(paths)
+    # paths from svr --> fft
+    p,pruning = flood_and_prune(parsed,svr,fft,pruning)
+    paths.append(p)
+    print(paths)
+    # print(f'{fft} -{flood(parsed,fft,dac)}-> {dac}')
+    return paths[0]*paths[1]*paths[2]
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
