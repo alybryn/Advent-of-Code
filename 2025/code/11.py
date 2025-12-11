@@ -17,16 +17,36 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 5
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    d = {}
+    for line in puzzle_input.splitlines():
+        device, outputs = line.split(':')
+        d.update({device:[o for o in outputs.strip().split()]})
+    return d
+
+def flood(map, start, goal):
+    ret = 0
+    frontier = []
+    frontier.append(start)
+    reached = set()
+    reached.add(start)
+    while len(frontier) != 0:
+        device = frontier.pop(0)
+        for next in map.get(device):
+            if next == goal:
+                ret += 1
+            if next not in reached:
+                frontier.append(next)
+                reached.add(next)
+    return ret
 
 def part1(parsed):
     print(parsed)
-    return 0
+    return flood(parsed,'you','out')
 
 def part2(parsed):
     return 0
