@@ -10,7 +10,7 @@ ONLY_SAMPLE = [SAMPLE_PATH]
 ONLY_DATA = [DATA_PATH]
 ALL = [SAMPLE_PATH, DATA_PATH]
 
-RUN = ONLY_SAMPLE
+RUN = ONLY_DATA
 
 # --------------------------------
 
@@ -57,6 +57,12 @@ def rotate(p):
 def generate_empty_area(x,y):
     return [[False]*x]*y
 
+def place(area, presents, present_nums):
+    for i in range(len(area)):
+        for j in range(len(area[0])):
+            if not area[i][j]:
+                pass
+
 def tf_to_print(grid):
     ret = ''
     for i in range(len(grid)):
@@ -71,10 +77,16 @@ def repr_area(area):
 
 def part1(parsed):
     presents, areas = parsed
-    return 0
+    scrutinizing_areas = []
+    passing_areas = 0
+    for area in areas:
+        if sum(area[1]) > (area[0][0]//3)*(area[0][1]//3):
+            scrutinizing_areas.append(area)
+        else: passing_areas += 1
+    return passing_areas
 
 def part2(parsed):
-    return 0
+    return None
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
