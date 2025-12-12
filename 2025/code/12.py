@@ -25,14 +25,14 @@ def parse(puzzle_input):
     present_dict = {}
     blocks = puzzle_input.split('\n\n')
     for i in range(6):
-        present = [[c == '#' for c in b.split()] for b in blocks[i].split()[1:]]
-        present_dict.update({i:present})
+        present = tuple([tuple([c == '#' for c in b]) for b in blocks[i].split()[1:]])
+        present_dict.update({i:permute(present)})
     # 4x4: 0 0 0 0 2 0
     areas = []
     for line in blocks[-1].splitlines():
         area, presents = line.split(': ')
-        area = tuple([a for a in area.split('x')])
-        presents = presents.split()
+        area = tuple([int(a) for a in area.split('x')])
+        presents = [int(p) for p in presents.split()]
         areas.append((area,presents))
     return present_dict, areas
 
