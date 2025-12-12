@@ -17,12 +17,24 @@ RUN = ONLY_SAMPLE
 import pathlib
 import sys
 
-SAMPLE_ANSWER_1 = None
+SAMPLE_ANSWER_1 = 2
 SAMPLE_ANSWER_2 = None
 
 def parse(puzzle_input):
     # parse the input
-    return [line for line in puzzle_input.split()]
+    present_dict = {}
+    blocks = puzzle_input.split('\n\n')
+    for i in range(6):
+        present = [[c == '#' for c in b.split()] for b in blocks[i].split()[1:]]
+        present_dict.update({i:present})
+    # 4x4: 0 0 0 0 2 0
+    areas = []
+    for line in blocks[-1].splitlines():
+        area, presents = line.split(': ')
+        area = tuple([a for a in area.split('x')])
+        presents = presents.split()
+        areas.append((area,presents))
+    return present_dict, areas
 
 def part1(parsed):
     print(parsed)
