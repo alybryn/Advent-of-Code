@@ -67,7 +67,7 @@ def tf_to_print(grid):
     return ret
 
 def part1(parsed):
-    print(parsed)
+    presents, areas = parsed
     return 0
 
 def part2(parsed):
