@@ -36,6 +36,23 @@ def parse(puzzle_input):
         areas.append((area,presents))
     return present_dict, areas
 
+def permute(p):
+    ret = {p,flip(p)}
+    for _ in range(3):
+        p = rotate(p)
+        ret.add(p)
+        ret.add(flip(p))
+    return ret
+
+def flip(p):
+    return ((p[0][2],p[0][1],p[0][0]),
+            (p[1][2],p[1][1],p[1][0]),
+            (p[2][2],p[2][1],p[2][0]))
+
+def rotate(p):
+    return ((p[2][0],p[1][0],p[0][0]),
+            (p[2][1],p[1][1],p[0][1]),
+            (p[2][2],p[1][2],p[0][2]))
 def part1(parsed):
     print(parsed)
     return 0
