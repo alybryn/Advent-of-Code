@@ -66,6 +66,9 @@ def tf_to_print(grid):
         ret += '\n'
     return ret
 
+def repr_area(area):
+    return f'{area[0][0]}x{area[0][1]}: {' '.join([str(p) for p in area[1]])}'
+
 def part1(parsed):
     presents, areas = parsed
     return 0
