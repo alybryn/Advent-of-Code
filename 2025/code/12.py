@@ -57,6 +57,15 @@ def rotate(p):
 def generate_empty_area(x,y):
     return [[False]*x]*y
 
+def tf_to_print(grid):
+    ret = ''
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j]: ret += '#'
+            else: ret += '.'
+        ret += '\n'
+    return ret
+
 def part1(parsed):
     print(parsed)
     return 0
